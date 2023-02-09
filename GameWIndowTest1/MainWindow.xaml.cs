@@ -118,7 +118,7 @@ namespace GameWIndowTest1
             {
                 case "Change Colour":
                     HeadingInfoBox.Text = ""; // reset the box so that it does not retain the last value
-                    HeadingInfoBox.Text = "b";
+                    HeadingInfoBox.Text = "c";
                     infoBox.Text = $"Round {round_count}";
                     // change the colour of the rectangle, this is just to make sure that
                     // it is working correctly
