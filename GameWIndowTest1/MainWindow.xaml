@@ -11,7 +11,9 @@
             <RowDefinition Height="15*"/>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="50*"/>
-            <RowDefinition Height="25*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -25,6 +27,7 @@
             <ColumnDefinition Width="15*"/>
             <ColumnDefinition Width="20*"/>
         </Grid.ColumnDefinitions>
+        
         <!-- Character1 -->
         <Rectangle
             Grid.Row="2"
@@ -38,16 +41,16 @@
                     <MenuItem Tag="Character1" Header="Show Character Details" Click="Show_Character_Click"/>
                     <MenuItem Tag="Character1" Header="List Abilities" Click="Show_Character_Click"/>
                     <MenuItem Tag="Character1" Header="Change Colour" Click="Show_Character_Click"/>
-                    <MenuItem Tag="Character1" Header="Abilities" Click="Show_Character_Click">
+                    <MenuItem Tag="Character1" Header="Abilities">
                         <MenuItem Tag="Character1" Header="Ability 1" Click="Show_Character_Click" />
                         <MenuItem Tag="Character1" Header="Ability 2" Click="Show_Character_Click"/>
-
                     </MenuItem>
                 </ContextMenu>
             </Rectangle.ContextMenu>
         </Rectangle>
         <Rectangle Grid.Row="1" Grid.Column="1" Name="Character1_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>
 
+        <RadioButton Grid.Row="4" Grid.Column="1" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character1" IsChecked="True"/>
 
         <!-- Character 2 -->
         <Rectangle x:Name="Character2"
@@ -69,7 +72,9 @@
 
         <Rectangle Grid.Row="1" Grid.Column="3" x:Name="Character2_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>
 
+        <RadioButton Grid.Row="4" Grid.Column="3" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character2"/>
 
+   
         <!-- Text Boxes -->
         <TextBlock Grid.RowSpan="2" Grid.Row="0" Grid.Column="4" Name="Heading_Info_Box" HorizontalAlignment="Center" Height="65"  TextWrapping="Wrap" VerticalAlignment="Top" Width="156" TextAlignment="Center" FontSize="24" FontWeight="Bold"/>
         <TextBlock Grid.Row="2" Grid.Column="4" Name="InfoBox" HorizontalAlignment="Center" Height="244" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="156" Padding="10,0,10,0"/>
@@ -93,6 +98,9 @@
         
         <Rectangle Grid.Column="5" Grid.Row="1"  x:Name="Character3_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>
 
+        <RadioButton Grid.Row="4" Grid.Column="5" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character3"/>
+
+
         <!-- Character 4 -->
 
         <Rectangle x:Name="Character4"
@@ -112,6 +120,10 @@
         </Rectangle>
 
         <Rectangle Grid.Column="7" Grid.Row="1"  x:Name="Character4_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>
+
+        <RadioButton Grid.Column="7" Grid.Row="4" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character4" />
+
+        <TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Text="Target"/>
 
     </Grid>
 </Window>
