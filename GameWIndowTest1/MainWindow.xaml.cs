@@ -103,7 +103,8 @@ namespace GameWIndowTest1
                         current_character = this_char;
                         break; // as no need to search the other characters
                     }
-                    InfoBox.Text = $"{round_count}\n{this_char.name}\nIncorrect user move picked";
+                    HeadingInfoBox.Text = this_char.name;
+                    InfoBox.Text = $"{round_count}\nIncorrect user move picked";
                     return;
                 }
             }
@@ -151,6 +152,7 @@ namespace GameWIndowTest1
                     infoBox.Text = $"Health: {current_character.health}\n";
                     infoBox.Text += $"Round {round_count}";
                     break;
+
                 default:
                     // if no option is clicked return
                     return;
