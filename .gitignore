@@ -1,2 +1,5 @@
 .vs/
-bin/
+GameWIndowTest1/bin/
+GameWIndowTest1/obj/
+*.pdb
+*.dll
