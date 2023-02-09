@@ -29,7 +29,7 @@ namespace GameWIndowTest1
         int characterID = -1;
         bool round_complete;
         Rectangle[] identifiers; // the identifier rectangles above the characters to show whos go it is
-        character[] characters = new character[] { new character(10, "Character1"), new character(20, "Character2"), new character(30, "Character3") };
+        character[] characters = new character[] { new character(10, "Character1"), new character(20, "Character2"), new character(30, "Character3") , new character(40, "Character4") };
         public MainWindow()
         {
             // LOOK AT VisualTreeHelper class
@@ -37,7 +37,7 @@ namespace GameWIndowTest1
 
             InitializeComponent();
 
-            identifiers = new Rectangle[] { Character1_Identifier, Character2_Identifier, Character3_Identifier };
+            identifiers = new Rectangle[] { Character1_Identifier, Character2_Identifier, Character3_Identifier, Character4_Identifier };
             round(); // start a round to init the block
         }
 
