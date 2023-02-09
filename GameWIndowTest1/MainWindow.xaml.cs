@@ -118,7 +118,6 @@ namespace GameWIndowTest1
             {
                 case "Change Colour":
                     HeadingInfoBox.Text = ""; // reset the box so that it does not retain the last value
-                    HeadingInfoBox.Text = "c";
                     infoBox.Text = $"Round {round_count}";
                     // change the colour of the rectangle, this is just to make sure that
                     // it is working correctly
@@ -157,6 +156,8 @@ namespace GameWIndowTest1
 
                 default:
                     // if no option is clicked return
+                    infoBox.Text = header;
+                    HeadingInfoBox.Text = current_character.name;
                     return;
             }
             round();
