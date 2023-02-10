@@ -19,7 +19,7 @@ namespace GameWIndowTest1
             {
                 Random rnd = new Random();
                 int val = rnd.Next(0, 26);
-                abilities[i] = new ability(val * 10, alphabet[val].ToString());
+                abilities[i] = new ability(val, alphabet[val].ToString());
             }
         }
 

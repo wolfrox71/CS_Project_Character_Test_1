@@ -192,7 +192,7 @@ namespace GameWIndowTest1
                     character target = characters[index];
 
                     // output what health that target character used to have
-                    InfoBox.Text = $"{target} has {target.health.ToString()} health";
+                    InfoBox.Text = $"{target.name} has {target.health.ToString()} health";
                     
                     // get the ability index from the name of the button that was click (the "1" from "ability 1")
                     int ability_index = Int32.Parse(header.Remove(0, 7)) - 1;
@@ -204,12 +204,9 @@ namespace GameWIndowTest1
                     target.health -= ability_damage;
 
                     // output the new health of the target character
-                    InfoBox.Text += $"\n{target} now has {target.health.ToString()} health";
-                    
+                    InfoBox.Text += $"\n{target.name} now has {target.health.ToString()} health";
                 }
-                
             }
-
             round();
             return;
         }
