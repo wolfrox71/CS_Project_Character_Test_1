@@ -165,26 +165,45 @@ namespace GameWIndowTest1
                     break;
             }
 
+            // if the menu button click starts with "Ability" then they have clicked on something in the abilities tab
             if (header.StartsWith("Ability"))
             {
+                // this is to stop "varaible may be null here" later on
+                // this value will be changed in the next section
                 RadioButton a = radioButtons[0];
+
+                //  go through each radiobutton
                 foreach (RadioButton rb in radioButtons)
                 {
+                    // and if that button was clicked
                     if (rb.IsChecked == true)
                     {
+                        // then that is the target that is wanted
                         a = rb;
                     }
                 }
+
                 int index = 0;
+                // get the index position of the character who is selected by the radiobutton
+                // and if that character exists (which it should allways)
                 if ((index = find_character_index_by_name(a.Name.Remove(0, 3))) != -1)
                 {
+                    // get the target character
                     character target = characters[index];
+
+                    // output what health that target character used to have
                     InfoBox.Text = $"{target} has {target.health.ToString()} health";
+                    
+                    // get the ability index from the name of the button that was click (the "1" from "ability 1")
                     int ability_index = Int32.Parse(header.Remove(0, 7)) - 1;
                     
+                    // get the damage that ability deals from the current characters ability array
                     int ability_damage = current_character.abilities[ability_index].damage;
+                    
+                    // reduce the health of the current character by that ammount
                     target.health -= ability_damage;
 
+                    // output the new health of the target character
                     InfoBox.Text += $"\n{target} now has {target.health.ToString()} health";
                     
                 }
@@ -196,6 +215,11 @@ namespace GameWIndowTest1
         }
         public int find_character_index_by_name(string name)
         {
+            /* takes a characters name as a parameter
+             * and returns the index position of that character
+             * in the characters array 
+             * or returns -1 if the character does not exist in the array
+             */
             for (int index = 0; index < characters.Length; index++)
             {
                 if (characters[index].name == name) return index;
