@@ -66,6 +66,10 @@
                     <MenuItem Tag="Character2" Header="Show Character Details" Click="Show_Character_Click"/>
                     <MenuItem Tag="Character2" Header="List Abilities" Click="Show_Character_Click"/>
                     <MenuItem Tag="Character2" Header="Change Colour" Click="Show_Character_Click"/>
+                    <MenuItem Tag="Character2" Header="Abilities">
+                        <MenuItem Tag="Character2" Header="Ability 1" Click="Show_Character_Click" />
+                        <MenuItem Tag="Character2" Header="Ability 2" Click="Show_Character_Click"/>
+                    </MenuItem>
                 </ContextMenu>
             </Rectangle.ContextMenu>
         </Rectangle>
@@ -92,6 +96,10 @@
                     <MenuItem Tag="Character3" Header="Show Character Details" Click="Show_Character_Click"/>
                     <MenuItem Tag="Character3" Header="List Abilities" Click="Show_Character_Click"/>
                     <MenuItem Tag="Character3" Header="Change Colour" Click="Show_Character_Click"/>
+                    <MenuItem Tag="Character3" Header="Abilities">
+                        <MenuItem Tag="Character3" Header="Ability 1" Click="Show_Character_Click" />
+                        <MenuItem Tag="Character3" Header="Ability 2" Click="Show_Character_Click"/>
+                    </MenuItem>
                 </ContextMenu>
             </Rectangle.ContextMenu>
         </Rectangle>
@@ -115,6 +123,10 @@
                     <MenuItem Tag="Character4" Header="Show Character Details" Click="Show_Character_Click"/>
                     <MenuItem Tag="Character4" Header="List Abilities" Click="Show_Character_Click"/>
                     <MenuItem Tag="Character4" Header="Change Colour" Click="Show_Character_Click"/>
+                    <MenuItem Tag="Character4" Header="Abilities">
+                        <MenuItem Tag="Character4" Header="Ability 1" Click="Show_Character_Click" />
+                        <MenuItem Tag="Character4" Header="Ability 2" Click="Show_Character_Click"/>
+                    </MenuItem>
                 </ContextMenu>
             </Rectangle.ContextMenu>
         </Rectangle>

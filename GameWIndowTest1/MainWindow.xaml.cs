@@ -30,6 +30,7 @@ namespace GameWIndowTest1
         bool round_complete;
         Rectangle[] identifiers; // the identifier rectangles above the characters to show whos go it is
         character[] characters = new character[] { new character(10, "Character1"), new character(20, "Character2"), new character(30, "Character3") , new character(40, "Character4") };
+        RadioButton[] radioButtons;
         public MainWindow()
         {
             // LOOK AT VisualTreeHelper class
@@ -38,6 +39,7 @@ namespace GameWIndowTest1
             InitializeComponent();
 
             identifiers = new Rectangle[] { Character1_Identifier, Character2_Identifier, Character3_Identifier, Character4_Identifier };
+            radioButtons = new RadioButton[] { RB_Character1, RB_Character2, RB_Character3, RB_Character4 };
             round(); // start a round to init the block
         }
 
@@ -49,6 +51,7 @@ namespace GameWIndowTest1
             set_identifiers_colour();
             round_complete = false; ;
         }
+
 
         public void set_identifiers_colour()
         {
@@ -158,10 +161,46 @@ namespace GameWIndowTest1
                     // if no option is clicked return
                     infoBox.Text = header;
                     HeadingInfoBox.Text = current_character.name;
-                    return;
+                    
+                    break;
             }
+
+            if (header.StartsWith("Ability"))
+            {
+                RadioButton a = radioButtons[0];
+                foreach (RadioButton rb in radioButtons)
+                {
+                    if (rb.IsChecked == true)
+                    {
+                        a = rb;
+                    }
+                }
+                int index = 0;
+                if ((index = find_character_index_by_name(a.Name.Remove(0, 3))) != -1)
+                {
+                    character target = characters[index];
+                    InfoBox.Text = $"{target} has {target.health.ToString()} health";
+                    int ability_index = Int32.Parse(header.Remove(0, 7)) - 1;
+                    
+                    int ability_damage = current_character.abilities[ability_index].damage;
+                    target.health -= ability_damage;
+
+                    InfoBox.Text += $"\n{target} now has {target.health.ToString()} health";
+                    
+                }
+                
+            }
+
             round();
             return;
+        }
+        public int find_character_index_by_name(string name)
+        {
+            for (int index = 0; index < characters.Length; index++)
+            {
+                if (characters[index].name == name) return index;
+            }
+            return -1;
         }
     }
 }
