@@ -254,7 +254,7 @@ namespace GameWIndowTest1
                     int ability_damage = current_character.abilities[ability_index].damage;
                     
                     // reduce the health of the current character by that ammount
-                    target.health -= ability_damage;
+                    target.takedamage(ability_damage);
 
                     // output the new health of the target character
                     InfoBox.Text += $"\n{target.name} now has {target.health.ToString()} health";
