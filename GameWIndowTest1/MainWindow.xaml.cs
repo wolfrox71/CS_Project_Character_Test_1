@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.PerformanceData;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,9 +29,11 @@ namespace GameWIndowTest1
         int round_count = 0;
         int characterID = -1;
         bool round_complete;
-        Rectangle[] identifiers; // the identifier rectangles above the characters to show whos go it is
-        character[] characters = new character[] { new character(10, "Character1"), new character(20, "Character2"), new character(30, "Character3") , new character(40, "Character4") };
-        RadioButton[] radioButtons;
+        bool death_in_round = false;
+        List<Rectangle> identifiers; // the identifier rectangles above the characters to show whos go it is
+        List<character> characters = new List<character>{ new character(10, "Character1"), new character(20, "Character2"), new character(30, "Character3") , new character(40, "Character4") };
+        List<(character, Rectangle, Rectangle, RadioButton, int)> dead = new List<(character, Rectangle, Rectangle, RadioButton, int)>();
+        List<RadioButton> radioButtons;
         public MainWindow()
         {
             // LOOK AT VisualTreeHelper class
@@ -38,20 +41,63 @@ namespace GameWIndowTest1
 
             InitializeComponent();
 
-            identifiers = new Rectangle[] { Character1_Identifier, Character2_Identifier, Character3_Identifier, Character4_Identifier };
-            radioButtons = new RadioButton[] { RB_Character1, RB_Character2, RB_Character3, RB_Character4 };
+            identifiers = new List<Rectangle> { Character1_Identifier, Character2_Identifier, Character3_Identifier, Character4_Identifier };
+            radioButtons = new List<RadioButton> { RB_Character1, RB_Character2, RB_Character3, RB_Character4 };
             round(); // start a round to init the block
         }
 
         public void round()
         {
             round_count++;
-            // update the characterID and loop with the number of characters
-            characterID = (characterID + 1) % characters.Count();
+
+            // if the radio button is on a dead character, move it
+            // and only check is a character died otherwise it wont be
+            if (death_in_round)
+            {
+                set_next_nondead_radiobutton();
+            }
+            // if no character dies that round move to the next index position
+            // characters are removed when a character dies so the index position moved anyway
+            if (!death_in_round || characterID == characters.Count())
+            {
+                // update the characterID and loop with the number of characters
+                characterID = (characterID + 1) % characters.Count();
+            }
             set_identifiers_colour();
-            round_complete = false; ;
+
+
+            round_complete = false;
+            death_in_round = false;
         }
 
+
+        public void set_next_nondead_radiobutton()
+        {
+            // set the first still alive radiobutton to be checked
+            radioButtons[0].IsChecked = true;
+            /*
+            // if the current radio button is for a dead character
+            if (radioButtons[characterID].IsEnabled == false)
+            {
+                // uncheck this radio button
+                radioButtons[characterID].IsChecked = false;
+                // go through each radiobutton
+                foreach (RadioButton rb in radioButtons)
+                {
+                    // and check if the owner of that radiobutton is still alive
+                    if(rb.IsEnabled == true)
+                    {
+                        //and if so set it to that one
+                        // as it is the first radio button for a still alive character
+                        rb.IsChecked = true;
+                        // return out of the loop as an alive radio button has been found
+                        return;
+                    }
+                }
+            }
+            return;
+            */
+        }
 
         public void set_identifiers_colour()
         {
@@ -94,7 +140,7 @@ namespace GameWIndowTest1
             // of the rectangle
             character current_character = new character(-1, "Character not found");
 
-            for (int countID = 0; countID < characters.Length; countID ++)
+            for (int countID = 0; countID < characters.Count(); countID ++)
             {
                 character this_char = characters[countID];
                 // if the name of this character matches the name of the rect
@@ -205,6 +251,33 @@ namespace GameWIndowTest1
 
                     // output the new health of the target character
                     InfoBox.Text += $"\n{target.name} now has {target.health.ToString()} health";
+
+                    // if the target dies
+
+                    if (target.health <= 0)
+                    {
+                        // indicate that a character has dies this round
+                        death_in_round = true;
+
+                        Rectangle target_rectangle = this.FindName(target.name) as Rectangle;
+                        Rectangle identifier_rectangle = identifiers[index];
+                        RadioButton target_rb = radioButtons[index];
+
+                        // make the dead rectangles grey
+                        target_rectangle.Fill = Brushes.DarkGray;
+                        identifier_rectangle.Fill = Brushes.DarkGray;
+
+                        // disable the target's radio button so that it does not keep getting targeted
+                        target_rb.IsEnabled = false;
+
+                        // add the properties of the removed items to an array of dead atributes for use later if needed
+                        dead.Append((target,target_rectangle, identifier_rectangle, target_rb, index));
+
+                        // remove the character and identifiers so they dont get used again
+                        characters.Remove(target); // remove the target from the list of characters
+                        identifiers.RemoveAt(index); // remove the identifier from the list of identifiers
+                        radioButtons.Remove(target_rb);
+                    }
                 }
             }
             round();
@@ -217,7 +290,7 @@ namespace GameWIndowTest1
              * in the characters array 
              * or returns -1 if the character does not exist in the array
              */
-            for (int index = 0; index < characters.Length; index++)
+            for (int index = 0; index < characters.Count(); index++)
             {
                 if (characters[index].name == name) return index;
             }
