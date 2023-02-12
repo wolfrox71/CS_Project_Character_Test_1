@@ -50,6 +50,12 @@ namespace GameWIndowTest1
         {
             round_count++;
 
+            // if only one character is alive
+            if (characters.Count() == 1)
+            {
+                MessageBox.Show($"{characters[0].name} is the winner");
+            }
+
             // if the radio button is on a dead character, move it
             // and only check is a character died otherwise it wont be
             if (death_in_round)
