@@ -55,10 +55,11 @@ namespace GameWIndowTest1
             if (death_in_round)
             {
                 set_next_nondead_radiobutton();
+                characterID = characterID % (characters.Count());
             }
             // if no character dies that round move to the next index position
             // characters are removed when a character dies so the index position moved anyway
-            if (!death_in_round || characterID == characters.Count())
+            if (!death_in_round)
             {
                 // update the characterID and loop with the number of characters
                 characterID = (characterID + 1) % characters.Count();
