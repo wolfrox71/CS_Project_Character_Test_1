@@ -53,8 +53,12 @@ namespace GameWIndowTest1
             // if only one character is alive
             if (characters.Count() == 1)
             {
+                // open the winners screen
+                // and pass through the current winning character
                 Winner_Screen winner_screen = new Winner_Screen(characters[0]);
+                // show the winners screen
                 winner_screen.Show();
+                // and close this screen
                 this.Close();
             }
 

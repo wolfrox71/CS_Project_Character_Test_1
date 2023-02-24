@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Winner_Screen" Height="450" Width="800">
     <Grid>
-        <TextBlock x:Name="WinnerID" HorizontalAlignment="Center" Height="185" TextWrapping="Wrap" VerticalAlignment="Center" Width="430" FontSize="48"/>
+        <TextBlock x:Name="WinnerID" HorizontalAlignment="Center" Height="185" TextWrapping="Wrap" VerticalAlignment="Center" Width="430" FontSize="38"/>
 
     </Grid>
 </Window>
