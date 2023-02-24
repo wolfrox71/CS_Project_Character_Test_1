@@ -17,14 +17,13 @@ namespace GameWIndowTest1
     /// <summary>
     /// Interaction logic for Winner_Screen.xaml
     /// </summary>
-    public partial class Winner_Screen : Window
+    partial class Winner_Screen : Window
     {
-        character _winner;
-        public Winner_Screen(character Winner_Name)
+        internal Winner_Screen(character winner)
         {
             InitializeComponent();
-            _winner = Winner_Name;
-            WinnerID.Text = $"{_winner.name} is the winner";
+            WinnerID.Text = $"{winner.name} is the winner";
+            WinnerID.Text += $"\nWith {winner.health} health remaining";
         }
     }
 }
