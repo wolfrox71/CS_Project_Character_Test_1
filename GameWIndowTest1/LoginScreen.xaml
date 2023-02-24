@@ -1,0 +1,19 @@
+﻿<Window x:Class="GameWIndowTest1.LoginScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GameWIndowTest1"
+        mc:Ignorable="d"
+        Title="LoginScreen" Height="450" Width="800">
+    <Grid>
+        <TextBlock HorizontalAlignment="Center" Height="77" Margin="0,10,0,0" TextWrapping="Wrap" Text="Login" VerticalAlignment="Top" Width="136" FontSize="48" TextDecorations="Underline" FontWeight="Bold"/>
+        <Label Content="Username:" HorizontalAlignment="Center" Height="56" Margin="0,82,0,0" VerticalAlignment="Top" Width="172" FontSize="30"/>
+        <TextBox x:Name="username_box" HorizontalAlignment="Center" Height="56" Margin="0,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="356" FontSize="24"/>
+        <Label Content="Password:" HorizontalAlignment="Center" Height="56" Margin="0,199,0,0" VerticalAlignment="Top" Width="136" FontSize="30"/>
+        <PasswordBox x:Name="password_box" HorizontalAlignment="Center" Height="56" Margin="0,255,0,0" VerticalAlignment="Top" Width="355" FontSize="24"/>
+        <Button x:Name="login_button" Content="Login" HorizontalAlignment="Center" Margin="0,316,0,0" VerticalAlignment="Top" Height="50" Width="136" Click="login_button_Click"/>
+        <Button x:Name="Create_user_button" Content="Create User" HorizontalAlignment="Center" Height="46" Margin="0,378,0,0" VerticalAlignment="Top" Width="112" Click="Create_user_button_Click"/>
+
+    </Grid>
+</Window>
