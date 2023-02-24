@@ -53,7 +53,9 @@ namespace GameWIndowTest1
             // if only one character is alive
             if (characters.Count() == 1)
             {
-                MessageBox.Show($"{characters[0].name} is the winner");
+                Winner_Screen winner_screen = new Winner_Screen(characters[0]);
+                winner_screen.Show();
+                this.Close();
             }
 
             // if the radio button is on a dead character, move it
