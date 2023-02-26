@@ -317,7 +317,8 @@ namespace GameWIndowTest1
                     {
                         infoBox.Text += $"\n{i + 1}: ({current_character.abilities[i].name}, {current_character.abilities[i].damage}, {current_character.abilities[i].uses_remaining})";
                     }
-                    break;
+                    // return not break so that it doesnt use up the turn
+                    return;
 
                 case "Show Character Details":
                     HeadingInfoBox.Text = $"{current_character.name}";
