@@ -44,6 +44,8 @@
                     <MenuItem Tag="Character1" Header="Abilities">
                         <MenuItem Tag="Character1" Header="Ability 1" Click="Show_Character_Click" />
                         <MenuItem Tag="Character1" Header="Ability 2" Click="Show_Character_Click"/>
+                        <MenuItem Tag="Character1" Header="Ability 3" Click="Show_Character_Click" />
+                        <MenuItem Tag="Character1" Header="Ability 4" Click="Show_Character_Click"/>
                     </MenuItem>
                 </ContextMenu>
             </Rectangle.ContextMenu>
@@ -69,6 +71,8 @@
                     <MenuItem Tag="Character2" Header="Abilities">
                         <MenuItem Tag="Character2" Header="Ability 1" Click="Show_Character_Click" />
                         <MenuItem Tag="Character2" Header="Ability 2" Click="Show_Character_Click"/>
+                        <MenuItem Tag="Character2" Header="Ability 3" Click="Show_Character_Click" />
+                        <MenuItem Tag="Character2" Header="Ability 4" Click="Show_Character_Click"/>
                     </MenuItem>
                 </ContextMenu>
             </Rectangle.ContextMenu>
@@ -99,6 +103,8 @@
                     <MenuItem Tag="Character3" Header="Abilities">
                         <MenuItem Tag="Character3" Header="Ability 1" Click="Show_Character_Click" />
                         <MenuItem Tag="Character3" Header="Ability 2" Click="Show_Character_Click"/>
+                        <MenuItem Tag="Character3" Header="Ability 3" Click="Show_Character_Click" />
+                        <MenuItem Tag="Character3" Header="Ability 4" Click="Show_Character_Click"/>
                     </MenuItem>
                 </ContextMenu>
             </Rectangle.ContextMenu>
@@ -126,6 +132,8 @@
                     <MenuItem Tag="Character4" Header="Abilities">
                         <MenuItem Tag="Character4" Header="Ability 1" Click="Show_Character_Click" />
                         <MenuItem Tag="Character4" Header="Ability 2" Click="Show_Character_Click"/>
+                        <MenuItem Tag="Character4" Header="Ability 3" Click="Show_Character_Click" />
+                        <MenuItem Tag="Character4" Header="Ability 4" Click="Show_Character_Click" />
                     </MenuItem>
                 </ContextMenu>
             </Rectangle.ContextMenu>
