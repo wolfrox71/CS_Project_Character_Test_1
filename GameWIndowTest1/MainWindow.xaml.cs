@@ -92,7 +92,7 @@ namespace GameWIndowTest1
 
             // if the radio button is on a dead character, move it
             // and only check is a character died otherwise it wont be
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+            if (death_in_round)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
             {
                 set_next_nondead_radiobutton();
                 characterID = characterID % (characters.Count());
