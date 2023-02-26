@@ -22,7 +22,7 @@ namespace GameWIndowTest1
         internal Winner_Screen(bool won)
         {
             InitializeComponent();
-            WinnerID.Text = "You";
+            WinnerID.Text = "You ";
             WinnerID.Text += (won) ? "Won!" : "Lost";
         }
     }
