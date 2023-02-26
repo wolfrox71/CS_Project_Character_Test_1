@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.PerformanceData;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Automation;
@@ -12,6 +14,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Markup.Localizer;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -31,9 +34,16 @@ namespace GameWIndowTest1
         bool round_complete;
         bool death_in_round = false;
         List<Rectangle> identifiers; // the identifier rectangles above the characters to show whos go it is
-        List<character> characters = new List<character>{ new character(10, "Character1"), new character(20, "Character2"), new character(30, "Character3") , new character(40, "Character4") };
+        List<character> characters = new List<character>{ 
+            new character(10, "Character1", true), 
+            new character(20, "Character2", true),
+            new character(30, "Character3", false) ,
+            new character(40, "Character4", false) };
         List<(character, Rectangle, Rectangle, RadioButton, int)> dead = new List<(character, Rectangle, Rectangle, RadioButton, int)>();
         List<RadioButton> radioButtons;
+
+        List<character> Remaining_Friendly = new List<character>();
+        List<character> Remaining_Enemy = new List<character>();
         public MainWindow()
         {
             // LOOK AT VisualTreeHelper class
@@ -43,6 +53,22 @@ namespace GameWIndowTest1
 
             identifiers = new List<Rectangle> { Character1_Identifier, Character2_Identifier, Character3_Identifier, Character4_Identifier };
             radioButtons = new List<RadioButton> { RB_Character1, RB_Character2, RB_Character3, RB_Character4 };
+
+            // go through each character
+            foreach (character _char in characters)
+            {
+                // if the characer is friendly
+                if (_char.Friendly)
+                {
+                    // add them to the apropriate list
+                    Remaining_Friendly.Add(_char);
+                    continue;
+                }
+                // add them to the apropriate list
+                Remaining_Enemy.Add(_char);
+                continue;
+            }
+           
             round(); // start a round to init the block
         }
 
@@ -51,11 +77,13 @@ namespace GameWIndowTest1
             round_count++;
 
             // if only one character is alive
-            if (characters.Count() == 1)
+            if (Remaining_Friendly.Count() == 0 || Remaining_Enemy.Count() == 0)
             {
                 // open the winners screen
                 // and pass through the current winning character
-                Winner_Screen winner_screen = new Winner_Screen(characters[0]);
+                // Remaing_Enemy.Count == 0 will pass through true if you won and 
+                // false if you lost
+                Winner_Screen winner_screen = new Winner_Screen(Remaining_Enemy.Count() == 0);
                 // show the winners screen
                 winner_screen.Show();
                 // and close this screen
@@ -64,7 +92,7 @@ namespace GameWIndowTest1
 
             // if the radio button is on a dead character, move it
             // and only check is a character died otherwise it wont be
-            if (death_in_round)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
             {
                 set_next_nondead_radiobutton();
                 characterID = characterID % (characters.Count());
@@ -81,6 +109,87 @@ namespace GameWIndowTest1
 
             round_complete = false;
             death_in_round = false;
+            // if the current character is an enemy do their round now
+            if (!characters[characterID].Friendly)
+            {
+                Thread.Sleep(1000);
+
+                // do the enemys round
+                do_enemy_round();
+
+                // wait 1s then move to the next so that you can read what happened
+                Thread.Sleep(1000);
+
+            }
+        }
+
+        public void do_enemy_round()
+        {
+            character current_character = characters[characterID];
+            // get the picked ability by getting the current characters best ability and using that index in their abilities
+            ability picked_ability = current_character.abilities[current_character.pick_ability_id()];
+
+            character target = Remaining_Friendly[0];
+
+            InfoBox.Text = $"{target.name} has {target.health}";
+            target.takedamage(picked_ability);
+            InfoBox.Text += $"\n{target.name} now has {target.health}";
+
+
+            // if the target died from that
+            if (target.health <= 0)
+            {
+                int target_index = characters.IndexOf(target);
+                deal_with_dead(target_index);
+            }
+            MessageBox.Show("Enemy round ended");
+
+
+            round();
+            return;
+        }
+
+        public void deal_with_dead(int index )
+        {
+            character target = characters[index];
+
+            // indicate that a character has dies this round
+            death_in_round = true;
+
+            Rectangle target_rectangle = this.FindName(target.name) as Rectangle;
+            Rectangle identifier_rectangle = identifiers[index];
+            RadioButton target_rb = radioButtons[index];
+
+            // make the dead rectangles grey
+            target_rectangle.Fill = Brushes.DarkGray;
+            identifier_rectangle.Fill = Brushes.DarkGray;
+
+            // disable the target's radio button so that it does not keep getting targeted
+            target_rb.IsEnabled = false;
+
+
+            if (target.Friendly)
+            {
+                // if the target that died was a friendly
+                // removee them from the list of alive friendlies
+                Remaining_Friendly.Remove(target);
+            }
+            else
+            {
+                // if the target that died was an enemy,
+                // remove them from the list of alive enemies
+                Remaining_Enemy.Remove(target);
+            }
+
+            // add the properties of the removed items to an array of dead atributes for use later if needed
+            dead.Append((target, target_rectangle, identifier_rectangle, target_rb, index));
+
+
+
+            // remove the character and identifiers so they dont get used again
+            characters.Remove(target); // remove the target from the list of characters
+            identifiers.RemoveAt(index); // remove the identifier from the list of identifiers
+            radioButtons.Remove(target_rb);
         }
 
 
@@ -151,7 +260,7 @@ namespace GameWIndowTest1
 
             // get the character class from the array of characters with the name
             // of the rectangle
-            character current_character = new character(-1, "Character not found");
+            character current_character = new character(-1, "Character not found", true);
 
             for (int countID = 0; countID < characters.Count(); countID ++)
             {
@@ -198,6 +307,7 @@ namespace GameWIndowTest1
                     owner_rect.Fill = new_colour;
 
                     break;
+
                 case "List Abilities":
                     HeadingInfoBox.Text = $"Abilities for {current_character.name}";
                     HeadingInfoBox.FontSize = 24;
@@ -264,15 +374,12 @@ namespace GameWIndowTest1
 
                     // output what health that target character used to have
                     InfoBox.Text = $"{target.name} has {target.health.ToString()} health";
-                    
-                    // get the damage that ability deals from the current characters ability array
-                    int ability_damage = current_character.abilities[ability_index].damage;
-                    
-                    // reduce the health of the current character by that ammount
-                    target.takedamage(ability_damage);
 
-                    // reduce the number remaining by one as it has been used once
-                    current_character.abilities[ability_index].uses_remaining--;
+                    // get  the ability deals from the current characters ability array
+                    ability _ability = current_character.abilities[ability_index];
+
+                    // reduce the health of the current character by that ammount
+                    target.takedamage(_ability);
 
                     // output the new health of the target character
                     InfoBox.Text += $"\n{target.name} now has {target.health.ToString()} health";
@@ -281,27 +388,7 @@ namespace GameWIndowTest1
 
                     if (target.health <= 0)
                     {
-                        // indicate that a character has dies this round
-                        death_in_round = true;
-
-                        Rectangle target_rectangle = this.FindName(target.name) as Rectangle;
-                        Rectangle identifier_rectangle = identifiers[index];
-                        RadioButton target_rb = radioButtons[index];
-
-                        // make the dead rectangles grey
-                        target_rectangle.Fill = Brushes.DarkGray;
-                        identifier_rectangle.Fill = Brushes.DarkGray;
-
-                        // disable the target's radio button so that it does not keep getting targeted
-                        target_rb.IsEnabled = false;
-
-                        // add the properties of the removed items to an array of dead atributes for use later if needed
-                        dead.Append((target,target_rectangle, identifier_rectangle, target_rb, index));
-
-                        // remove the character and identifiers so they dont get used again
-                        characters.Remove(target); // remove the target from the list of characters
-                        identifiers.RemoveAt(index); // remove the identifier from the list of identifiers
-                        radioButtons.Remove(target_rb);
+                        deal_with_dead(index);
                     }
                 }
             }
@@ -321,5 +408,7 @@ namespace GameWIndowTest1
             }
             return -1;
         }
+
+
     }
 }

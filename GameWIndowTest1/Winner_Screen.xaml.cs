@@ -19,11 +19,11 @@ namespace GameWIndowTest1
     /// </summary>
     partial class Winner_Screen : Window
     {
-        internal Winner_Screen(character winner)
+        internal Winner_Screen(bool won)
         {
             InitializeComponent();
-            WinnerID.Text = $"{winner.name} is the winner";
-            WinnerID.Text += $"\nWith {winner.health} health remaining";
+            WinnerID.Text = "You";
+            WinnerID.Text += (won) ? "Won!" : "Lost";
         }
     }
 }

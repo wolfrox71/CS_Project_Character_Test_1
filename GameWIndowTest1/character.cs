@@ -11,6 +11,7 @@ namespace GameWIndowTest1
         public int health { get; protected set; }
         public string name;
         public ability[] abilities = new ability[4];
+        public bool Friendly;
 
         private void init_abilities()
         {
@@ -19,33 +20,55 @@ namespace GameWIndowTest1
             {
                 Random rnd = new Random();
                 int val = rnd.Next(0, 26);
-                abilities[i] = new ability(val, alphabet[val].ToString(), val);
+                // times an ability can be used is 26-the damage it does for now
+                abilities[i] = new ability(val, alphabet[val].ToString(), 26-val);
             }
         }
 
-        public void takedamage(int damage)
+        public void takedamage(ability recived_ability)
         {
             // this function is so that any resistances can go in here rather than having to be dealt with in other places
-            health -= damage;
+
+            // reduce the times  this ability can be used by one
+            recived_ability.uses_remaining--;
+
+            // reduce this characters health  by the damage of the ability
+            health -= recived_ability.damage;
         }
 
-        public character(int _health, string _name)
+        public character(int _health, string _name, bool friendly)
         {
             health = _health;
             name = _name;
+            Friendly = friendly;
             init_abilities();
         }
 
-        public character(int _health, int _name)
+        public character(int _health, int _name, bool friendly)
         {
             health = _health;
             name = _name.ToString();
+            Friendly = friendly;
+            init_abilities();
         }
 
         public int pick_ability_id()
         {
             // pick the highest damage ability with remaining moves
-            return 0;
+
+            int current_best_index = 0;
+            for (int i = 1; i < abilities.Count(); i++)
+            {
+                ability ability_ = abilities[i];
+                // if this ability can be used
+                // and does more damage than the current best ability
+                if (ability_.uses_remaining > 0 && ability_.damage > abilities[current_best_index].damage)
+                {
+                    current_best_index = i;
+                }
+            }
+            // return the index of the current best ability
+            return current_best_index;
         }
     }
 }
