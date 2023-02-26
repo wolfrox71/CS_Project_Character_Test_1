@@ -19,7 +19,7 @@ namespace GameWIndowTest1
             {
                 Random rnd = new Random();
                 int val = rnd.Next(0, 26);
-                abilities[i] = new ability(val, alphabet[val].ToString());
+                abilities[i] = new ability(val, alphabet[val].ToString(), val);
             }
         }
 
@@ -40,6 +40,12 @@ namespace GameWIndowTest1
         {
             health = _health;
             name = _name.ToString();
+        }
+
+        public int pick_ability_id()
+        {
+            // pick the highest damage ability with remaining moves
+            return 0;
         }
     }
 }

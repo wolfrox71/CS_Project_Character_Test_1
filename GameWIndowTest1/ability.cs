@@ -10,11 +10,12 @@ namespace GameWIndowTest1
     {
         public int damage;
         public string name;
-
-        public ability(int _damage, string _name)
+        public int uses_remaining;
+        public ability(int _damage, string _name, int _uses_remaining)
         {
             damage = _damage;
             name = _name;
+            uses_remaining = _uses_remaining;
         }
     }
 }

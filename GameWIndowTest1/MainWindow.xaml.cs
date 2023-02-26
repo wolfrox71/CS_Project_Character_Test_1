@@ -201,11 +201,11 @@ namespace GameWIndowTest1
                 case "List Abilities":
                     HeadingInfoBox.Text = $"Abilities for {current_character.name}";
                     HeadingInfoBox.FontSize = 24;
-                    infoBox.Text = "In (Name, Damage) format\n-----\n";
+                    infoBox.Text = "In (Name, Damage, Uses Remaining) format\n-----\n";
                     infoBox.Text += $"Round {round_count}";
                     for (int i = 0; i < current_character.abilities.Length; i++)
                     {
-                        infoBox.Text += $"\n{i + 1}: ({current_character.abilities[i].name}, {current_character.abilities[i].damage})";
+                        infoBox.Text += $"\n{i + 1}: ({current_character.abilities[i].name}, {current_character.abilities[i].damage}, {current_character.abilities[i].uses_remaining})";
                     }
                     break;
 
@@ -227,6 +227,18 @@ namespace GameWIndowTest1
             // if the menu button click starts with "Ability" then they have clicked on something in the abilities tab
             if (header.StartsWith("Ability"))
             {
+
+                // get the ability index from the name of the button that was click (the "1" from "ability 1")
+                int ability_index = Int32.Parse(header.Remove(0, 7)) - 1;
+
+                if (current_character.abilities[ability_index].uses_remaining <= 0)
+                {
+                    // if there are no uses remaining on that ability
+                    InfoBox.Text = "No uses remaing on this ability";
+                    return;
+
+                }
+
                 // this is to stop "varaible may be null here" later on
                 // this value will be changed in the next section
                 RadioButton a = radioButtons[0];
@@ -253,14 +265,14 @@ namespace GameWIndowTest1
                     // output what health that target character used to have
                     InfoBox.Text = $"{target.name} has {target.health.ToString()} health";
                     
-                    // get the ability index from the name of the button that was click (the "1" from "ability 1")
-                    int ability_index = Int32.Parse(header.Remove(0, 7)) - 1;
-                    
                     // get the damage that ability deals from the current characters ability array
                     int ability_damage = current_character.abilities[ability_index].damage;
                     
                     // reduce the health of the current character by that ammount
                     target.takedamage(ability_damage);
+
+                    // reduce the number remaining by one as it has been used once
+                    current_character.abilities[ability_index].uses_remaining--;
 
                     // output the new health of the target character
                     InfoBox.Text += $"\n{target.name} now has {target.health.ToString()} health";
