@@ -146,10 +146,10 @@
 
         <TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Text="Target"/>
 
-        <Button Grid.Column="1" Grid.Row="5" Tag="Ability 1" Click="Ability_Click"/>
-        <Button Grid.Column="3" Grid.Row="5" Tag="Ability 2" Click="Ability_Click"/>
-        <Button Grid.Column="5" Grid.Row="5" Tag="Ability 3" Click="Ability_Click"/>
-        <Button Grid.Column="7" Grid.Row="5" Tag="Ability 4" Click="Ability_Click"/>
+        <Button Name="Ability_1_button" Grid.Column="1" Grid.Row="5" Tag="Ability 1" Click="Ability_Click"/>
+        <Button Name="Ability_2_button" Grid.Column="3" Grid.Row="5" Tag="Ability 2" Click="Ability_Click"/>
+        <Button Name="Ability_3_button" Grid.Column="5" Grid.Row="5" Tag="Ability 3" Click="Ability_Click"/>
+        <Button Name="Ability_4_button" Grid.Column="7" Grid.Row="5" Tag="Ability 4" Click="Ability_Click"/>
 
     </Grid>
 </Window>
