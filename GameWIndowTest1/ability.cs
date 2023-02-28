@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameWIndowTest1
 {
-    struct ability
+    public struct ability
     {
         public int damage;
         public string name;

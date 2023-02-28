@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameWIndowTest1.Game
 {
-    internal class Character
+    public class Character
     {
         public int health;
         public string name;

@@ -35,8 +35,8 @@ namespace GameWIndowTest1
         bool round_complete;
         bool death_in_round = false;
         List<Rectangle> identifiers; // the identifier rectangles above the characters to show whos go it is
-        List<character> characters = new List<character>{ 
-            new character(10, "Character1", true), 
+        List<character> characters = new List<character>{
+            new character(10, "Character1", true),
             new character(20, "Character2", true),
             new character(30, "Character3", false) ,
             new character(40, "Character4", false) };
@@ -69,7 +69,7 @@ namespace GameWIndowTest1
                 Remaining_Enemy.Add(_char);
                 continue;
             }
-           
+            show_character_details(characters[0]);
             round(); // start a round to init the block
         }
 
@@ -93,7 +93,7 @@ namespace GameWIndowTest1
 
             // if the radio button is on a dead character, move it
             // and only check is a character died otherwise it wont be
-            if (death_in_round)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+            if (death_in_round)
             {
                 set_next_nondead_radiobutton();
                 characterID = characterID % (characters.Count());
@@ -150,7 +150,7 @@ namespace GameWIndowTest1
             return;
         }
 
-        public void deal_with_dead(int index )
+        public void deal_with_dead(int index)
         {
             character target = characters[index];
 
@@ -285,11 +285,11 @@ namespace GameWIndowTest1
             // of the rectangle
             character current_character = new character(-1, "Character not found", true);
 
-            for (int countID = 0; countID < characters.Count(); countID ++)
+            for (int countID = 0; countID < characters.Count(); countID++)
             {
                 character this_char = characters[countID];
                 // if the name of this character matches the name of the rect
-                if (this_char.name == tag_value) 
+                if (this_char.name == tag_value)
                 {
                     if (characterID == countID) // if the correct user user id
                     {
@@ -311,53 +311,75 @@ namespace GameWIndowTest1
             switch (header)
             {
                 case "Change Colour":
-                    HeadingInfoBox.Text = ""; // reset the box so that it does not retain the last value
-                    infoBox.Text = $"Round {round_count}";
-                    // change the colour of the rectangle, this is just to make sure that
-                    // it is working correctly
-                    Random rnd = new Random();
-                    Brush[] colours = new Brush[] { Brushes.Red, Brushes.Blue, Brushes.Green, Brushes.Gold };
-                    Brush new_colour;
-                    do
-                    {
-                        // get a new colour to set the rectangle
-                        new_colour= colours[rnd.Next(0, colours.Length)];
-                    } while (new_colour == owner_rect.Fill); // if the colour is the same as the current colour
-                    // get a new colour
-
-
-                    // set the rectangles colour to the new colour
-                    owner_rect.Fill = new_colour;
+                    change_character_colour(owner_rect);
 
                     break;
 
                 case "List Abilities":
-                    HeadingInfoBox.Text = $"Abilities for {current_character.name}";
-                    HeadingInfoBox.FontSize = 24;
-                    infoBox.Text = "In (Name, Damage, Uses Remaining) format\n-----\n";
-                    infoBox.Text += $"Round {round_count}";
-                    for (int i = 0; i < current_character.abilities.Length; i++)
-                    {
-                        infoBox.Text += $"\n{i + 1}: ({current_character.abilities[i].name}, {current_character.abilities[i].damage}, {current_character.abilities[i].uses_remaining})";
-                    }
-                    // return not break so that it doesnt use up the turn
-                    return;
+                    list_abilities(current_character);
+                    break;
 
                 case "Show Character Details":
-                    HeadingInfoBox.Text = $"{current_character.name}";
-                    HeadingInfoBox.FontSize = 26;
-                    infoBox.Text = $"Health: {current_character.health}\n";
-                    infoBox.Text += $"Round {round_count}";
+                    show_character_details(current_character);
                     break;
 
                 default:
                     // if no option is clicked return
                     infoBox.Text = header;
                     HeadingInfoBox.Text = current_character.name;
-                    
+
                     break;
             }
             round();
+            return;
+        }
+
+        protected void change_character_colour(Rectangle _rect)
+        {
+            TextBlock infoBox = this.FindName("InfoBox") as TextBlock;
+            TextBlock HeadingInfoBox = this.FindName("Heading_Info_Box") as TextBlock;
+            HeadingInfoBox.Text = ""; // reset the box so that it does not retain the last value
+            infoBox.Text = $"Round {round_count}";
+            // change the colour of the rectangle, this is just to make sure that
+            // it is working correctly
+            Random rnd = new Random();
+            Brush[] colours = new Brush[] { Brushes.Red, Brushes.Blue, Brushes.Green, Brushes.Gold };
+            Brush new_colour;
+            do
+            {
+                // get a new colour to set the rectangle
+                new_colour = colours[rnd.Next(0, colours.Length)];
+            } while (new_colour == _rect.Fill); // if the colour is the same as the current colour
+                                                // get a new colour
+
+
+            // set the rectangles colour to the new colour
+            _rect.Fill = new_colour;
+        }
+        protected void list_abilities(character _char)
+        {
+            TextBlock infoBox = this.FindName("InfoBox") as TextBlock;
+            TextBlock HeadingInfoBox = this.FindName("Heading_Info_Box") as TextBlock;
+            HeadingInfoBox.Text = $"Abilities for {_char.name}";
+            HeadingInfoBox.FontSize = 24;
+            infoBox.Text = "In (Name, Damage, Uses Remaining) format\n-----\n";
+            infoBox.Text += $"Round {round_count}";
+            for (int i = 0; i < _char.abilities.Length; i++)
+            {
+                infoBox.Text += $"\n{i + 1}: ({_char.abilities[i].name}, {_char.abilities[i].damage}, {_char.abilities[i].uses_remaining})";
+            }
+            // return not break so that it doesnt use up the turn
+            return;
+        }
+
+        protected void show_character_details(character _char)
+        {
+            TextBlock infoBox = this.FindName("InfoBox") as TextBlock;
+            TextBlock HeadingInfoBox = this.FindName("Heading_Info_Box") as TextBlock;
+            HeadingInfoBox.Text = $"{_char.name}";
+            HeadingInfoBox.FontSize = 26;
+            infoBox.Text = $"Health: {_char.health}\n";
+            infoBox.Text += $"Round {round_count}";
             return;
         }
         public int find_character_index_by_name(string name)
@@ -392,25 +414,9 @@ namespace GameWIndowTest1
             }
             //MessageBox.Show($"Current Character {current_character}\nAbility Name {current_character.abilities[ability_index].name}");
 
-            // this is to stop "varaible may be null here" later on
-            // this value will be changed in the next section
-            RadioButton a = radioButtons[0];
-
-            //  go through each radiobutton
-            foreach (RadioButton rb in radioButtons)
-            {
-                // and if that button was clicked
-                if (rb.IsChecked == true)
-                {
-                    // then that is the target that is wanted
-                    a = rb;
-                }
-            }
-
             int index = 0;
-            // get the index position of the character who is selected by the radiobutton
-            // and if that character exists (which it should allways)
-            if ((index = find_character_index_by_name(a.Name.Remove(0, 3))) != -1)
+
+            if ((index = get_index_from_radiobutton()) != -1)
             {
                 // get the target character
                 character target = characters[index];
@@ -436,6 +442,44 @@ namespace GameWIndowTest1
             }
             round();
             return;
+        }
+
+        protected int get_index_from_radiobutton()
+        {
+            // this is to stop "varaible may be null here" later on
+            // this value will be changed in the next section
+
+            // get the index position of the character who is selected by the radiobutton
+            // and if that character exists (which it should allways)
+            if (radioButtons is null || radioButtons.Count == 0) return -1;
+            RadioButton a = radioButtons[0];
+
+            //  go through each radiobutton
+            foreach (RadioButton rb in radioButtons)
+            {
+                // and if that button was clicked
+                if (rb.IsChecked == true)
+                {
+                    // then that is the target that is wanted
+                    a = rb;
+                }
+            }
+
+            return find_character_index_by_name(a.Name.Remove(0, 3));
+
+        }
+        private void Show_Character_Details_RB(object sender, RoutedEventArgs e)
+        {
+            RadioButton _rb = (RadioButton)sender;
+
+            int index = 0;
+
+            if ((index = get_index_from_radiobutton()) != -1)
+            {
+                // get the target character
+                character target = characters[index];
+                show_character_details(target);
+            }
         }
     }
 }
