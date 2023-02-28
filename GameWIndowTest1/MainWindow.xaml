@@ -8,12 +8,13 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="15*"/>
+            <RowDefinition Height="5*"/>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="50*"/>
             <RowDefinition Height="5*"/>
+            <RowDefinition Height="8*"/>
             <RowDefinition Height="10*"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -144,6 +145,11 @@
         <RadioButton Grid.Column="7" Grid.Row="4" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character4" />
 
         <TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Text="Target"/>
+
+        <Button Grid.Column="1" Grid.Row="5" Tag="Ability 1" Click="Ability_Click"/>
+        <Button Grid.Column="3" Grid.Row="5" Tag="Ability 2" Click="Ability_Click"/>
+        <Button Grid.Column="5" Grid.Row="5" Tag="Ability 3" Click="Ability_Click"/>
+        <Button Grid.Column="7" Grid.Row="5" Tag="Ability 4" Click="Ability_Click"/>
 
     </Grid>
 </Window>

@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.PerformanceData;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.PortableExecutable;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
@@ -334,65 +335,6 @@ namespace GameWIndowTest1
                     
                     break;
             }
-
-            // if the menu button click starts with "Ability" then they have clicked on something in the abilities tab
-            if (header.StartsWith("Ability"))
-            {
-
-                // get the ability index from the name of the button that was click (the "1" from "ability 1")
-                int ability_index = Int32.Parse(header.Remove(0, 7)) - 1;
-
-                if (current_character.abilities[ability_index].uses_remaining <= 0)
-                {
-                    // if there are no uses remaining on that ability
-                    InfoBox.Text = "No uses remaing on this ability";
-                    return;
-
-                }
-
-                // this is to stop "varaible may be null here" later on
-                // this value will be changed in the next section
-                RadioButton a = radioButtons[0];
-
-                //  go through each radiobutton
-                foreach (RadioButton rb in radioButtons)
-                {
-                    // and if that button was clicked
-                    if (rb.IsChecked == true)
-                    {
-                        // then that is the target that is wanted
-                        a = rb;
-                    }
-                }
-
-                int index = 0;
-                // get the index position of the character who is selected by the radiobutton
-                // and if that character exists (which it should allways)
-                if ((index = find_character_index_by_name(a.Name.Remove(0, 3))) != -1)
-                {
-                    // get the target character
-                    character target = characters[index];
-
-                    // output what health that target character used to have
-                    InfoBox.Text = $"{target.name} has {target.health.ToString()} health";
-
-                    // get  the ability deals from the current characters ability array
-                    ability _ability = current_character.abilities[ability_index];
-
-                    // reduce the health of the current character by that ammount
-                    target.takedamage(_ability);
-
-                    // output the new health of the target character
-                    InfoBox.Text += $"\n{target.name} now has {target.health.ToString()} health";
-
-                    // if the target dies
-
-                    if (target.health <= 0)
-                    {
-                        deal_with_dead(index);
-                    }
-                }
-            }
             round();
             return;
         }
@@ -410,6 +352,68 @@ namespace GameWIndowTest1
             return -1;
         }
 
+        private void Ability_Click(object sender, RoutedEventArgs e)
+        {
+            Button send = (Button)sender;
+            string header = send.Tag.ToString();
 
+            character current_character = characters[characterID];
+            // get the ability index from the name of the button that was click (the "1" from "ability 1")
+            int ability_index = Int32.Parse(header.Remove(0, 7)) - 1;
+
+            if (current_character.abilities[ability_index].uses_remaining <= 0)
+            {
+                // if there are no uses remaining on that ability
+                InfoBox.Text = "No uses remaing on this ability";
+                return;
+
+            }
+            MessageBox.Show($"Current Character {current_character}\nAbility Name {current_character.abilities[ability_index].name}");
+
+            // this is to stop "varaible may be null here" later on
+            // this value will be changed in the next section
+            RadioButton a = radioButtons[0];
+
+            //  go through each radiobutton
+            foreach (RadioButton rb in radioButtons)
+            {
+                // and if that button was clicked
+                if (rb.IsChecked == true)
+                {
+                    // then that is the target that is wanted
+                    a = rb;
+                }
+            }
+
+            int index = 0;
+            // get the index position of the character who is selected by the radiobutton
+            // and if that character exists (which it should allways)
+            if ((index = find_character_index_by_name(a.Name.Remove(0, 3))) != -1)
+            {
+                // get the target character
+                character target = characters[index];
+
+                // output what health that target character used to have
+                InfoBox.Text = $"{target.name} has {target.health.ToString()} health";
+
+                // get  the ability deals from the current characters ability array
+                ability _ability = current_character.abilities[ability_index];
+
+                // reduce the health of the current character by that ammount
+                target.takedamage(_ability);
+
+                // output the new health of the target character
+                InfoBox.Text += $"\n{target.name} now has {target.health.ToString()} health";
+
+                // if the target dies
+
+                if (target.health <= 0)
+                {
+                    deal_with_dead(index);
+                }
+            }
+            round();
+            return;
+        }
     }
 }
