@@ -9,6 +9,36 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Ability_Icons\Ability_A.png" />
+    <None Remove="Resources\Ability_Icons\Ability_B.png" />
+    <None Remove="Resources\Ability_Icons\Ability_Blank.png" />
+    <None Remove="Resources\Ability_Icons\Ability_C.png" />
+    <None Remove="Resources\Ability_Icons\Ability_D.png" />
+    <None Remove="Resources\Ability_Icons\Ability_E.png" />
+    <None Remove="Resources\Ability_Icons\Ability_F.png" />
+    <None Remove="Resources\Ability_Icons\Ability_G.png" />
+    <None Remove="Resources\Ability_Icons\Ability_H.png" />
+    <None Remove="Resources\Ability_Icons\Ability_I.png" />
+    <None Remove="Resources\Ability_Icons\Ability_J.png" />
+    <None Remove="Resources\Ability_Icons\Ability_K.png" />
+    <None Remove="Resources\Ability_Icons\Ability_L.png" />
+    <None Remove="Resources\Ability_Icons\Ability_M.png" />
+    <None Remove="Resources\Ability_Icons\Ability_N.png" />
+    <None Remove="Resources\Ability_Icons\Ability_O.png" />
+    <None Remove="Resources\Ability_Icons\Ability_P.png" />
+    <None Remove="Resources\Ability_Icons\Ability_Q.png" />
+    <None Remove="Resources\Ability_Icons\Ability_R.png" />
+    <None Remove="Resources\Ability_Icons\Ability_S.png" />
+    <None Remove="Resources\Ability_Icons\Ability_T.png" />
+    <None Remove="Resources\Ability_Icons\Ability_U.png" />
+    <None Remove="Resources\Ability_Icons\Ability_V.png" />
+    <None Remove="Resources\Ability_Icons\Ability_W.png" />
+    <None Remove="Resources\Ability_Icons\Ability_X.png" />
+    <None Remove="Resources\Ability_Icons\Ability_Y.png" />
+    <None Remove="Resources\Ability_Icons\Ability_Z.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.117" />
   </ItemGroup>
@@ -29,91 +59,87 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Ability Icons\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Resources\Ability Icons\Ability_A.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_B.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_Blank.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_C.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_D.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_E.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_F.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_G.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_H.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_I.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_J.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_K.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_L.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_M.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_N.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_O.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_P.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_Q.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_R.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_S.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_T.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_U.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_V.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_W.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_X.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_Y.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\Ability Icons\Ability_Z.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Resource Include="Resources\Ability_Icons\Ability_A.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_B.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_Blank.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_C.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_D.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_E.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_F.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_G.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_H.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_I.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_J.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_K.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_L.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_M.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_N.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_O.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_P.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_Q.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_R.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_S.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_T.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_U.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_V.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_W.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_X.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_Y.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Ability_Icons\Ability_Z.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
