@@ -126,8 +126,10 @@ namespace GameWIndowTest1
                 // update the characterID and loop with the number of characters
                 characterID = (characterID + 1) % characters.Count();
             }
+            
             set_identifiers_colour();
             //set_abilities_icons();
+            set_abilities_names();
             set_buttons_avalablity();
 
             round_complete = false;
@@ -170,6 +172,18 @@ namespace GameWIndowTest1
                 // if it has uses left enable it
                 abilities[i].IsEnabled = true;
                 continue;
+            }
+        }
+
+        public void set_abilities_names()
+        {
+            List<TextBlock> blocks = new List<TextBlock> { Ability_1_textbox, Ability_2_textbox, Ability_3_textbox, Ability_4_textbox };
+
+            character current_character = characters[characterID];
+            for (int i = 0; i < current_character.abilities.Length; i++)
+            {
+                // set the text in the button to be the name of the ability
+                blocks[i].Text = current_character.abilities[i].name.ToString();
             }
         }
 
