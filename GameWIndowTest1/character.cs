@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using GameWIndowTest1.Abilities;
@@ -25,19 +26,19 @@ namespace GameWIndowTest1
                 Random rnd = new Random();
                 int val = rnd.Next(0, 26);
                 // times an ability can be used is 26-the damage it does for now
-                abilities[i] = new ability(val+1, alphabet[val].ToString(), 27-val, Ability_type.Damage);
+                abilities[i] = new ability(val+1, alphabet[val].ToString(), 27-val, Ability_type.Damage, 0, 0);
             }
         }
 
         public void init_abilities()
         {
-            abilities[0] = new ability(10, "Light Damage", 20, Ability_type.Damage);
-            abilities[1] = new ability(30, "Heavy Damage", 5, Ability_type.Damage);
-            abilities[2] = new ability(10, "Light Healing", 10, Ability_type.Healing);
-            abilities[3] = new ability(40, "Heavy Healing", 2, Ability_type.Healing);
+            abilities[0] = new ability(10, "Light Damage", 20, Ability_type.Damage, 10, 2);
+            abilities[1] = new ability(30, "Heavy Damage", 5, Ability_type.Damage, 1, 10);
+            abilities[2] = new ability(10, "Light Healing", 10, Ability_type.Healing, 10, 2);
+            abilities[3] = new ability(40, "Heavy Healing", 2, Ability_type.Healing, 1, 10);
         }
 
-        public void takedamage(ability recived_ability)
+        public void takedamage(ability recived_ability, bool critical)
         {
             // this function is so that any resistances can go in here
             // rather than having to be dealt with in other places
@@ -46,21 +47,39 @@ namespace GameWIndowTest1
             // if this is a damage ability do damage
             if (recived_ability.ability_Type == Ability_type.Damage)
             {
+
+                int damage_to_do = recived_ability.ammount;
+
+                // if its a critical hit, increase the damage done by the critical hit bonus
+                if (critical) 
+                {
+                    damage_to_do += recived_ability.critical_hit_bonus;
+                }
+
                 // reduce the times  this ability can be used by one
                 recived_ability.uses_remaining--;
 
                 // reduce this characters health  by the damage of the ability
-                health -= recived_ability.ammount;
+                health -= damage_to_do;
             }
         }
 
-        public void heal(ability recived_ability)
+        public void heal(ability recived_ability, bool critical)
         {
             // if this is a healing ability
             if (recived_ability.ability_Type == Ability_type.Healing)
             {
+                int ammount_to_heal = recived_ability.ammount;
+
+                if (critical)
+                {
+                    ammount_to_heal += recived_ability.critical_hit_bonus;
+                }
+
                 // heal by the ammount the ability
-                health += recived_ability.ammount;
+                health += ammount_to_heal;
+
+                recived_ability.uses_remaining--;
 
                 // if the health is more than the max health
                 if (health > max_health)
@@ -94,7 +113,7 @@ namespace GameWIndowTest1
 
             // this is the default ability
             // and should only be used actually if no other ability remains
-            ability current_ability = new ability(1, "Default Ability", 1, Ability_type.Damage);
+            ability current_ability = new ability(1, "Default Ability", 1, Ability_type.Damage, 0, 0);
 
             // if the character is low enough health to need healing
             if (health <= ((critical_health_percentage * max_health)/100))

@@ -209,9 +209,19 @@ namespace GameWIndowTest1
         {
             Heading_Info_Box.Text = target.name;
 
+            Random rnd = new Random();
+            // if the value is a critical hit 
+            bool critical_hit = rnd.Next(0, 100) <= ability.critical_hit_percentage;
+
             InfoBox.Text = $"Damaging {target.name} for {ability.ammount}";
             InfoBox.Text += $"\n{target.name} has {target.health}";
-            target.takedamage(ability);
+
+            if (critical_hit)
+            {
+                InfoBox.Text += $"Critical Hit for {ability.critical_hit_bonus} more damage";
+            }
+
+            target.takedamage(ability, critical_hit);
             InfoBox.Text += $"\n{target.name} now has {target.health}";
 
 
@@ -227,12 +237,22 @@ namespace GameWIndowTest1
         {
             Heading_Info_Box.Text = target.name;
 
+            Random rnd = new Random();
+            // if the value is a critical hit 
+            bool critical_hit = rnd.Next(0, 100) <= ability.critical_hit_percentage;
+
+
             InfoBox.Text = $"Healing {target.name} for {ability.ammount}";
+
+            if (critical_hit)
+            {
+                InfoBox.Text += $"Critical Hit bonus {ability.critical_hit_bonus}";
+            }
 
             InfoBox.Text += $"\n{target.name} has {target.health}";
 
             // heal the current character by the healing of the move
-            target.heal(ability);
+            target.heal(ability, critical_hit);
 
             InfoBox.Text += $"\n{target.name} now has {target.health}";
                 
@@ -584,6 +604,10 @@ namespace GameWIndowTest1
                 _a.IsEnabled = true;
             }
 
+            if (characterID >= characters.Count())
+            {
+                return;
+            }
             // get the current character
             character current_character = characters[characterID];
 
