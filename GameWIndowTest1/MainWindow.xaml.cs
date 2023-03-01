@@ -226,7 +226,7 @@ namespace GameWIndowTest1
 
             if (critical_hit)
             {
-                InfoBox.Text += $"Critical Hit for {ability.critical_hit_bonus} more damage";
+                InfoBox.Text += $"\nCritical Hit for {ability.critical_hit_bonus} more damage";
             }
 
             target.takedamage(ability, critical_hit);
@@ -254,7 +254,7 @@ namespace GameWIndowTest1
 
             if (critical_hit)
             {
-                InfoBox.Text += $"Critical Hit bonus {ability.critical_hit_bonus}";
+                InfoBox.Text += $"\nCritical Hit bonus {ability.critical_hit_bonus}";
             }
 
             InfoBox.Text += $"\n{target.name} has {target.health}";
