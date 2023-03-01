@@ -16,7 +16,7 @@ namespace GameWIndowTest1
         public string name;
         public ability[] abilities = new ability[4];
 
-        public int dodge_percentage = 50;
+        public int dodge_percentage = 10;
         public int dodge_reduction_percentage = 50; // how much damage gets reduced by if the dodge is successful
         
         public int critical_health_percentage = 30; // this the % of max health that the ais will heal on so 30 is 30 % of max health
@@ -55,6 +55,8 @@ namespace GameWIndowTest1
 
                 int damage_to_do = recived_ability.ammount;
 
+                int dodge_damage_reduction = 0;
+
                 // if its a critical hit, increase the damage done by the critical hit bonus
                 if (critical) 
                 {
@@ -69,10 +71,11 @@ namespace GameWIndowTest1
                     // reduce the damage by the damage reduction ammount
 
                     // this is -= not *= as *= would make 40 reduce the damage by 60% not 40% 
-                    damage_to_do -= (damage_to_do * (dodge_reduction_percentage/100));
+                    dodge_damage_reduction = ((damage_to_do * dodge_reduction_percentage)/100);
                     dodge = true;
-                    MessageBox.Show($"Dodged reducing damage by {damage_to_do} {(damage_to_do * dodge_reduction_percentage/100)}");
                 }
+
+                damage_to_do -= dodge_damage_reduction;
 
                 // reduce the times  this ability can be used by one
                 recived_ability.uses_remaining--;
