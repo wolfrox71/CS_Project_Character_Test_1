@@ -53,7 +53,7 @@
         </Rectangle>
         <Rectangle Grid.Row="1" Grid.Column="1" Name="Character1_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>
 
-        <RadioButton Grid.Row="4" Grid.Column="1" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character1" IsChecked="True" Checked="Show_Character_Details_RB"/>
+        <RadioButton Grid.Row="4" Grid.Column="1" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character1" IsChecked="True" Checked="RadioButton_Changed"/>
 
         <!-- Character 2 -->
         <Rectangle x:Name="Character2"
@@ -81,7 +81,7 @@
 
         <Rectangle Grid.Row="1" Grid.Column="3" x:Name="Character2_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>
 
-        <RadioButton Grid.Row="4" Grid.Column="3" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character2" Checked="Show_Character_Details_RB"/>
+        <RadioButton Grid.Row="4" Grid.Column="3" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character2" Checked="RadioButton_Changed"/>
 
         <!-- Text Boxes -->
         <TextBlock Grid.RowSpan="2" Grid.Row="0" Grid.Column="4" Name="Heading_Info_Box" HorizontalAlignment="Center" Height="65"  TextWrapping="Wrap" VerticalAlignment="Top" Width="156" TextAlignment="Center" FontSize="24" FontWeight="Bold"/>
@@ -112,7 +112,7 @@
 
         <Rectangle Grid.Column="5" Grid.Row="1"  x:Name="Character3_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>
 
-        <RadioButton Grid.Row="4" Grid.Column="5" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Bottom" Name="RB_Character3" Margin="0,0,0,12" Checked="Show_Character_Details_RB"/>
+        <RadioButton Grid.Row="4" Grid.Column="5" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Bottom" Name="RB_Character3" Margin="0,0,0,12" Checked="RadioButton_Changed"/>
 
 
         <!-- Character 4 -->
@@ -141,7 +141,7 @@
 
         <Rectangle Grid.Column="7" Grid.Row="1"  x:Name="Character4_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>
 
-        <RadioButton Grid.Column="7" Grid.Row="4" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character4" Checked="Show_Character_Details_RB" />
+        <RadioButton Grid.Column="7" Grid.Row="4" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character4" Checked="RadioButton_Changed" />
 
         <TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Text="Target"/>
 

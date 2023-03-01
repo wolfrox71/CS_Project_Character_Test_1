@@ -13,8 +13,8 @@ namespace GameWIndowTest1
         public int max_health { get; protected set; }
         public string name;
         public ability[] abilities = new ability[4];
-
-        public int critical_health = 5;
+        
+        public int critical_health = 15;
         public bool Friendly;
 
         private void alphabet_init_abilities()

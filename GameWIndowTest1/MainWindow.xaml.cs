@@ -35,6 +35,10 @@ namespace GameWIndowTest1
         bool round_complete;
         bool death_in_round = false;
         int dead_index = -1;
+
+        bool can_team_damage = false;
+        bool can_heal_enemies = false;
+
         List<Rectangle> identifiers; // the identifier rectangles above the characters to show whos go it is
         List<character> characters = new List<character>{
             new character(40, "Character1", true),
@@ -130,7 +134,10 @@ namespace GameWIndowTest1
             set_identifiers_colour();
             //set_abilities_icons();
             set_abilities_names();
-            set_buttons_avalablity();
+            // this enables and disables buttons
+
+            enable_buttons();
+            //set_buttons_avalablity();
 
             round_complete = false;
             death_in_round = false;
@@ -533,12 +540,19 @@ namespace GameWIndowTest1
             if ((index = get_index_from_radiobutton()) != -1)
             {
                 ability _ability = current_character.abilities[ability_index];
+                character target = characters[index];
 
                 // if this is a damage ability
                 if (_ability.ability_Type == Ability_type.Damage)
                 {
                     // get the target character
-                    character target = characters[index];
+
+                    if (Remaining_Friendly.Contains(target) && !can_team_damage)
+                    {
+                        InfoBox.Text = "Cannot damage a friendly character";
+                        // return so that you can pick a new move
+                        return;
+                    }
 
                     // deal damage to the target
                     use_damage_ability(target, _ability);
@@ -546,7 +560,13 @@ namespace GameWIndowTest1
 
                 if (_ability.ability_Type == Ability_type.Healing)
                 {
-                    use_healing_ability(current_character, _ability);
+                    // if the character is already at full health
+                    if (target.health == target.max_health)
+                    {
+                        InfoBox.Text = "Target already at full health";
+                        return;
+                    }
+                    use_healing_ability(target, _ability);
                 }
             }
             round();
@@ -577,18 +597,87 @@ namespace GameWIndowTest1
             return find_character_index_by_name(a.Name.Remove(0, 3));
 
         }
-        private void Show_Character_Details_RB(object sender, RoutedEventArgs e)
-        {
-            RadioButton _rb = (RadioButton)sender;
 
+        public void enable_buttons()
+        {
             int index = 0;
 
-            if ((index = get_index_from_radiobutton()) != -1)
+            if ((index = get_index_from_radiobutton()) == -1)
             {
-                // get the target character
-                character target = characters[index];
-                show_character_details(target);
+                return;
             }
+            character target = characters[index];
+            // a list of all the ability buttons
+            List<Button> abilities = new List<Button> { Ability_1_button, Ability_2_button, Ability_3_button, Ability_4_button };
+
+            foreach (Button _a in abilities)
+            {
+                _a.IsEnabled = true;
+            }
+
+            // get the current character
+            character current_character = characters[characterID];
+
+            // if the current character is friendly then the buttons shouldnt be disabled
+            if (current_character.Friendly)
+            {
+                for (int i = 0; i < current_character.abilities.Length; i++)
+                {
+                    ability _a = current_character.abilities[i];
+                    // if the ability cannot be used 
+                    if (!_a.can_be_used)
+                    {
+                        // disable the ability as it is not useable
+                        abilities[i].IsEnabled = false;
+                        continue;
+                    }
+                    // if the ability is a damage on a friendly character while disabled
+                    if (target.Friendly && !can_team_damage && _a.ability_Type == Ability_type.Damage)
+                    {
+                        // disable the ability
+                        abilities[i].IsEnabled = false;
+                        continue;
+                    }
+                    if (_a.ability_Type == Ability_type.Healing)
+                    {
+                        // if trying to heal an enemy while disabled
+                        // or trying to heal a character on max health
+                        if ((!target.Friendly && !can_heal_enemies) || (target.Friendly && (target.health == target.max_health)))
+                        {
+                            // disbale the ability
+                            abilities[i].IsEnabled = false;
+                            continue;
+                        }
+                    }
+                }
+            }
+            // if the current character is an enemy
+            if (!current_character.Friendly)
+            {
+                // disable all the abilities
+                foreach (Button _a in abilities)
+                {
+                    _a.IsEnabled = false;
+                }
+            }
+        }
+
+        public void RadioButton_Changed(object sender, RoutedEventArgs e)
+        {
+            int index = 0;
+
+            if ((index = get_index_from_radiobutton()) == -1)
+            {
+                return;
+            }
+
+            character target = characters[index];
+
+            // show the character details of the target
+            show_character_details(target);
+
+            // set what buttons should be targeted
+            enable_buttons();
         }
     }
 }
