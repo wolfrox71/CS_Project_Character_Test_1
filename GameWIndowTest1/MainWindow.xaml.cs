@@ -21,7 +21,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using GameWIndowTest1.Abilities;
 
 namespace GameWIndowTest1
 {
@@ -180,7 +180,7 @@ namespace GameWIndowTest1
             //MessageBox.Show("Start Round");
             character current_character = characters[characterID];
             // get the picked ability by getting the current characters best ability and using that index in their abilities
-            ability picked_ability = current_character.abilities[current_character.pick_ability_id()];
+            ability picked_ability = current_character.pick_ability();
 
             if (Remaining_Friendly.Count() <= 0)
             {
@@ -188,19 +188,20 @@ namespace GameWIndowTest1
             }
             else
             {
-                var a = Remaining_Friendly;
-                character target = Remaining_Friendly[0];
-                Heading_Info_Box.Text = current_character.name;
-                InfoBox.Text = $"{target.name} has {target.health}";
-                target.takedamage(picked_ability);
-                InfoBox.Text += $"\n{target.name} now has {target.health}";
-
-
-                // if the target died from that
-                if (target.health <= 0)
+                // if the current move is a damage move
+                if (picked_ability.ability_Type == Ability_type.Damage)
                 {
-                    int target_index = characters.IndexOf(target);
-                    deal_with_dead(target_index);
+                    // pick the first friendly character
+                    character target = Remaining_Friendly[0];
+                    // and do damage to them 
+                    use_damage_ability(target, picked_ability);
+                }
+
+                // if the current move is a healing move
+
+                if (picked_ability.ability_Type == Ability_type.Healing)
+                {
+                    use_healing_ability(current_character, picked_ability);
                 }
 
                 /*
@@ -213,6 +214,39 @@ namespace GameWIndowTest1
                 round();
                 return;
             }
+        }
+
+        public void use_damage_ability(character target, ability ability)
+        {
+            Heading_Info_Box.Text = target.name;
+
+            InfoBox.Text = $"Damaging {target.name} for {ability.ammount}";
+            InfoBox.Text += $"\n{target.name} has {target.health}";
+            target.takedamage(ability);
+            InfoBox.Text += $"\n{target.name} now has {target.health}";
+
+
+            // if the target died from that
+            if (target.health <= 0)
+            {
+                int target_index = characters.IndexOf(target);
+                deal_with_dead(target_index);
+            }
+        }
+
+        public void use_healing_ability(character target, ability ability)
+        {
+            Heading_Info_Box.Text = target.name;
+
+            InfoBox.Text = $"Healing {target.name} for {ability.ammount}";
+
+            InfoBox.Text += $"\n{target.name} has {target.health}";
+
+            // heal the current character by the healing of the move
+            target.heal(ability);
+
+            InfoBox.Text += $"\n{target.name} now has {target.health}";
+                
         }
 
         public void deal_with_dead(int index)
@@ -428,11 +462,11 @@ namespace GameWIndowTest1
             TextBlock HeadingInfoBox = this.FindName("Heading_Info_Box") as TextBlock;
             HeadingInfoBox.Text = $"Abilities for {_char.name}";
             HeadingInfoBox.FontSize = 24;
-            infoBox.Text = "In (Name, Damage, Uses Remaining) format\n-----\n";
+            infoBox.Text = "In (Name, Ammount, Uses Remaining, Type) format\n-----\n";
             infoBox.Text += $"Round {round_count}";
             for (int i = 0; i < _char.abilities.Length; i++)
             {
-                infoBox.Text += $"\n{i + 1}: ({_char.abilities[i].name}, {_char.abilities[i].damage}, {_char.abilities[i].uses_remaining})";
+                infoBox.Text += $"\n{i + 1}: ({_char.abilities[i].name}, {_char.abilities[i].ammount}, {_char.abilities[i].uses_remaining}, {_char.abilities[i].ability_Type})";
             }
             // return not break so that it doesnt use up the turn
             return;
@@ -484,26 +518,21 @@ namespace GameWIndowTest1
 
             if ((index = get_index_from_radiobutton()) != -1)
             {
-                // get the target character
-                character target = characters[index];
-
-                // output what health that target character used to have
-                InfoBox.Text = $"{target.name} has {target.health.ToString()} health";
-
-                // get  the ability deals from the current characters ability array
                 ability _ability = current_character.abilities[ability_index];
 
-                // reduce the health of the current character by that ammount
-                target.takedamage(_ability);
-
-                // output the new health of the target character
-                InfoBox.Text += $"\n{target.name} now has {target.health.ToString()} health";
-
-                // if the target dies
-
-                if (target.health <= 0)
+                // if this is a damage ability
+                if (_ability.ability_Type == Ability_type.Damage)
                 {
-                    deal_with_dead(index);
+                    // get the target character
+                    character target = characters[index];
+
+                    // deal damage to the target
+                    use_damage_ability(target, _ability);
+                }
+
+                if (_ability.ability_Type == Ability_type.Healing)
+                {
+                    use_healing_ability(current_character, _ability);
                 }
             }
             round();
