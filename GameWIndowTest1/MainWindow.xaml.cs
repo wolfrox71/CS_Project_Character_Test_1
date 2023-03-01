@@ -164,6 +164,9 @@ namespace GameWIndowTest1
 
         public async void do_enemy_round(int delay = 1000)
         {
+            // disable the pass button on an enemy round
+            Pass.IsEnabled = false;
+
             await Task.Delay(delay); // from https://stackoverflow.com/questions/15599884/how-to-put-delay-before-doing-an-operation-in-wpf 
             // wait for delay ms (currently 1s) before continueing
             //MessageBox.Show("Start Round");
@@ -200,8 +203,13 @@ namespace GameWIndowTest1
 
                 await Task.Delay(delay);
                 //MessageBox.Show("Round End");
+
+                // reenable the pass button now that the round has ended
+                Pass.IsEnabled = true;
+
                 round();
                 return;
+
             }
         }
 
@@ -510,6 +518,14 @@ namespace GameWIndowTest1
         {
             Button send = (Button)sender;
             string header = send.Tag.ToString();
+
+            // if the pass button is pressed
+            if (header == "Pass")
+            {
+                // move to the next characters turn
+                round();
+                return;
+            }
 
             character current_character = characters[characterID];
             // get the ability index from the name of the button that was click (the "1" from "ability 1")
