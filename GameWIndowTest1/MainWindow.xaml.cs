@@ -150,38 +150,6 @@ namespace GameWIndowTest1
             }
         }
 
-        public void set_buttons_avalablity()
-        {
-            List<Button> abilities = new List<Button> { Ability_1_button, Ability_2_button, Ability_3_button, Ability_4_button };
-
-            character current_character = characters[characterID];
-
-            // disables all buttons on an enemies turn
-            if (Remaining_Enemy.Contains(current_character))
-            {
-                foreach(Button button in abilities)
-                {
-                    button.IsEnabled = false;
-                }
-                return;
-            }
-            // the character is a friendly character
-            for (int i = 0; i < current_character.abilities.Count(); i++)
-            {
-                ability current_ability = current_character.abilities[i];
-                // if no uses remaining then disable this ability
-                if (current_ability.uses_remaining <= 0 )
-                {
-                    // disable the ability if it has no uses left
-                    abilities[i].IsEnabled = false;
-                    continue;
-                }
-                // if it has uses left enable it
-                abilities[i].IsEnabled = true;
-                continue;
-            }
-        }
-
         public void set_abilities_names()
         {
             List<TextBlock> blocks = new List<TextBlock> { Ability_1_textbox, Ability_2_textbox, Ability_3_textbox, Ability_4_textbox };
@@ -314,7 +282,6 @@ namespace GameWIndowTest1
             radioButtons.Remove(target_rb);
         }
 
-
         public void set_next_nondead_radiobutton()
         {
             // set the first still alive radiobutton to be checked
@@ -381,6 +348,7 @@ namespace GameWIndowTest1
                 //img.Source = new BitmapImage(new Uri(uri, UriKind.Relative));
             }
         }
+        
         private void Show_Character_Click(object sender, RoutedEventArgs e)
         {
             bool DEBUG = false;
@@ -477,6 +445,7 @@ namespace GameWIndowTest1
             // set the rectangles colour to the new colour
             _rect.Fill = new_colour;
         }
+        
         protected void list_abilities(character _char)
         {
             TextBlock infoBox = this.FindName("InfoBox") as TextBlock;

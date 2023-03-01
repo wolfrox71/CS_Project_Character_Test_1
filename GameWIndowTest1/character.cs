@@ -14,7 +14,7 @@ namespace GameWIndowTest1
         public string name;
         public ability[] abilities = new ability[4];
         
-        public int critical_health = 15;
+        public int critical_health_percentage = 30; // this the % of max health that the ais will heal on so 30 is 30 % of max health
         public bool Friendly;
 
         private void alphabet_init_abilities()
@@ -97,7 +97,7 @@ namespace GameWIndowTest1
             ability current_ability = new ability(1, "Default Ability", 1, Ability_type.Damage);
 
             // if the character is low enough health to need healing
-            if (health <= critical_health)
+            if (health <= ((critical_health_percentage * max_health)/100))
             {
                 // try find a healing move with uses left
                 foreach (ability _a in abilities)
