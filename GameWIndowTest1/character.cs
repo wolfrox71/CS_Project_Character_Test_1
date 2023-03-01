@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using GameWIndowTest1.Abilities;
 
 namespace GameWIndowTest1
@@ -14,6 +15,9 @@ namespace GameWIndowTest1
         public int max_health { get; protected set; }
         public string name;
         public ability[] abilities = new ability[4];
+
+        public int dodge_percentage = 50;
+        public int dodge_reduction_percentage = 50; // how much damage gets reduced by if the dodge is successful
         
         public int critical_health_percentage = 30; // this the % of max health that the ais will heal on so 30 is 30 % of max health
         public bool Friendly;
@@ -26,23 +30,24 @@ namespace GameWIndowTest1
                 Random rnd = new Random();
                 int val = rnd.Next(0, 26);
                 // times an ability can be used is 26-the damage it does for now
-                abilities[i] = new ability(val+1, alphabet[val].ToString(), 27-val, Ability_type.Damage, 0, 0);
+                abilities[i] = new ability(val+1, alphabet[val].ToString(), 27-val, Ability_type.Damage, 0, 0, 0);
             }
         }
 
         public void init_abilities()
         {
-            abilities[0] = new ability(10, "Light Damage", 20, Ability_type.Damage, 10, 2);
-            abilities[1] = new ability(30, "Heavy Damage", 5, Ability_type.Damage, 1, 10);
-            abilities[2] = new ability(10, "Light Healing", 10, Ability_type.Healing, 10, 2);
-            abilities[3] = new ability(40, "Heavy Healing", 2, Ability_type.Healing, 1, 10);
+            abilities[0] = new ability(10, "Light Damage", 20, Ability_type.Damage, 10, 2, 5);
+            abilities[1] = new ability(30, "Heavy Damage", 5, Ability_type.Damage, 1, 10, 5);
+            abilities[2] = new ability(10, "Light Healing", 10, Ability_type.Healing, 10, 2, 0);
+            abilities[3] = new ability(40, "Heavy Healing", 2, Ability_type.Healing, 1, 10, 0);
         }
 
-        public void takedamage(ability recived_ability, bool critical)
+        public success_status takedamage(ability recived_ability, bool critical)
         {
             // this function is so that any resistances can go in here
             // rather than having to be dealt with in other places
 
+            bool dodge = false;
 
             // if this is a damage ability do damage
             if (recived_ability.ability_Type == Ability_type.Damage)
@@ -56,12 +61,27 @@ namespace GameWIndowTest1
                     damage_to_do += recived_ability.critical_hit_bonus;
                 }
 
+                Random rnd = new Random();
+
+                // if the dodge is successfull
+                if (rnd.Next(0,101) <= dodge_percentage)
+                {
+                    // reduce the damage by the damage reduction ammount
+
+                    // this is -= not *= as *= would make 40 reduce the damage by 60% not 40% 
+                    damage_to_do -= (damage_to_do * (dodge_reduction_percentage/100));
+                    dodge = true;
+                    MessageBox.Show($"Dodged reducing damage by {damage_to_do} {(damage_to_do * dodge_reduction_percentage/100)}");
+                }
+
                 // reduce the times  this ability can be used by one
                 recived_ability.uses_remaining--;
 
                 // reduce this characters health  by the damage of the ability
                 health -= damage_to_do;
             }
+            // return dodge if they dodged so that the log can show the correct thing
+            return (dodge) ? success_status.Dodge : success_status.Success;
         }
 
         public void heal(ability recived_ability, bool critical)
@@ -113,7 +133,7 @@ namespace GameWIndowTest1
 
             // this is the default ability
             // and should only be used actually if no other ability remains
-            ability current_ability = new ability(1, "Default Ability", 1, Ability_type.Damage, 0, 0);
+            ability current_ability = new ability(1, "Default Ability", 1, Ability_type.Damage, 0, 0, 0);
 
             // if the character is low enough health to need healing
             if (health <= ((critical_health_percentage * max_health)/100))

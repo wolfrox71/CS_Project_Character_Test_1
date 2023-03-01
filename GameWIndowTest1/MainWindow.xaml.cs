@@ -219,7 +219,13 @@ namespace GameWIndowTest1
 
             Random rnd = new Random();
             // if the value is a critical hit 
-            bool critical_hit = rnd.Next(0, 100) <= ability.critical_hit_percentage;
+            bool critical_hit = rnd.Next(0, 101) <= ability.critical_hit_percentage;
+
+            if (rnd.Next(0, 101) <= ability.missing_percentage)
+            {
+                InfoBox.Text = $"Attack missed on {target.name}";
+                return;
+            }
 
             InfoBox.Text = $"Damaging {target.name} for {ability.ammount}";
             InfoBox.Text += $"\n{target.name} has {target.health}";
@@ -229,7 +235,13 @@ namespace GameWIndowTest1
                 InfoBox.Text += $"\nCritical Hit for {ability.critical_hit_bonus} more damage";
             }
 
-            target.takedamage(ability, critical_hit);
+
+
+            // if the target dodged the attack
+            if (target.takedamage(ability, critical_hit) == success_status.Dodge)
+            {
+                InfoBox.Text += $"\n{target.name} dodged the attack";
+            }
             InfoBox.Text += $"\n{target.name} now has {target.health}";
 
 
@@ -247,7 +259,7 @@ namespace GameWIndowTest1
 
             Random rnd = new Random();
             // if the value is a critical hit 
-            bool critical_hit = rnd.Next(0, 100) <= ability.critical_hit_percentage;
+            bool critical_hit = rnd.Next(0, 101) <= ability.critical_hit_percentage;
 
 
             InfoBox.Text = $"Healing {target.name} for {ability.ammount}";
