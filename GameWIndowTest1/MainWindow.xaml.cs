@@ -73,6 +73,19 @@ namespace GameWIndowTest1
             round(); // start a round to init the block
         }
 
+        public void goto_winner_screen()
+        {   
+            // open the winners screen
+            // and pass through the current winning character
+            // Remaing_Enemy.Count == 0 will pass through true if you won and 
+            // false if you lost
+            Winner_Screen winner_screen = new Winner_Screen(Remaining_Enemy.Count() == 0);
+            // show the winners screen
+            winner_screen.Show();
+            // and close this screen
+            this.Close();
+        }
+
         public void round()
         {
             round_count++;
@@ -80,15 +93,8 @@ namespace GameWIndowTest1
             // if only one character is alive
             if (Remaining_Friendly.Count() == 0 || Remaining_Enemy.Count() == 0)
             {
-                // open the winners screen
-                // and pass through the current winning character
-                // Remaing_Enemy.Count == 0 will pass through true if you won and 
-                // false if you lost
-                Winner_Screen winner_screen = new Winner_Screen(Remaining_Enemy.Count() == 0);
-                // show the winners screen
-                winner_screen.Show();
-                // and close this screen
-                this.Close();
+                goto_winner_screen();
+                return;
             }
 
             // if the radio button is on a dead character, move it
@@ -107,47 +113,85 @@ namespace GameWIndowTest1
             }
             set_identifiers_colour();
             set_abilities_icons();
+            set_buttons_avalablity();
 
             round_complete = false;
             death_in_round = false;
             // if the current character is an enemy do their round now
             if (!characters[characterID].Friendly)
             {
-                Thread.Sleep(1000);
-
                 // do the enemys round
                 do_enemy_round();
-
-                // wait 1s then move to the next so that you can read what happened
-                Thread.Sleep(1000);
 
             }
         }
 
-        public void do_enemy_round()
+        public void set_buttons_avalablity()
         {
+            List<Button> abilities = new List<Button> { Ability_1_button, Ability_2_button, Ability_3_button, Ability_4_button };
+
+            character current_character = characters[characterID];
+
+            // disables all buttons on an enemies turn
+            if (Remaining_Enemy.Contains(current_character))
+            {
+                foreach(Button button in abilities)
+                {
+                    button.IsEnabled = false;
+                }
+                return;
+            }
+            // the character is a friendly character
+            for (int i = 0; i < current_character.abilities.Count(); i++)
+            {
+                ability current_ability = current_character.abilities[i];
+                // if no uses remaining then disable this ability
+                if (current_ability.uses_remaining <= 0 )
+                {
+                    // disable the ability if it has no uses left
+                    abilities[i].IsEnabled = false;
+                    continue;
+                }
+                // if it has uses left enable it
+                abilities[i].IsEnabled = true;
+                continue;
+            }
+        }
+
+        public void do_enemy_round(int delay = 1000)
+        {
+            Thread.Sleep(delay);
+
             character current_character = characters[characterID];
             // get the picked ability by getting the current characters best ability and using that index in their abilities
             ability picked_ability = current_character.abilities[current_character.pick_ability_id()];
 
-            character target = Remaining_Friendly[0];
-
-            InfoBox.Text = $"{target.name} has {target.health}";
-            target.takedamage(picked_ability);
-            InfoBox.Text += $"\n{target.name} now has {target.health}";
-
-
-            // if the target died from that
-            if (target.health <= 0)
+            if (Remaining_Friendly.Count() <= 0)
             {
-                int target_index = characters.IndexOf(target);
-                deal_with_dead(target_index);
+                goto_winner_screen();
             }
-            MessageBox.Show("Enemy round ended");
+            else
+            {
+                var a = Remaining_Friendly;
+                character target = Remaining_Friendly[0];
+                Heading_Info_Box.Text = current_character.name;
+                InfoBox.Text = $"{target.name} has {target.health}";
+                target.takedamage(picked_ability);
+                InfoBox.Text += $"\n{target.name} now has {target.health}";
 
 
-            round();
-            return;
+                // if the target died from that
+                if (target.health <= 0)
+                {
+                    int target_index = characters.IndexOf(target);
+                    deal_with_dead(target_index);
+                }
+                // wait 1s then move to the next so that you can read what happened
+                Thread.Sleep(delay);
+
+                round();
+                return;
+            }
         }
 
         public void deal_with_dead(int index)
