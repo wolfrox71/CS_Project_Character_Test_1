@@ -127,7 +127,7 @@ namespace GameWIndowTest1
                 characterID = (characterID + 1) % characters.Count();
             }
             set_identifiers_colour();
-            set_abilities_icons();
+            //set_abilities_icons();
             set_buttons_avalablity();
 
             round_complete = false;
@@ -341,7 +341,7 @@ namespace GameWIndowTest1
         public void set_abilities_icons()
         {
             List<Button> abilities = new List<Button> { Ability_1_button, Ability_2_button, Ability_3_button, Ability_4_button };
-            List<Image> images = new List<Image> { Ability_1_button_image, Ability_2_button_image, Ability_3_button_image, Ability_4_button_image };
+            //List<Image> images = new List<Image> { Ability_1_button_image, Ability_2_button_image, Ability_3_button_image, Ability_4_button_image };
             if (round_complete)
             {
                 round();
@@ -355,9 +355,9 @@ namespace GameWIndowTest1
                 int ability_index = Int32.Parse(ability.Tag.ToString().Remove(0, 7)) - 1;
                 string ability_name = characters[characterID].abilities[ability_index].name; //get the name of that ability
 
-                Image img = images[ability_index];
+                //Image img = images[ability_index];
                 string uri = @"\Resources\Ability_Icons\Ability_" + $"{ability_name.ToUpper()}.png";
-                img.Source = new BitmapImage(new Uri(uri, UriKind.Relative));
+                //img.Source = new BitmapImage(new Uri(uri, UriKind.Relative));
             }
         }
         private void Show_Character_Click(object sender, RoutedEventArgs e)

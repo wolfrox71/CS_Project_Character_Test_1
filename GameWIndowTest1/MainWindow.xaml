@@ -145,17 +145,21 @@
 
         <TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Text="Target"/>
 
-        <Button Name="Ability_1_button" Grid.Column="1" Grid.Row="5" Tag="Ability 1" Click="Ability_Click">
-            <Image x:Name="Ability_1_button_image"/>
+        <Button Name="Ability_1_button" FontSize="11" Grid.Column="1" Grid.Row="5" Tag="Ability 1" Click="Ability_Click">
+            Light Damage
+            <!--<Image x:Name="Ability_1_button_image"/>-->
         </Button>
-        <Button Name="Ability_2_button" Grid.Column="3" Grid.Row="5" Tag="Ability 2" Click="Ability_Click">
-            <Image x:Name="Ability_2_button_image"/>
+        <Button Name="Ability_2_button" FontSize="11" Grid.Column="3" Grid.Row="5" Tag="Ability 2" Click="Ability_Click">
+            Heavy Damage
+            <!--<Image x:Name="Ability_2_button_image"/>-->
         </Button>
-        <Button Name="Ability_3_button" Grid.Column="5" Grid.Row="5" Tag="Ability 3" Click="Ability_Click">
-            <Image x:Name="Ability_3_button_image"/>
+        <Button Name="Ability_3_button" FontSize="11" Grid.Column="5" Grid.Row="5" Tag="Ability 3" Click="Ability_Click">
+            Light Healing
+            <!--<Image x:Name="Ability_3_button_image"/>-->
         </Button>
-        <Button Name="Ability_4_button" Grid.Column="7" Grid.Row="5" Tag="Ability 4" Click="Ability_Click">
-            <Image x:Name="Ability_4_button_image"/>
+        <Button Name="Ability_4_button" FontSize="11" Grid.Column="7" Grid.Row="5" Tag="Ability 4" Click="Ability_Click">
+            Heavy Healing
+            <!--<Image x:Name="Ability_4_button_image"/>-->
         </Button>
 
     </Grid>
