@@ -27,7 +27,8 @@ namespace GameWIndowTest1
 
         public void takedamage(ability recived_ability)
         {
-            // this function is so that any resistances can go in here rather than having to be dealt with in other places
+            // this function is so that any resistances can go in here
+            // rather than having to be dealt with in other places
 
             // reduce the times  this ability can be used by one
             recived_ability.uses_remaining--;

@@ -173,9 +173,10 @@ namespace GameWIndowTest1
             }
         }
 
-        public void do_enemy_round(int delay = 1000)
+        public async void do_enemy_round(int delay = 1000)
         {
-            Task.Delay(delay).Wait();
+            await Task.Delay(delay); // from https://stackoverflow.com/questions/15599884/how-to-put-delay-before-doing-an-operation-in-wpf 
+            // wait for delay ms (currently 1s) before continueing
             //MessageBox.Show("Start Round");
             character current_character = characters[characterID];
             // get the picked ability by getting the current characters best ability and using that index in their abilities
@@ -207,7 +208,7 @@ namespace GameWIndowTest1
                 Thread.Sleep(delay);
                 */
 
-                Task.Delay(delay).Wait();
+                await Task.Delay(delay);
                 //MessageBox.Show("Round End");
                 round();
                 return;
