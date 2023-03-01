@@ -36,10 +36,10 @@ namespace GameWIndowTest1
         bool death_in_round = false;
         List<Rectangle> identifiers; // the identifier rectangles above the characters to show whos go it is
         List<character> characters = new List<character>{
-            new character(10, "Character1", true),
-            new character(20, "Character2", true),
-            new character(30, "Character3", false) ,
-            new character(40, "Character4", false) };
+            new character(40, "Character1", true),
+            new character(30, "Character2", true),
+            new character(20, "Character3", false) ,
+            new character(10, "Character4", false) };
         List<(character, Rectangle, Rectangle, RadioButton, int)> dead = new List<(character, Rectangle, Rectangle, RadioButton, int)>();
         List<RadioButton> radioButtons;
 

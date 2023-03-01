@@ -21,7 +21,7 @@ namespace GameWIndowTest1
                 Random rnd = new Random();
                 int val = rnd.Next(0, 26);
                 // times an ability can be used is 26-the damage it does for now
-                abilities[i] = new ability(val, alphabet[val].ToString(), 1);
+                abilities[i] = new ability(val, alphabet[val].ToString(), 26-val);
             }
         }
 
