@@ -34,12 +34,13 @@ namespace GameWIndowTest1
         int characterID = -1;
         bool round_complete;
         bool death_in_round = false;
+        int dead_index = -1;
         List<Rectangle> identifiers; // the identifier rectangles above the characters to show whos go it is
         List<character> characters = new List<character>{
             new character(40, "Character1", true),
-            new character(30, "Character2", true),
-            new character(20, "Character3", false) ,
-            new character(10, "Character4", false) };
+            new character(40, "Character2", true),
+            new character(40, "Character3", false) ,
+            new character(40, "Character4", false) };
         List<(character, Rectangle, Rectangle, RadioButton, int)> dead = new List<(character, Rectangle, Rectangle, RadioButton, int)>();
         List<RadioButton> radioButtons;
 
@@ -102,7 +103,21 @@ namespace GameWIndowTest1
             if (death_in_round)
             {
                 set_next_nondead_radiobutton();
-                characterID = characterID % (characters.Count());
+
+                // if the character died later in the order list
+                if (dead_index > characterID)
+                {
+                    // move to the next character
+                    characterID = (characterID +1 )% (characters.Count());
+                }
+                // if the character was before then all the character id
+                // have moved left 1 so the new id
+                // is in the same poistion for the next character
+                else
+                {
+                    // so just make sure it wasnt the last character
+                    characterID = characterID % (characters.Count());
+                }
             }
             // if no character dies that round move to the next index position
             // characters are removed when a character dies so the index position moved anyway
@@ -160,8 +175,8 @@ namespace GameWIndowTest1
 
         public void do_enemy_round(int delay = 1000)
         {
-            Thread.Sleep(delay);
-
+            Task.Delay(delay).Wait();
+            //MessageBox.Show("Start Round");
             character current_character = characters[characterID];
             // get the picked ability by getting the current characters best ability and using that index in their abilities
             ability picked_ability = current_character.abilities[current_character.pick_ability_id()];
@@ -186,9 +201,14 @@ namespace GameWIndowTest1
                     int target_index = characters.IndexOf(target);
                     deal_with_dead(target_index);
                 }
+
+                /*
                 // wait 1s then move to the next so that you can read what happened
                 Thread.Sleep(delay);
+                */
 
+                Task.Delay(delay).Wait();
+                //MessageBox.Show("Round End");
                 round();
                 return;
             }
@@ -200,6 +220,7 @@ namespace GameWIndowTest1
 
             // indicate that a character has dies this round
             death_in_round = true;
+            dead_index = index;
 
             Rectangle target_rectangle = this.FindName(target.name) as Rectangle;
             Rectangle identifier_rectangle = identifiers[index];
@@ -361,7 +382,7 @@ namespace GameWIndowTest1
 
                 case "List Abilities":
                     list_abilities(current_character);
-                    break;
+                    return;
 
                 case "Show Character Details":
                     show_character_details(current_character);
