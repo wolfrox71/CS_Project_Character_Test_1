@@ -30,7 +30,7 @@ namespace GameWIndowTest1
             List<character> dead_characters = new List<character>();
 
             //MainWindow game_Window = new MainWindow(friendly_characters, dead_characters, 0);
-            out_of_combat game_Window = new out_of_combat(1,5, friendly_characters, dead_characters);
+            out_of_combat game_Window = new out_of_combat(1,5, friendly_characters);
             game_Window.Show();
             this.Close();
         }

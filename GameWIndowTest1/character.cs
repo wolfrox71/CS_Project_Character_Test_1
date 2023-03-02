@@ -16,7 +16,7 @@ namespace GameWIndowTest1
         public string name;
         public ability[] abilities = new ability[4];
 
-        public bool dead { get { return health <= 0; } }
+        public bool IsDead { get { return health <= 0; } }
 
         bool dodging_enabled = true;
 
@@ -130,6 +130,7 @@ namespace GameWIndowTest1
                 }
             }
         }
+
 
         public void heal(int ammount)
         {
