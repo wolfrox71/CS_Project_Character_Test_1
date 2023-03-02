@@ -41,12 +41,13 @@ namespace GameWIndowTest1
         bool missing_enabled = true;
         bool critical_hit_enabled = true;
 
+        int number_of_alive_friendly = 0;
+        int number_of_alive_enemies = 0;
+
         List<Rectangle> identifiers; // the identifier rectangles above the characters to show whos go it is
         List<character> characters = new List<character>();
         List<(character, Rectangle, Rectangle, RadioButton, int)> dead = new List<(character, Rectangle, Rectangle, RadioButton, int)>();
         List<RadioButton> radioButtons;
-
-        List<character> dead_friendly;
 
         List<character> Remaining_Friendly;
         List<character> Remaining_Enemy = new List<character> {
@@ -57,7 +58,7 @@ namespace GameWIndowTest1
         int wave_number;
         int max_number_of_waves;
 
-        public MainWindow(List<character> passed_in_friendly, List<character> passed_in_dead_friendly, int wave_id, int max_waves = 5)
+        public MainWindow(List<character> passed_in_friendly, int wave_id, int max_waves = 5)
         {
             wave_number = wave_id;
             max_number_of_waves = max_waves;
@@ -66,29 +67,27 @@ namespace GameWIndowTest1
 
             // pass in the friendlys from the setup game screen
             Remaining_Friendly = passed_in_friendly;
-            dead_friendly = passed_in_dead_friendly;
-
 
             foreach (character _f in Remaining_Friendly) { characters.Add(_f); } // add all the friendly characters to the list of characters
-            foreach (character _f in dead_friendly) { characters.Add(_f); } // all of the dead friendly characters
             foreach (character _e in Remaining_Enemy) { characters.Add(_e); } // add all the enemy characters to the list of characters
 
             identifiers = new List<Rectangle> { Character1_Identifier, Character2_Identifier, Character3_Identifier, Character4_Identifier };
             radioButtons = new List<RadioButton> { RB_Character1, RB_Character2, RB_Character3, RB_Character4 };
 
-            setup_dead_characters(dead_friendly);
+            number_of_alive_enemies = Remaining_Enemy.Count();
+            number_of_alive_friendly = Remaining_Friendly.Count();
+
+            setup_dead_characters();
+
+
             show_character_details(characters[0]);
             round(); // start a round to init the block
         }
 
-        public void setup_dead_characters(List<character> _dead)
+        public void setup_dead_characters()
         {
-            foreach (character _d in _dead)
-            {
-                int index = characters.IndexOf(_d);
-                MessageBox.Show($"{index}");
-                deal_with_dead(index);
-            }
+            // go through each character and see if they are already dead
+            for (int index = 0; index < characters.Count; index++) { deal_with_dead(index); }
         }
 
         public void goto_winner_screen()
@@ -102,11 +101,11 @@ namespace GameWIndowTest1
 
             // if enough waves of enemies have been faced
             // or no friendly characters remain
-            if (wave_number > max_number_of_waves || Remaining_Friendly.Count() == 0)
+            if (wave_number > max_number_of_waves || number_of_alive_friendly == 0)
             {
                 //MessageBox.Show($"RC {wave_number} {max_number_of_waves}")
                 // go to the winning scren
-                Winner_Screen winner_screen = new Winner_Screen(Remaining_Enemy.Count() == 0);
+                Winner_Screen winner_screen = new Winner_Screen(number_of_alive_enemies == 0);
                 // show the winners screen
                 winner_screen.Show();
                 // and close this screen
@@ -116,7 +115,7 @@ namespace GameWIndowTest1
             else
             {
                 // if not go to the out of combat screen
-                out_of_combat out_of_combat_screen = new out_of_combat(wave_number, max_number_of_waves, Remaining_Friendly, dead_friendly);
+                out_of_combat out_of_combat_screen = new out_of_combat(wave_number, max_number_of_waves, Remaining_Friendly);
                 out_of_combat_screen.Show();
                 this.Close();
             }
@@ -127,46 +126,32 @@ namespace GameWIndowTest1
             round_count++;
 
             // if only one character is alive
-            if (Remaining_Friendly.Count() == 0 || Remaining_Enemy.Count() == 0)
+            if (number_of_alive_friendly == 0 || number_of_alive_enemies == 0)
             {
                 goto_winner_screen();
                 return;
             }
 
             // if the radio button is on a dead character, move it
-            // and only check is a character died otherwise it wont be
+            // and only check is a character died otherwise it wont 
+
+            // go to the next non dead character 
+            do
+            {
+                characterID = (characterID + 1) % characters.Count();
+            } while (characters[characterID].IsDead);
+
+
             if (death_in_round)
             {
                 set_next_nondead_radiobutton();
+            }
 
-                // if the character died later in the order list
-                if (dead_index > characterID)
-                {
-                    // move to the next character
-                    characterID = (characterID +1 )% (characters.Count());
-                }
-                // if the character was before then all the character id
-                // have moved left 1 so the new id
-                // is in the same poistion for the next character
-                else
-                {
-                    // so just make sure it wasnt the last character
-                    characterID = characterID % (characters.Count());
-                }
-            }
-            // if no character dies that round move to the next index position
-            // characters are removed when a character dies so the index position moved anyway
-            if (!death_in_round)
-            {
-                // update the characterID and loop with the number of characters
-                characterID = (characterID + 1) % characters.Count();
-            }
-            
             set_identifiers_colour();
             //set_abilities_icons();
             set_abilities_names();
-            // this enables and disables buttons
 
+            // this enables and disables buttons
             enable_buttons();
             //set_buttons_avalablity();
 
@@ -205,7 +190,7 @@ namespace GameWIndowTest1
             // get the picked ability by getting the current characters best ability and using that index in their abilities
             ability picked_ability = current_character.pick_ability();
 
-            if (Remaining_Friendly.Count() <= 0)
+            if (number_of_alive_friendly <= 0)
             {
                 goto_winner_screen();
             }
@@ -214,9 +199,15 @@ namespace GameWIndowTest1
                 // if the current move is a damage move
                 if (picked_ability.ability_Type == Ability_type.Damage)
                 {
-                    // pick the first friendly character
+                    int index = 0;
                     character target = Remaining_Friendly[0];
-                    // and do damage to them 
+                    do
+                    {
+                        // pick the first non dead friendly character
+                        target = Remaining_Friendly[index];
+                        index++;
+                    } while (target.IsDead && index <= Remaining_Friendly.Count());
+                        // and do damage to them 
                     use_damage_ability(target, picked_ability);
                 }
 
@@ -313,9 +304,21 @@ namespace GameWIndowTest1
         {
             character target = characters[index];
 
+            // if the target is not dead, return from this function
+            if (!target.IsDead) { return; }
+
             // indicate that a character has dies this round
             death_in_round = true;
             dead_index = index;
+
+            if (target.Friendly)
+            {
+                number_of_alive_friendly--;
+            }
+            else
+            {
+                number_of_alive_enemies--;
+            }
 
             Rectangle target_rectangle = this.FindName(target.name) as Rectangle;
             Rectangle identifier_rectangle = identifiers[index];
@@ -327,60 +330,11 @@ namespace GameWIndowTest1
 
             // disable the target's radio button so that it does not keep getting targeted
             target_rb.IsEnabled = false;
-
-
-            if (target.Friendly)
-            {
-                // if the target that died was a friendly
-                // removee them from the list of alive friendlies
-                Remaining_Friendly.Remove(target);
-
-                // add the target to the list of dead friendlies
-                dead_friendly.Add(target);
-            }
-            else
-            {
-                // if the target that died was an enemy,
-                // remove them from the list of alive enemies
-                Remaining_Enemy.Remove(target);
-            }
-
-            // add the properties of the removed items to an array of dead atributes for use later if needed
-            dead.Append((target, target_rectangle, identifier_rectangle, target_rb, index));
-
-
-            // remove the character and identifiers so they dont get used again
-            characters.Remove(target); // remove the target from the list of characters
-            identifiers.RemoveAt(index); // remove the identifier from the list of identifiers
-            radioButtons.Remove(target_rb);
         }
 
         public void set_next_nondead_radiobutton()
         {
-            // set the first still alive radiobutton to be checked
-            radioButtons[0].IsChecked = true;
-            /*
-            // if the current radio button is for a dead character
-            if (radioButtons[characterID].IsEnabled == false)
-            {
-                // uncheck this radio button
-                radioButtons[characterID].IsChecked = false;
-                // go through each radiobutton
-                foreach (RadioButton rb in radioButtons)
-                {
-                    // and check if the owner of that radiobutton is still alive
-                    if(rb.IsEnabled == true)
-                    {
-                        //and if so set it to that one
-                        // as it is the first radio button for a still alive character
-                        rb.IsChecked = true;
-                        // return out of the loop as an alive radio button has been found
-                        return;
-                    }
-                }
-            }
-            return;
-            */
+            radioButtons[characterID].IsChecked = true;
         }
 
         public void set_identifiers_colour()
@@ -391,11 +345,13 @@ namespace GameWIndowTest1
                 return;
             }
             // set the colours of all identifiers to Black, (off colour)
-            foreach (var identifier in identifiers)
+            for (int index = 0; index < identifiers.Count; index++)
             {
-                identifier.Fill = Brushes.Black;
+                Rectangle identifier = identifiers[index];
+                character current = characters[index];
+                identifier.Fill = (current.IsDead) ? Brushes.DarkGray : Brushes.Black;
             }
-            // get the identifer of the current character to Red, (on colour)
+            // get the identifier of the current character to Red, (on colour)
             identifiers[characterID].Fill = Brushes.Red;
         }
 
