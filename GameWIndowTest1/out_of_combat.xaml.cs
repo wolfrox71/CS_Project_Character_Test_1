@@ -27,6 +27,7 @@ namespace GameWIndowTest1
 
         int heal_ammount = 10;
         int heal_uses = 5;
+        int revive_uses = 1; 
 
         int selected_index = 0;
         public out_of_combat(int round_number, int max_number_of_rounds, List<character> friendly_characters)
@@ -56,6 +57,17 @@ namespace GameWIndowTest1
                 Healing_Button.IsEnabled = true;
             }
 
+            if (_current.IsDead)
+            {
+                Revive_Button.IsEnabled = true;
+            }
+            else
+            {
+                Revive_Button.IsEnabled = false;
+            }
+
+
+
             for (int index = 0; index<_characters.Count; index++)
             {
                 character current = _characters[index];
@@ -65,6 +77,10 @@ namespace GameWIndowTest1
                 if (current.IsDead)
                 {
                     block.Foreground = Brushes.Red;
+                }
+                else
+                {
+                    block.Foreground = Brushes.Black;
                 }
             }
         }
@@ -108,6 +124,29 @@ namespace GameWIndowTest1
             {
                 // disable the healing button as it has run out of uses
                 Healing_Button.IsEnabled = false;
+            }
+            set_character_details();
+        }
+        private void Revive_Button_Click(object sender, RoutedEventArgs e)
+        {
+            character current = _characters[selected_index];
+            Mid_Block.Text = $"{current.name} had {current.health}";
+
+            // if the current it not dead
+            if (!current.IsDead)
+            {
+                return;
+            }
+
+            current.revive();
+
+            revive_uses--;
+
+            Mid_Block.Text += $"\n{revive_uses} uses remaining";
+            if (heal_uses <= 0)
+            {
+                // disable the healing button as it has run out of uses
+                Revive_Button.IsEnabled = false;
             }
             set_character_details();
         }

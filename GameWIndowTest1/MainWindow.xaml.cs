@@ -89,7 +89,7 @@ namespace GameWIndowTest1
             // go through each character and see if they are already dead
             for (int index = 0; index < characters.Count; index++) { deal_with_dead(index); }
         }
-
+        
         public void goto_winner_screen()
         {
             // open the winners screen

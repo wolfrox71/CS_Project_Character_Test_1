@@ -14,6 +14,9 @@ namespace GameWIndowTest1
         public int health { get; protected set; }
         public int max_health { get; protected set; }
         public string name;
+
+        int revive_health_percentage = 50;
+
         public ability[] abilities = new ability[4];
 
         public bool IsDead { get { return health <= 0; } }
@@ -147,6 +150,15 @@ namespace GameWIndowTest1
             }
         }
 
+
+        public void revive()
+        {
+            if (IsDead)
+            {
+                // set health to a percentage of max health
+                health = (revive_health_percentage * max_health) / 100;
+            }
+        }
 
         public character(int _max_health, string _name, bool friendly)
         {
