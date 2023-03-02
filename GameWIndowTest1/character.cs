@@ -16,6 +16,8 @@ namespace GameWIndowTest1
         public string name;
         public ability[] abilities = new ability[4];
 
+        bool dodging_enabled = true;
+
         public int dodge_percentage = 10;
         public int dodge_reduction_percentage = 50; // how much damage gets reduced by if the dodge is successful
         
@@ -66,7 +68,7 @@ namespace GameWIndowTest1
                 Random rnd = new Random();
 
                 // if the dodge is successfull
-                if (rnd.Next(0,101) <= dodge_percentage)
+                if (rnd.Next(0,101) <= dodge_percentage && dodging_enabled)
                 {
                     // reduce the damage by the damage reduction ammount
 

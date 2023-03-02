@@ -38,6 +38,8 @@ namespace GameWIndowTest1
 
         bool can_team_damage = false;
         bool can_heal_enemies = false;
+        bool missing_enabled = true;
+        bool critical_hit_enabled = true;
 
         List<Rectangle> identifiers; // the identifier rectangles above the characters to show whos go it is
         List<character> characters = new List<character>{
@@ -219,9 +221,9 @@ namespace GameWIndowTest1
 
             Random rnd = new Random();
             // if the value is a critical hit 
-            bool critical_hit = rnd.Next(0, 101) <= ability.critical_hit_percentage;
+            bool critical_hit = (rnd.Next(0, 101) <= ability.critical_hit_percentage && critical_hit_enabled);
 
-            if (rnd.Next(0, 101) <= ability.missing_percentage)
+            if (rnd.Next(0, 101) <= ability.missing_percentage && missing_enabled)
             {
                 InfoBox.Text = $"Attack missed on {target.name}";
                 return;
@@ -259,7 +261,7 @@ namespace GameWIndowTest1
 
             Random rnd = new Random();
             // if the value is a critical hit 
-            bool critical_hit = rnd.Next(0, 101) <= ability.critical_hit_percentage;
+            bool critical_hit = rnd.Next(0, 101) <= ability.critical_hit_percentage && critical_hit_enabled;
 
 
             InfoBox.Text = $"Healing {target.name} for {ability.ammount}";
