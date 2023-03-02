@@ -69,8 +69,7 @@ public partial class LoginScreen : Window
             if (userExists(username, password))
             {
                 MessageBox.Show("Data correct");
-                MainWindow mainWindow = new MainWindow();// new Global.Account(username, password));
-                mainWindow.Show();
+                SetupForGame gameSetup = new SetupForGame();// new Global.Account(username, password));
                 this.Close();
             }
             else

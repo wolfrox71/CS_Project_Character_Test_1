@@ -42,40 +42,31 @@ namespace GameWIndowTest1
         bool critical_hit_enabled = true;
 
         List<Rectangle> identifiers; // the identifier rectangles above the characters to show whos go it is
-        List<character> characters = new List<character>{
-            new character(40, "Character1", true),
-            new character(40, "Character2", true),
-            new character(40, "Character3", false) ,
-            new character(40, "Character4", false) };
+        List<character> characters = new List<character>();
         List<(character, Rectangle, Rectangle, RadioButton, int)> dead = new List<(character, Rectangle, Rectangle, RadioButton, int)>();
         List<RadioButton> radioButtons;
 
-        List<character> Remaining_Friendly = new List<character>();
-        List<character> Remaining_Enemy = new List<character>();
-        public MainWindow()
+        List<character> Remaining_Friendly;
+        List<character> Remaining_Enemy = new List<character> {
+            new character(40, "Character3", false) ,
+            new character(40, "Character4", false) 
+        };
+        public MainWindow(List<character> passed_in_friendly)
         {
             // LOOK AT VisualTreeHelper class
             // for get child/get parent
 
             InitializeComponent();
 
+            // pass in the friendlys from the setup game screen
+            Remaining_Friendly = passed_in_friendly;
+
+            foreach (character _f in Remaining_Friendly) { characters.Add(_f); } // add all the friendly characters to the list of characters
+            foreach (character _e in Remaining_Enemy) { characters.Add(_e); } // add all the enemy characters to the list of characters
+
             identifiers = new List<Rectangle> { Character1_Identifier, Character2_Identifier, Character3_Identifier, Character4_Identifier };
             radioButtons = new List<RadioButton> { RB_Character1, RB_Character2, RB_Character3, RB_Character4 };
 
-            // go through each character
-            foreach (character _char in characters)
-            {
-                // if the characer is friendly
-                if (_char.Friendly)
-                {
-                    // add them to the apropriate list
-                    Remaining_Friendly.Add(_char);
-                    continue;
-                }
-                // add them to the apropriate list
-                Remaining_Enemy.Add(_char);
-                continue;
-            }
             show_character_details(characters[0]);
             round(); // start a round to init the block
         }
