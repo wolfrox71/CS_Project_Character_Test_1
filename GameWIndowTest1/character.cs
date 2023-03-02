@@ -36,12 +36,19 @@ namespace GameWIndowTest1
             }
         }
 
-        public void init_abilities()
+        public void init_abilities_friendly()
         {
             abilities[0] = new ability(10, "Light Damage", 20, Ability_type.Damage, 10, 2, 5);
             abilities[1] = new ability(30, "Heavy Damage", 5, Ability_type.Damage, 1, 10, 5);
             abilities[2] = new ability(10, "Light Healing", 10, Ability_type.Healing, 10, 2, 0);
             abilities[3] = new ability(40, "Heavy Healing", 2, Ability_type.Healing, 1, 10, 0);
+        }
+        public void init_abilities_enemy()
+        {
+            abilities[0] = new ability(10, "Light Damage", 20, Ability_type.Damage, 10, 2, 5);
+            abilities[1] = new ability(25, "Medium Damage", 5, Ability_type.Damage, 5, 10, 5);
+            abilities[2] = new ability(8, "Light Healing", 10, Ability_type.Healing, 10, 2, 0);
+            abilities[3] = new ability(25, "Medium Healing", 2, Ability_type.Healing, 1, 10, 0);
         }
 
         public success_status takedamage(ability recived_ability, bool critical)
@@ -121,7 +128,15 @@ namespace GameWIndowTest1
             health = _max_health;
             name = _name;
             Friendly = friendly;
-            init_abilities();
+            if (friendly)
+            {
+                init_abilities_friendly();
+
+            }
+            else
+            {
+                init_abilities_enemy();
+            }
         }
 
         public character(int _max_health, int _name, bool friendly)
@@ -130,9 +145,17 @@ namespace GameWIndowTest1
             health = _max_health;
             name = _name.ToString();
             Friendly = friendly;
-            init_abilities();
-        }
+            if (friendly)
+            {
+                init_abilities_friendly();
 
+            }
+            else
+            {
+                init_abilities_enemy();
+            }
+
+        }
         public ability pick_ability()
         {
 
