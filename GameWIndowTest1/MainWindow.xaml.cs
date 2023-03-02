@@ -105,7 +105,7 @@ namespace GameWIndowTest1
             {
                 //MessageBox.Show($"RC {wave_number} {max_number_of_waves}")
                 // go to the winning scren
-                Winner_Screen winner_screen = new Winner_Screen(number_of_alive_friendly == 0);
+                Winner_Screen winner_screen = new Winner_Screen(number_of_alive_enemies == 0);
                 // show the winners screen
                 winner_screen.Show();
                 // and close this screen
@@ -205,7 +205,8 @@ namespace GameWIndowTest1
                     {
                         // pick the first non dead friendly character
                         target = Remaining_Friendly[index];
-                    } while (target.IsDead);
+                        index++;
+                    } while (target.IsDead && index <= Remaining_Friendly.Count());
                         // and do damage to them 
                     use_damage_ability(target, picked_ability);
                 }
