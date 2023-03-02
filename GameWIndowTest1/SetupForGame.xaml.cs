@@ -19,6 +19,7 @@ namespace GameWIndowTest1
     /// </summary>
     public partial class SetupForGame : Window
     {
+
         public SetupForGame()
         {
             InitializeComponent();
@@ -26,7 +27,10 @@ namespace GameWIndowTest1
                 new character(40, "Character1", true),
                 new character(40, "Character2", true)
             };
-            MainWindow game_Window = new MainWindow(friendly_characters);
+            List<character> dead_characters = new List<character>();
+
+            //MainWindow game_Window = new MainWindow(friendly_characters, dead_characters, 0);
+            out_of_combat game_Window = new out_of_combat(1,5, friendly_characters, dead_characters);
             game_Window.Show();
             this.Close();
         }

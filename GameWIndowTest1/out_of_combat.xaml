@@ -1,0 +1,47 @@
+﻿<Window x:Class="GameWIndowTest1.out_of_combat"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GameWIndowTest1"
+        mc:Ignorable="d"
+        Title="out_of_combat" Height="450" Width="800">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height ="8*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+        <!-- Next fight Button -->
+        <Button Grid.Column="3" Grid.Row="4" Content="Go To Next Fight" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="200" Click="Next_fight"/>
+        <!-- Heal Button-->
+        <Button Name="Healing_Button" Grid.Column="1" Grid.Row="4" Content="Heal" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="200" Click="Heal_Button"/>
+
+        <!-- Character 1-->
+        <TextBlock Grid.Row="2" Grid.Column="1" Name="Character_1_Block" HorizontalAlignment="Center"/>
+        
+        <!-- Mid Box-->
+        <TextBlock Grid.Row="2" Grid.Column="3" Name="Mid_Block" HorizontalAlignment="Center"/>
+
+        <!-- Character 2-->
+        <TextBlock Grid.Row="2" Grid.Column="5" Name="Character_2_Block" HorizontalAlignment="Center"/>
+        
+        <!-- RadioButtons-->
+        <RadioButton Grid.Row="3" Grid.Column="1" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character1" IsChecked="True" Checked="Radio_Changed"/>
+        <RadioButton Grid.Row="3" Grid.Column="5" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character2" Checked="Radio_Changed"/>
+    </Grid>
+</Window>

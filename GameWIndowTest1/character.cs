@@ -16,6 +16,8 @@ namespace GameWIndowTest1
         public string name;
         public ability[] abilities = new ability[4];
 
+        public bool dead { get { return health <= 0; } }
+
         bool dodging_enabled = true;
 
         public int dodge_percentage = 10;
@@ -96,6 +98,13 @@ namespace GameWIndowTest1
             return (dodge) ? success_status.Dodge : success_status.Success;
         }
 
+        public void takedamage(int ammount)
+        {
+            // take the ammount of damage specified
+            health -= ammount;
+        }
+
+
         public void heal(ability recived_ability, bool critical)
         {
             // if this is a healing ability
@@ -121,6 +130,22 @@ namespace GameWIndowTest1
                 }
             }
         }
+
+        public void heal(int ammount)
+        {
+            int ammount_to_heal = ammount;
+
+            // heal by the ammount the ability
+            health += ammount_to_heal;
+
+            // if the health is more than the max health
+            if (health > max_health)
+            {
+                // set the health to be the max value it can be
+                health = max_health;
+            }
+        }
+
 
         public character(int _max_health, string _name, bool friendly)
         {

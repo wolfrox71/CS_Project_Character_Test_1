@@ -46,42 +46,80 @@ namespace GameWIndowTest1
         List<(character, Rectangle, Rectangle, RadioButton, int)> dead = new List<(character, Rectangle, Rectangle, RadioButton, int)>();
         List<RadioButton> radioButtons;
 
+        List<character> dead_friendly;
+
         List<character> Remaining_Friendly;
         List<character> Remaining_Enemy = new List<character> {
             new character(40, "Character3", false) ,
             new character(40, "Character4", false) 
         };
-        public MainWindow(List<character> passed_in_friendly)
+        // these are for how many waves of enemies do you fight
+        int wave_number;
+        int max_number_of_waves;
+
+        public MainWindow(List<character> passed_in_friendly, List<character> passed_in_dead_friendly, int wave_id, int max_waves = 5)
         {
-            // LOOK AT VisualTreeHelper class
-            // for get child/get parent
+            wave_number = wave_id;
+            max_number_of_waves = max_waves;
 
             InitializeComponent();
 
             // pass in the friendlys from the setup game screen
             Remaining_Friendly = passed_in_friendly;
+            dead_friendly = passed_in_dead_friendly;
+
 
             foreach (character _f in Remaining_Friendly) { characters.Add(_f); } // add all the friendly characters to the list of characters
+            foreach (character _f in dead_friendly) { characters.Add(_f); } // all of the dead friendly characters
             foreach (character _e in Remaining_Enemy) { characters.Add(_e); } // add all the enemy characters to the list of characters
 
             identifiers = new List<Rectangle> { Character1_Identifier, Character2_Identifier, Character3_Identifier, Character4_Identifier };
             radioButtons = new List<RadioButton> { RB_Character1, RB_Character2, RB_Character3, RB_Character4 };
 
+            setup_dead_characters(dead_friendly);
             show_character_details(characters[0]);
             round(); // start a round to init the block
         }
 
+        public void setup_dead_characters(List<character> _dead)
+        {
+            foreach (character _d in _dead)
+            {
+                int index = characters.IndexOf(_d);
+                MessageBox.Show($"{index}");
+                deal_with_dead(index);
+            }
+        }
+
         public void goto_winner_screen()
-        {   
+        {
             // open the winners screen
             // and pass through the current winning character
             // Remaing_Enemy.Count == 0 will pass through true if you won and 
             // false if you lost
-            Winner_Screen winner_screen = new Winner_Screen(Remaining_Enemy.Count() == 0);
-            // show the winners screen
-            winner_screen.Show();
-            // and close this screen
-            this.Close();
+
+
+
+            // if enough waves of enemies have been faced
+            // or no friendly characters remain
+            if (wave_number > max_number_of_waves || Remaining_Friendly.Count() == 0)
+            {
+                //MessageBox.Show($"RC {wave_number} {max_number_of_waves}")
+                // go to the winning scren
+                Winner_Screen winner_screen = new Winner_Screen(Remaining_Enemy.Count() == 0);
+                // show the winners screen
+                winner_screen.Show();
+                // and close this screen
+                this.Close();
+                return;
+            }
+            else
+            {
+                // if not go to the out of combat screen
+                out_of_combat out_of_combat_screen = new out_of_combat(wave_number, max_number_of_waves, Remaining_Friendly, dead_friendly);
+                out_of_combat_screen.Show();
+                this.Close();
+            }
         }
 
         public void round()
@@ -296,6 +334,9 @@ namespace GameWIndowTest1
                 // if the target that died was a friendly
                 // removee them from the list of alive friendlies
                 Remaining_Friendly.Remove(target);
+
+                // add the target to the list of dead friendlies
+                dead_friendly.Add(target);
             }
             else
             {
@@ -306,7 +347,6 @@ namespace GameWIndowTest1
 
             // add the properties of the removed items to an array of dead atributes for use later if needed
             dead.Append((target, target_rectangle, identifier_rectangle, target_rb, index));
-
 
 
             // remove the character and identifiers so they dont get used again
