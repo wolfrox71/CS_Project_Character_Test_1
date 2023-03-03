@@ -329,5 +329,15 @@ namespace GameWIndowTest1 {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] image {
+            get {
+                object obj = ResourceManager.GetObject("image", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

@@ -199,4 +199,7 @@
   <data name="Ability_Z" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\ability_icons\ability_z.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="image" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\ability_icons\image.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

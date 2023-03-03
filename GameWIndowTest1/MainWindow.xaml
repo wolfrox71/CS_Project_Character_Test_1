@@ -37,7 +37,6 @@
             Grid.Column="1"
                    x:Name="Character1"
                    Tag="Character"
-                   Fill="Blue"
                    >
             <Rectangle.ContextMenu>
                 <ContextMenu>
@@ -52,6 +51,9 @@
                     </MenuItem>
                 </ContextMenu>
             </Rectangle.ContextMenu>
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="/Resources/Ability_Icons/image.png"/>
+            </Rectangle.Fill>
         </Rectangle>
         <Rectangle Grid.Row="1" Grid.Column="1" Name="Character1_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>
 
