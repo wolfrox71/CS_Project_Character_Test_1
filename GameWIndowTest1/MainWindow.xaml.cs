@@ -132,6 +132,44 @@ namespace GameWIndowTest1
             }
         }
 
+        public void set_health_bar()
+        {
+            List<TextBlock> healthbars = new List<TextBlock> { Rect_1_health, Rect_2_health, Rect_3_health, Rect_4_health };
+
+            for (int index = 0; index < characters.Count;index++)
+            {
+                int current_health = characters[index].health;
+                int max_health = characters[index].max_health;
+                healthbars[index].Text = $"{((current_health >= 0) ? current_health : 0)}/{max_health}";
+                // if the character is between 100% and 66% health
+                if ((current_health*100/max_health) > 66)
+                {
+                    healthbars[index].Foreground = Brushes.Green;
+                    healthbars[index].TextAlignment= TextAlignment.Center;
+                    continue;
+                }
+                // if the character is below 66% health
+                if ((current_health * 100 / max_health) > 33)
+                {
+                    healthbars[index].Foreground = Brushes.Orange;
+                    healthbars[index].TextAlignment = TextAlignment.Center;
+                    continue;
+                }
+                // if the character is below 33% health
+                if ((current_health * 100 / max_health) > 0)
+                {
+                    healthbars[index].Foreground = Brushes.Red;
+                    healthbars[index].TextAlignment = TextAlignment.Center;
+                    continue;
+                }
+                // if the character is dead
+                healthbars[index].Foreground = Brushes.Black;
+                healthbars[index].TextAlignment = TextAlignment.Center;
+                continue;
+
+            }
+        }
+
         public void round()
         {
             round_count++;
@@ -165,6 +203,8 @@ namespace GameWIndowTest1
             // this enables and disables buttons
             enable_buttons();
             //set_buttons_avalablity();
+
+            set_health_bar();
 
             round_complete = false;
             death_in_round = false;
