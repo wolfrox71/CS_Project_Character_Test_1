@@ -22,6 +22,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GameWIndowTest1.Abilities;
+using GameWIndowTest1.Global;
 
 namespace GameWIndowTest1
 {
@@ -57,16 +58,18 @@ namespace GameWIndowTest1
         // these are for how many waves of enemies do you fight
         int wave_number;
         int max_number_of_waves;
+        GameState state;
 
-        public MainWindow(List<character> passed_in_friendly, int wave_id, int max_waves = 5)
+        public MainWindow(GameState _state)//List<character> passed_in_friendly, int wave_id, int max_waves = 5)
         {
-            wave_number = wave_id;
-            max_number_of_waves = max_waves;
+            state = _state;
+            wave_number = state.current_wave_number;
+            max_number_of_waves = state.max_wave_number;
 
             InitializeComponent();
 
             // pass in the friendlys from the setup game screen
-            Remaining_Friendly = passed_in_friendly;
+            Remaining_Friendly = state.characters;
 
             foreach (character _f in Remaining_Friendly) { characters.Add(_f); } // add all the friendly characters to the list of characters
             foreach (character _e in Remaining_Enemy) { characters.Add(_e); } // add all the enemy characters to the list of characters
@@ -115,7 +118,10 @@ namespace GameWIndowTest1
             else
             {
                 // if not go to the out of combat screen
-                out_of_combat out_of_combat_screen = new out_of_combat(wave_number, max_number_of_waves, Remaining_Friendly);
+                state.characters = Remaining_Friendly; // i cannot make Remaining_Friendly a reference to state.characters
+                // as "ref fields are not useable until c# v 11, this is v 10"
+                state.current_wave_number = wave_number; // this should not have changed but just in case
+                out_of_combat out_of_combat_screen = new out_of_combat(state);
                 out_of_combat_screen.Show();
                 this.Close();
             }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameWIndowTest1.Global;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,17 +31,22 @@ namespace GameWIndowTest1
         int revive_uses = 1; 
 
         int selected_index = 0;
-        public out_of_combat(int round_number, int max_number_of_rounds, List<character> friendly_characters)
+
+        GameState state;
+
+        public out_of_combat(GameState _current_state)
         {
             InitializeComponent();
-            _r_n = round_number;
-            _max_r_n = max_number_of_rounds;
-            _characters = friendly_characters;
+            _r_n = _current_state.current_wave_number;
+            _max_r_n = _current_state.max_wave_number;
+            _characters = _current_state.characters;
+
+            state = _current_state;
 
             _character_blocks = new List<TextBlock> { Character_1_Block, Character_2_Block };
 
-            _characters[0].takedamage(15);
-            _characters[1].takedamage(8);
+            //_characters[0].takedamage(15);
+            //_characters[1].takedamage(8);
             set_character_details();
         }
 
@@ -87,7 +93,9 @@ namespace GameWIndowTest1
 
         private void Next_fight(object sender, RoutedEventArgs e)
         {
-            MainWindow game_window = new MainWindow(_characters, _r_n + 1, _max_r_n);
+            // increment the current wave number of the game
+            state.current_wave_number++;
+            MainWindow game_window = new MainWindow(state);
             game_window.Show();
             this.Close();
         }
