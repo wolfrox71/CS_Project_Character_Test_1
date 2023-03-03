@@ -52,7 +52,7 @@
                 </ContextMenu>
             </Rectangle.ContextMenu>
             <Rectangle.Fill>
-                <ImageBrush ImageSource="/Resources/Ability_Icons/image.png"/>
+                <ImageBrush x:Name="Rect_1_Image"/>
             </Rectangle.Fill>
         </Rectangle>
         <Rectangle Grid.Row="1" Grid.Column="1" Name="Character1_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>
@@ -62,7 +62,6 @@
         <!-- Character 2 -->
         <Rectangle x:Name="Character2"
                    Tag="Character"
-                   Fill="Blue"
                    Grid.Column="3"
                    Grid.Row="2"
                    >
@@ -81,6 +80,9 @@
                     </MenuItem>
                 </ContextMenu>
             </Rectangle.ContextMenu>
+            <Rectangle.Fill>
+                <ImageBrush x:Name="Rect_2_Image"/>
+            </Rectangle.Fill>
         </Rectangle>
 
         <Rectangle Grid.Row="1" Grid.Column="3" x:Name="Character2_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>

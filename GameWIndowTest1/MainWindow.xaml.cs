@@ -91,8 +91,12 @@ namespace GameWIndowTest1
         {
             // go through each character and see if they are already dead
             for (int index = 0; index < characters.Count; index++) { deal_with_dead(index); }
+
+            Rect_1_Image.ImageSource = new BitmapImage(new Uri(@"C:\Users\wolfr\source\repos\GameWIndowTest1\GameWIndowTest1\Resources\Ability_Icons\image.png", UriKind.Absolute));
+            Rect_2_Image.ImageSource = new BitmapImage(new Uri(@"C:\Users\wolfr\source\repos\GameWIndowTest1\GameWIndowTest1\Resources\Ability_Icons\JJT.jpg", UriKind.Absolute));
+
         }
-        
+
         public void goto_winner_screen()
         {
             // open the winners screen
