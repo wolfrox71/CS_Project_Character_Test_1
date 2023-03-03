@@ -27,8 +27,8 @@ namespace GameWIndowTest1
         List<TextBlock> _character_blocks;
 
         int heal_ammount = 10;
-        int heal_uses = 5;
-        int revive_uses = 1; 
+        int heal_cost = 500;
+        int revive_cost = 1000;
 
         int selected_index = 0;
 
@@ -48,6 +48,11 @@ namespace GameWIndowTest1
             //_characters[0].takedamage(15);
             //_characters[1].takedamage(8);
             set_character_details();
+
+            Mid_Block.Text = $"{state.money} money";
+            Mid_Block.Text += $"\nHeals cost {heal_cost} for {heal_ammount} healing";
+            Mid_Block.Text += $"\nRevives cost {revive_cost}";
+
         }
 
         public void set_character_details()
@@ -115,8 +120,12 @@ namespace GameWIndowTest1
 
         private void Heal_Button(object sender, RoutedEventArgs e)
         {
+            Mid_Block.Text = $"\n{state.money-heal_cost} money";
+            Mid_Block.Text += $"\nHeals cost {heal_cost} for {heal_ammount} healing";
+            Mid_Block.Text += $"\nRevives cost {revive_cost}";
+
             character current = _characters[selected_index];
-            Mid_Block.Text = $"{current.display_name} had {current.health}";
+            Mid_Block.Text += $"\n\n{current.display_name} had {current.health}";
 
             Mid_Block.Text += $"\nHealed for {heal_ammount}";
 
@@ -125,10 +134,9 @@ namespace GameWIndowTest1
 
             Mid_Block.Text += $"\nand now has {current.health} health";
 
-            heal_uses--;
+            state.money -= heal_cost;
 
-            Mid_Block.Text += $"\n{heal_uses} uses remaining";
-            if (heal_uses <= 0)
+            if (state.money <= heal_cost);
             {
                 // disable the healing button as it has run out of uses
                 Healing_Button.IsEnabled = false;
@@ -138,7 +146,11 @@ namespace GameWIndowTest1
         private void Revive_Button_Click(object sender, RoutedEventArgs e)
         {
             character current = _characters[selected_index];
-            Mid_Block.Text = $"{current.display_name} had {current.health}";
+            Mid_Block.Text = $"{state.money-revive_cost} money";
+            Mid_Block.Text += $"\nHeals cost {heal_cost} for {heal_ammount} healing";
+            Mid_Block.Text += $"\nRevives cost {revive_cost}";
+
+            Mid_Block.Text += $"\n\n{current.display_name} had {current.health}";
 
             // if the current it not dead
             if (!current.IsDead)
@@ -148,10 +160,9 @@ namespace GameWIndowTest1
 
             current.revive();
 
-            revive_uses--;
+            state.money -= revive_cost;
 
-            Mid_Block.Text += $"\n{revive_uses} uses remaining";
-            if (heal_uses <= 0)
+            if (state.money <= revive_cost)
             {
                 // disable the healing button as it has run out of uses
                 Revive_Button.IsEnabled = false;

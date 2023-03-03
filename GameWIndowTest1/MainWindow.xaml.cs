@@ -45,6 +45,8 @@ namespace GameWIndowTest1
         int number_of_alive_friendly = 0;
         int number_of_alive_enemies = 0;
 
+        int ammount_for_winning = 1000;
+
         List<Rectangle> identifiers; // the identifier rectangles above the characters to show whos go it is
         List<character> characters = new List<character>();
         List<(character, Rectangle, Rectangle, RadioButton, int)> dead = new List<(character, Rectangle, Rectangle, RadioButton, int)>();
@@ -117,6 +119,9 @@ namespace GameWIndowTest1
             }
             else
             {
+
+                state.money += ammount_for_winning;
+
                 // if not go to the out of combat screen
                 state.characters = Remaining_Friendly; // i cannot make Remaining_Friendly a reference to state.characters
                 // as "ref fields are not useable until c# v 11, this is v 10"
