@@ -79,7 +79,7 @@ namespace GameWIndowTest1
                 character current = _characters[index];
                 TextBlock block = _character_blocks[index];
 
-                block.Text = $"{current.name} {current.health}/{current.max_health}";
+                block.Text = $"{current.display_name} {current.health}/{current.max_health}";
                 if (current.IsDead)
                 {
                     block.Foreground = Brushes.Red;
@@ -116,7 +116,7 @@ namespace GameWIndowTest1
         private void Heal_Button(object sender, RoutedEventArgs e)
         {
             character current = _characters[selected_index];
-            Mid_Block.Text = $"{current.name} had {current.health}";
+            Mid_Block.Text = $"{current.display_name} had {current.health}";
 
             Mid_Block.Text += $"\nHealed for {heal_ammount}";
 
@@ -138,7 +138,7 @@ namespace GameWIndowTest1
         private void Revive_Button_Click(object sender, RoutedEventArgs e)
         {
             character current = _characters[selected_index];
-            Mid_Block.Text = $"{current.name} had {current.health}";
+            Mid_Block.Text = $"{current.display_name} had {current.health}";
 
             // if the current it not dead
             if (!current.IsDead)

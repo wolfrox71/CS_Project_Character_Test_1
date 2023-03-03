@@ -26,8 +26,8 @@ namespace GameWIndowTest1
             InitializeComponent();
 
             List<character> friendly_characters = new List<character> {
-                new character(40, "Character1", true),
-                new character(40, "Character2", true)
+                new character(40, "Character1", "Player 1", true),
+                new character(40, "Character2", "Player 2", true)
             };
 
             GameState state = new GameState(0, 5, friendly_characters);

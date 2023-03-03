@@ -14,6 +14,7 @@ namespace GameWIndowTest1
         public int health { get; protected set; }
         public int max_health { get; protected set; }
         public string name;
+        public string display_name; // this is the name that will be shown when moves happen
 
         int revive_health_percentage = 50;
 
@@ -160,11 +161,12 @@ namespace GameWIndowTest1
             }
         }
 
-        public character(int _max_health, string _name, bool friendly)
+        public character(int _max_health, string _name, string _display_name, bool friendly)
         {
             max_health = _max_health;
             health = _max_health;
             name = _name;
+            display_name = _display_name;
             Friendly = friendly;
             if (friendly)
             {
@@ -177,12 +179,13 @@ namespace GameWIndowTest1
             }
         }
 
-        public character(int _max_health, int _name, bool friendly)
+        public character(int _max_health, int _name, string _display_name, bool friendly)
         {
             max_health = _max_health;
             health = _max_health;
             name = _name.ToString();
             Friendly = friendly;
+            display_name = _display_name;
             if (friendly)
             {
                 init_abilities_friendly();

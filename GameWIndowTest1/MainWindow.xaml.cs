@@ -52,8 +52,8 @@ namespace GameWIndowTest1
 
         List<character> Remaining_Friendly;
         List<character> Remaining_Enemy = new List<character> {
-            new character(40, "Character3", false) ,
-            new character(40, "Character4", false) 
+            new character(40, "Character3", "Enemy 1" , false) ,
+            new character(40, "Character4" , "Enemy 2", false) 
         };
         // these are for how many waves of enemies do you fight
         int wave_number;
@@ -243,7 +243,7 @@ namespace GameWIndowTest1
 
         public void use_damage_ability(character target, ability ability)
         {
-            Heading_Info_Box.Text = target.name;
+            Heading_Info_Box.Text = target.display_name;
 
             Random rnd = new Random();
             // if the value is a critical hit 
@@ -251,12 +251,12 @@ namespace GameWIndowTest1
 
             if (rnd.Next(0, 101) <= ability.missing_percentage && missing_enabled)
             {
-                InfoBox.Text = $"Attack missed on {target.name}";
+                InfoBox.Text = $"Attack missed on {target.display_name}";
                 return;
             }
 
-            InfoBox.Text = $"Damaging {target.name} for {ability.ammount}";
-            InfoBox.Text += $"\n{target.name} has {target.health}";
+            InfoBox.Text = $"Damaging {target.display_name} for {ability.ammount}";
+            InfoBox.Text += $"\n{target.display_name} has {target.health}";
 
             if (critical_hit)
             {
@@ -268,9 +268,9 @@ namespace GameWIndowTest1
             // if the target dodged the attack
             if (target.takedamage(ability, critical_hit) == success_status.Dodge)
             {
-                InfoBox.Text += $"\n{target.name} dodged the attack";
+                InfoBox.Text += $"\n{target.display_name} dodged the attack";
             }
-            InfoBox.Text += $"\n{target.name} now has {target.health}";
+            InfoBox.Text += $"\n{target.display_name} now has {target.health}";
 
 
             // if the target died from that
@@ -283,26 +283,26 @@ namespace GameWIndowTest1
 
         public void use_healing_ability(character target, ability ability)
         {
-            Heading_Info_Box.Text = target.name;
+            Heading_Info_Box.Text = target.display_name;
 
             Random rnd = new Random();
             // if the value is a critical hit 
             bool critical_hit = rnd.Next(0, 101) <= ability.critical_hit_percentage && critical_hit_enabled;
 
 
-            InfoBox.Text = $"Healing {target.name} for {ability.ammount}";
+            InfoBox.Text = $"Healing {target.display_name} for {ability.ammount}";
 
             if (critical_hit)
             {
                 InfoBox.Text += $"\nCritical Hit bonus {ability.critical_hit_bonus}";
             }
 
-            InfoBox.Text += $"\n{target.name} has {target.health}";
+            InfoBox.Text += $"\n{target.display_name} has {target.health}";
 
             // heal the current character by the healing of the move
             target.heal(ability, critical_hit);
 
-            InfoBox.Text += $"\n{target.name} now has {target.health}";
+            InfoBox.Text += $"\n{target.display_name} now has {target.health}";
                 
         }
 
@@ -407,7 +407,7 @@ namespace GameWIndowTest1
 
             // get the character class from the array of characters with the name
             // of the rectangle
-            character current_character = new character(-1, "Character not found", true);
+            character current_character = new character(-1, "Character not found", "Default Character" , true);
 
             for (int countID = 0; countID < characters.Count(); countID++)
             {
@@ -421,7 +421,7 @@ namespace GameWIndowTest1
                         current_character = this_char;
                         break; // as no need to search the other characters
                     }
-                    HeadingInfoBox.Text = this_char.name;
+                    HeadingInfoBox.Text = this_char.display_name;
                     InfoBox.Text = $"{round_count}\nIncorrect user move picked";
                     return;
                 }
@@ -450,7 +450,7 @@ namespace GameWIndowTest1
                 default:
                     // if no option is clicked return
                     infoBox.Text = header;
-                    HeadingInfoBox.Text = current_character.name;
+                    HeadingInfoBox.Text = current_character.display_name;
 
                     break;
             }
@@ -485,7 +485,7 @@ namespace GameWIndowTest1
         {
             TextBlock infoBox = this.FindName("InfoBox") as TextBlock;
             TextBlock HeadingInfoBox = this.FindName("Heading_Info_Box") as TextBlock;
-            HeadingInfoBox.Text = $"Abilities for {_char.name}";
+            HeadingInfoBox.Text = $"Abilities for {_char.display_name}";
             HeadingInfoBox.FontSize = 24;
             infoBox.Text = "In (Name, Ammount, Uses Remaining, Type) format\n-----\n";
             infoBox.Text += $"Round {round_count}";
@@ -501,7 +501,7 @@ namespace GameWIndowTest1
         {
             TextBlock infoBox = this.FindName("InfoBox") as TextBlock;
             TextBlock HeadingInfoBox = this.FindName("Heading_Info_Box") as TextBlock;
-            HeadingInfoBox.Text = $"{_char.name}";
+            HeadingInfoBox.Text = $"{_char.display_name}";
             HeadingInfoBox.FontSize = 26;
             infoBox.Text = $"Health: {_char.health}\n";
             infoBox.Text += $"Round {round_count}";
