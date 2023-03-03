@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameWIndowTest1.Abilities
 {
-    public struct ability
+    public class ability
     {
         public int ammount;
         public string name;
