@@ -14,8 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
 using System.Text.Json;
-
-
+using Microsoft.Win32;
 
 namespace GameWIndowTest1
 {
@@ -42,20 +41,25 @@ namespace GameWIndowTest1
             // if a save exists for the current user
             if (File.Exists(json_filename))
             {
-                /*
-                try
+
+
+                MessageBoxButton buttons = MessageBoxButton.YesNo;
+                MessageBoxResult result = MessageBox.Show("Do you want to use the save?", "Save found", buttons);
+                // if they want to use the save
+                if (result == MessageBoxResult.Yes)
                 {
-                */
-                    string json_text = File.ReadAllText(json_filename);
-                    MessageBox.Show(json_text, Title = "Save Found");
-                    state = JsonSerializer.Deserialize<GameState>(json_text); // convert the state to that of the save
-                /*
+                    try
+                    {
+
+                        string json_text = File.ReadAllText(json_filename);
+                        state = JsonSerializer.Deserialize<GameState>(json_text); // convert the state to that of the save
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("An error occured while trying to restore from state");
+                    }
                 }
-                catch(Exception ex)
-                {
-                    MessageBox.Show("An error occured while trying to restore from state");
-                }
-                */
             }
 
             //MainWindow game_Window = new MainWindow(friendly_characters, dead_characters, 0);
