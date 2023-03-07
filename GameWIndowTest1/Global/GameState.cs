@@ -15,13 +15,17 @@ namespace GameWIndowTest1.Global
 
         public List<character> characters { get; set; }
 
-        public GameState(int _current_wave_number, int _max_wave_number, List<character> _characters, int _money)
+        public string username { get { return account.username; } }
+        protected Account account { get; set; }
+
+        public GameState(int _current_wave_number, int _max_wave_number, List<character> _characters, int _money, Account _account)
         {
             // pass through and assign all the vassslues
             current_wave_number = _current_wave_number;
             max_wave_number = _max_wave_number;
             characters = _characters;
             money = _money;
+            account= _account;
         }
     }
 }

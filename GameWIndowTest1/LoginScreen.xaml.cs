@@ -1,4 +1,5 @@
-﻿using GameWIndowTest1.Global.Datatypes;
+﻿using GameWIndowTest1.Global;
+using GameWIndowTest1.Global.Datatypes;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -69,7 +70,8 @@ public partial class LoginScreen : Window
             if (userExists(username, password))
             {
                 MessageBox.Show("Data correct");
-                SetupForGame gameSetup = new SetupForGame();// new Global.Account(username, password));
+                Account account = new Account(username, password);
+                SetupForGame gameSetup = new SetupForGame(account);// new Global.Account(username, password));
                 this.Close();
             }
             else

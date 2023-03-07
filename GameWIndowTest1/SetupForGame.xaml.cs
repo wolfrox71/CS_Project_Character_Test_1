@@ -21,7 +21,7 @@ namespace GameWIndowTest1
     public partial class SetupForGame : Window
     {
 
-        public SetupForGame()
+        public SetupForGame(Account account)
         {
             InitializeComponent();
 
@@ -30,7 +30,7 @@ namespace GameWIndowTest1
                 new character(40, "Character2", "Player 2", true)
             };
 
-            GameState state = new GameState(0, 5, friendly_characters, 1000);
+            GameState state = new GameState(0, 5, friendly_characters, 1000, account);
 
             //MainWindow game_Window = new MainWindow(friendly_characters, dead_characters, 0);
             out_of_combat game_Window = new out_of_combat(state);
