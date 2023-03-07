@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,8 +16,9 @@ namespace GameWIndowTest1.Global
 
         public List<character> characters { get; set; }
 
-        public string username { get { return account.username; } }
-        protected Account account { get; set; }
+        public string username;
+
+        protected Account account { get;  set; }
 
         public GameState(int _current_wave_number, int _max_wave_number, List<character> _characters, int _money, Account _account)
         {
@@ -26,6 +28,10 @@ namespace GameWIndowTest1.Global
             characters = _characters;
             money = _money;
             account= _account;
+            username = _account.username;
         }
+
+        // this is for json
+        public GameState() { }
     }
 }

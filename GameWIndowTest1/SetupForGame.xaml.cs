@@ -42,16 +42,20 @@ namespace GameWIndowTest1
             // if a save exists for the current user
             if (File.Exists(json_filename))
             {
+                /*
                 try
                 {
+                */
                     string json_text = File.ReadAllText(json_filename);
                     MessageBox.Show(json_text, Title = "Save Found");
                     state = JsonSerializer.Deserialize<GameState>(json_text); // convert the state to that of the save
+                /*
                 }
                 catch(Exception ex)
                 {
                     MessageBox.Show("An error occured while trying to restore from state");
                 }
+                */
             }
 
             //MainWindow game_Window = new MainWindow(friendly_characters, dead_characters, 0);
