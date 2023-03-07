@@ -13,22 +13,22 @@ namespace GameWIndowTest1
     {
         public int health { get; protected set; }
         public int max_health { get; protected set; }
-        public string name;
-        public string display_name; // this is the name that will be shown when moves happen
+        public string name { get; protected set; }
+        public string display_name { get; protected set; } // this is the name that will be shown when moves happen
 
-        int revive_health_percentage = 50;
+        public int revive_health_percentage { get; protected set; } = 50;
 
-        public ability[] abilities = new ability[4];
+        public ability[] abilities { get; protected set; }  = new ability[4];
 
         public bool IsDead { get { return health <= 0; } }
 
-        bool dodging_enabled = true;
+        public bool dodging_enabled { get; protected set; } = true;
 
-        public int dodge_percentage = 10;
-        public int dodge_reduction_percentage = 50; // how much damage gets reduced by if the dodge is successful
-        
-        public int critical_health_percentage = 30; // this the % of max health that the ais will heal on so 30 is 30 % of max health
-        public bool Friendly;
+        public int dodge_percentage { get; protected set; } = 10;
+        public int dodge_reduction_percentage { get; protected set; } = 50; // how much damage gets reduced by if the dodge is successful
+
+        public int critical_health_percentage { get; protected set; } = 30; // this the % of max health that the ais will heal on so 30 is 30 % of max health
+        public bool Friendly { get; protected set; }
 
         private void alphabet_init_abilities()
         {

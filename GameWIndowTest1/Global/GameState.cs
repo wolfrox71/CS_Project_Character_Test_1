@@ -9,11 +9,11 @@ namespace GameWIndowTest1.Global
     public class GameState
     {
         // this will be passed through all the game windows and store game 
-        public int current_wave_number;
-        public int max_wave_number;
-        public int money;
+        public int current_wave_number { get; set; }
+        public int max_wave_number { get; set; }
+        public int money { get; set; }
 
-        public List<character> characters;
+        public List<character> characters { get; set; }
 
         public GameState(int _current_wave_number, int _max_wave_number, List<character> _characters, int _money)
         {
