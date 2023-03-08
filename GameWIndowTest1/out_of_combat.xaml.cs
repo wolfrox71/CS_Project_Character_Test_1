@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +14,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace GameWIndowTest1
 {
@@ -143,6 +145,19 @@ namespace GameWIndowTest1
             }
             set_character_details();
         }
+
+        private void Save_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string jsonString = JsonSerializer.Serialize(state, options);
+
+            string fileName = $"{state.username}.json";
+            File.WriteAllText(fileName, jsonString);
+            MessageBox.Show("Saved");
+
+        }
+
         private void Revive_Button_Click(object sender, RoutedEventArgs e)
         {
             character current = _characters[selected_index];
