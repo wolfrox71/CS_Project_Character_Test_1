@@ -59,7 +59,7 @@ namespace GameWIndowTest1
         {
             character _current = _characters[selected_index];
             // if the selected character cannot be healed anymore
-            if (_current.IsDead || _current.health >= _current.max_health)
+            if (_current.IsDead || _current.health >= _current.max_health || state.money <= heal_cost)
             {
                 Healing_Button.IsEnabled = false;
             }
@@ -68,7 +68,7 @@ namespace GameWIndowTest1
                 Healing_Button.IsEnabled = true;
             }
 
-            if (_current.IsDead)
+            if (_current.IsDead && state.money <= revive_cost)
             {
                 Revive_Button.IsEnabled = true;
             }
