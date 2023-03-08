@@ -24,6 +24,10 @@ namespace GameWIndowTest1.Global
             username = E_username;
             password = new Password(E_password, HashPassword);
         }
+
+        // this is for json
+        public Account() { }
+
         public bool Equals(Account other)
         {
             return this == other;
