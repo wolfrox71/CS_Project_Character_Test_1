@@ -96,7 +96,6 @@
         <!-- Character 3 -->
         <Rectangle x:Name="Character3"
                    Tag="Character"
-                   Fill="Blue"
                    Grid.Row="2"
                    Grid.Column="5"
                    >
@@ -114,6 +113,9 @@
                     </MenuItem>
                 </ContextMenu>
             </Rectangle.ContextMenu>
+            <Rectangle.Fill>
+                <ImageBrush x:Name="Rect_3_Image"/>
+            </Rectangle.Fill>
         </Rectangle>
 
         <Rectangle Grid.Column="5" Grid.Row="1"  x:Name="Character3_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>
@@ -125,7 +127,7 @@
 
         <Rectangle x:Name="Character4"
                    Tag="Character"
-                   Fill="Blue"
+                  
                    Grid.Row="2"
                    Grid.Column="7"
                    >
@@ -143,6 +145,9 @@
                     </MenuItem>
                 </ContextMenu>
             </Rectangle.ContextMenu>
+            <Rectangle.Fill>
+                <ImageBrush x:Name="Rect_4_Image"/>
+            </Rectangle.Fill>
         </Rectangle>
 
         <Rectangle Grid.Column="7" Grid.Row="1"  x:Name="Character4_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>

@@ -142,10 +142,10 @@
     <Resource Include="Resources\Ability_Icons\Ability_Z.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Ability_Icons\image.png">
+    <Resource Include="Resources\Character Images\image.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Ability_Icons\JJT.jpg">
+    <Resource Include="Resources\Character Images\JJT.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
