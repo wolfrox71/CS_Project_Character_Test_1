@@ -93,8 +93,8 @@ namespace GameWIndowTest1
             for (int index = 0; index < characters.Count; index++) { deal_with_dead(index); }
 
             Rect_1_Image.ImageSource = new BitmapImage(new Uri(@"C:\Users\wolfr\source\repos\GameWIndowTest1\GameWIndowTest1\Resources\Character Images\image.png", UriKind.Absolute));
-            Rect_2_Image.ImageSource = new BitmapImage(new Uri(@"C:\Users\wolfr\source\repos\GameWIndowTest1\GameWIndowTest1\Resources\Character Images\JJT.jpg", UriKind.Absolute));
-            Rect_3_Image.ImageSource = new BitmapImage(new Uri(@"C:\Users\wolfr\source\repos\GameWIndowTest1\GameWIndowTest1\Resources\Character Images\Great_train_robbery_still.jpg", UriKind.Absolute));
+            Rect_2_Image.ImageSource = new BitmapImage(new Uri(@"C:\Users\wolfr\source\repos\GameWIndowTest1\GameWIndowTest1\Resources\Character Images\when-the-mario-is-sus-1-1.png", UriKind.Absolute));
+            Rect_3_Image.ImageSource = new BitmapImage(new Uri(@"C:\Users\wolfr\source\repos\GameWIndowTest1\GameWIndowTest1\Resources\Character Images\JJT.jpg", UriKind.Absolute));
             Rect_4_Image.ImageSource = new BitmapImage(new Uri(@"C:\Users\wolfr\source\repos\GameWIndowTest1\GameWIndowTest1\Resources\Character Images\Great_train_robbery_still.jpg", UriKind.Absolute));
 
         }
