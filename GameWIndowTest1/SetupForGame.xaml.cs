@@ -36,7 +36,7 @@ namespace GameWIndowTest1
             GameState state = new GameState(0, 5, friendly_characters, 1000, account);
 
 
-            string json_filename = $"{account.username}.json";
+            string json_filename = $"Saves/{account.username}.json";
 
             // if a save exists for the current user
             if (File.Exists(json_filename))
@@ -54,7 +54,7 @@ namespace GameWIndowTest1
                         string json_text = File.ReadAllText(json_filename);
                         state = JsonSerializer.Deserialize<GameState>(json_text); // convert the state to that of the save
 
-                    }
+                    } 
                     catch (Exception ex)
                     {
                         MessageBox.Show("An error occured while trying to restore from state");

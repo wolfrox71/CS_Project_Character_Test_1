@@ -152,7 +152,13 @@ namespace GameWIndowTest1
             var options = new JsonSerializerOptions { WriteIndented = true };
             string jsonString = JsonSerializer.Serialize(state, options);
 
-            string fileName = $"{state.username}.json";
+            string fileName = $"Saves/{state.username}.json";
+
+            if (!Directory.Exists("Saves"))
+            {
+                Directory.CreateDirectory("Saves");
+            }
+
             File.WriteAllText(fileName, jsonString);
             MessageBox.Show("Saved");
 
