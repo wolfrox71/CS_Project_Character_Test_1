@@ -87,6 +87,7 @@ namespace GameWIndowTest1
 
             show_character_details(characters[0]);
             round(); // start a round to init the block
+
         }
 
         public void setup_dead_characters()

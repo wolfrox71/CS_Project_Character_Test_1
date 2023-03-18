@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using GameWIndowTest1.Abilities;
+using GameWIndowTest1.Global;
 
 namespace GameWIndowTest1
 {
@@ -17,6 +21,8 @@ namespace GameWIndowTest1
         public string display_name { get;  set; } // this is the name that will be shown when moves happen
 
         public int revive_health_percentage = 50;
+
+        public static ability no_ability_selected = new ability(0, "No ability Selected", 0, Ability_type.Damage, 0, 0, 0, Ability_Team.Both);
 
         public ability[] abilities { get;  set; }  = new ability[4];
 
@@ -38,25 +44,137 @@ namespace GameWIndowTest1
                 Random rnd = new Random();
                 int val = rnd.Next(0, 26);
                 // times an ability can be used is 26-the damage it does for now
-                abilities[i] = new ability(val+1, alphabet[val].ToString(), 27-val, Ability_type.Damage, 0, 0, 0);
+                abilities[i] = new ability(val+1, alphabet[val].ToString(), 27-val, Ability_type.Damage, 0, 0, 0, Ability_Team.Both);
+            }
+        }
+
+        public static void write_ability(ability ability)
+        {
+            if (!Directory.Exists("Abilities"))
+            {
+                MessageBox.Show("Added Abilities Directory");
+                Directory.CreateDirectory("Abilities");
+            }
+
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string jsonString = JsonSerializer.Serialize(ability, options);
+
+            string fileName = $"Abilities/{ability.name}.json";
+
+
+            File.WriteAllText(fileName, jsonString);
+            MessageBox.Show($"Saved Ability {ability.name}");
+        }
+
+        public void get_abilities_from_files()
+        {
+
+            List<ability> _All_Ability_list = new List<ability>();
+            List<ability> _healing_abilities = new List<ability>();
+            List<ability> _damage_abilities = new List<ability>();
+
+            if (!Directory.Exists("Abilities"))
+            {
+                MessageBox.Show("Added Abilities Directory");
+                Directory.CreateDirectory("Abilities");
+            }
+
+            string[] filenames = Directory.GetFiles("Abilities", "*.json", SearchOption.AllDirectories);
+
+            foreach (string filename in filenames)
+            {
+                string json_text = File.ReadAllText(filename);
+                ability _ability = JsonSerializer.Deserialize<ability>(json_text);
+
+                // if this ability is for the wrong team
+                if (!(_ability.team == Ability_Team.Both || (Friendly && _ability.team == Ability_Team.Friendly || !Friendly && _ability.team == Ability_Team.Enemy)))
+                {
+                    //MessageBox.Show($"{display_name} Skipping {_ability.name} as {_ability.team} when {Friendly}");
+                    // skip it and go to the next team
+                    continue;
+                }
+
+                // always add the new ability to the ability list
+                _All_Ability_list.Add(_ability);
+
+                switch (_ability.ability_Type)
+                {
+                    case Ability_type.Damage:
+                        // if the ability is a damage ability
+                        // add this ability to the damage ability list
+                        _damage_abilities.Add(_ability);
+                        break;
+
+                    case Ability_type.Healing:
+                        // if the ability is a damage ability
+                        // add this ability to the healing ability list
+                        _healing_abilities.Add(_ability);
+                        break;
+                }
+            }
+
+            //MessageBox.Show($"Abilities {_All_Ability_list.Count()} Abiltiies found\n{_healing_abilities.Count} Healing\n{_damage_abilities.Count} Damage");
+
+            _healing_abilities = _healing_abilities.OrderBy(o => o.ammount).ToList();
+            _damage_abilities  = _damage_abilities.OrderBy(o => o.ammount).ToList();
+
+            // if the number of ability from files is less than or equal to the number abilities on this character
+            if (_All_Ability_list.Count <= abilities.Length)
+            {
+                // put in all the abilities that exists
+                for (int index = 0; index < abilities.Length; index++)
+                {
+                    // this is to order damage first then healing
+
+                    // if the current ability is a damage ability
+                    if (index < _damage_abilities.Count)
+                    {
+                        abilities[index] = _damage_abilities[index];
+                    }
+                    // if the current ability is a healing ability
+                    else if (index < _healing_abilities.Count + _damage_abilities.Count)
+                    {
+                        //MessageBox.Show($"{index}/ {_healing_abilities.Count + _damage_abilities.Count} {index - _damage_abilities.Count} {_healing_abilities[index - _damage_abilities.Count].name}");
+                        abilities[index] = _healing_abilities[index - _damage_abilities.Count];
+                    }
+                    else
+                    {
+                        // any remaining abilities get filled with "No ability selected" abilities
+                        abilities[index] = no_ability_selected;
+                    }
+                }
+            }
+            else
+            {
+                // add the damage ability with the least moves but most damage
+                abilities[1] = _damage_abilities[0];
+                // add the damage ability with the most moves but least damage
+                abilities[0] = _damage_abilities[_damage_abilities.Count-1];
+
+                // and repeats for healing
+                abilities[3] = _healing_abilities[0];
+                abilities[2] = _healing_abilities[_healing_abilities.Count-1];
             }
         }
 
         public void init_abilities_friendly()
         {
-            abilities[0] = new ability(10, "Light Damage", 20, Ability_type.Damage, 10, 2, 5);
-            abilities[1] = new ability(30, "Heavy Damage", 5, Ability_type.Damage, 1, 10, 5);
-            abilities[2] = new ability(10, "Light Healing", 10, Ability_type.Healing, 10, 2, 0);
-            abilities[3] = new ability(40, "Heavy Healing", 2, Ability_type.Healing, 1, 10, 0);
-        }
-        public void init_abilities_enemy()
-        {
-            abilities[0] = new ability(10, "Light Damage", 20, Ability_type.Damage, 10, 2, 5);
-            abilities[1] = new ability(25, "Medium Damage", 5, Ability_type.Damage, 5, 10, 5);
-            abilities[2] = new ability(8, "Light Healing", 10, Ability_type.Healing, 10, 2, 0);
-            abilities[3] = new ability(25, "Medium Healing", 2, Ability_type.Healing, 1, 10, 0);
-        }
+            get_abilities_from_files();
+            /*
+            abilities[0] = new ability(10, "Light Damage", 20, Ability_type.Damage, 10, 2, 5, Ability_Team.Both);
+            abilities[1] = new ability(30, "Heavy Damage", 5, Ability_type.Damage, 1, 10, 5, Ability_Team.Friendly);
+            abilities[2] = new ability(10, "Light Healing", 10, Ability_type.Healing, 10, 2, 0, Ability_Team.Both);
+            abilities[3] = new ability(40, "Heavy Healing", 2, Ability_type.Healing, 1, 10, 0, Ability_Team.Friendly);
+            */
 
+            
+           /*
+            abilities[0] = new ability(10, "Light Damage", 20, Ability_type.Damage, 10, 2, 5, Ability_Team.Both);
+            abilities[1] = new ability(25, "Medium Damage", 5, Ability_type.Damage, 5, 10, 5, Ability_Team.Enemy);
+            abilities[2] = new ability(8, "Light Healing", 10, Ability_type.Healing, 10, 2, 0, Ability_Team.Both);
+            abilities[3] = new ability(25, "Medium Healing", 2, Ability_type.Healing, 1, 10, 0, Ability_Team.Enemy);
+            */
+        }
         public success_status takedamage(ability recived_ability, bool critical)
         {
             // this function is so that any resistances can go in here
@@ -168,15 +286,7 @@ namespace GameWIndowTest1
             name = _name;
             display_name = _display_name;
             Friendly = friendly;
-            if (friendly)
-            {
-                init_abilities_friendly();
-
-            }
-            else
-            {
-                init_abilities_enemy();
-            }
+            init_abilities_friendly();
         }
 
         public character(int _max_health, int _name, string _display_name, bool friendly)
@@ -185,17 +295,8 @@ namespace GameWIndowTest1
             health = _max_health;
             name = _name.ToString();
             Friendly = friendly;
-            display_name = _display_name;
-            if (friendly)
-            {
-                init_abilities_friendly();
-
-            }
-            else
-            {
-                init_abilities_enemy();
-            }
-
+            display_name = _display_name;            
+            init_abilities_friendly();
         }
        
         // this is for json
@@ -206,7 +307,7 @@ namespace GameWIndowTest1
 
             // this is the default ability
             // and should only be used actually if no other ability remains
-            ability current_ability = new ability(1, "Default Ability", 1, Ability_type.Damage, 0, 0, 0);
+            ability current_ability = no_ability_selected;
 
             // if the character is low enough health to need healing
             if (health <= ((critical_health_percentage * max_health)/100))

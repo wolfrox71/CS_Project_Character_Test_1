@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.IO;
 using System.Text.Json;
 using Microsoft.Win32;
+using GameWIndowTest1.Abilities;
 
 namespace GameWIndowTest1
 {
@@ -35,6 +36,12 @@ namespace GameWIndowTest1
 
             GameState state = new GameState(0, 5, friendly_characters, 1000, account);
 
+            /*
+            foreach(var _a in friendly_characters[0].abilities)
+            {
+                character.write_ability(_a);
+            }
+            */
 
             string json_filename = $"Saves/{account.username}.json";
 
@@ -57,7 +64,7 @@ namespace GameWIndowTest1
                     } 
                     catch (Exception ex)
                     {
-                        MessageBox.Show("An error occured while trying to restore from state");
+                        MessageBox.Show($"An error occured while trying to restore from state {ex}");
                     }
                 }
             }

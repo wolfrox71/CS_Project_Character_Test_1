@@ -142,4 +142,8 @@
     </Resource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Abilities\Abilities\" />
+  </ItemGroup>
+
 </Project>

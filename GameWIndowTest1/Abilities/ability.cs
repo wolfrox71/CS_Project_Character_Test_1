@@ -11,6 +11,7 @@ namespace GameWIndowTest1.Abilities
     {
         public int ammount { get; set; }
         public string name { get; set; }
+        public Ability_Team team { get; set; }
         public int uses_remaining { get;  set; }
         public Ability_type ability_Type { get; set; }
 
@@ -22,7 +23,7 @@ namespace GameWIndowTest1.Abilities
         public int missing_percentage { get; set; }
 
         public bool can_be_used { get { return uses_remaining > 0; } } // if the ability has uses left return true else reuturn false as cannot be used
-        public ability(int _ammount, string _name, int _uses_remaining, Ability_type _ability_Type, int _critical_hit_percentage, int _critical_hit_bonus, int _missing_percentage)
+        public ability(int _ammount, string _name, int _uses_remaining, Ability_type _ability_Type, int _critical_hit_percentage, int _critical_hit_bonus, int _missing_percentage, Ability_Team _team)
         {
             ammount = _ammount;
             name = _name;
@@ -31,6 +32,7 @@ namespace GameWIndowTest1.Abilities
             critical_hit_bonus = _critical_hit_bonus;
             critical_hit_percentage = _critical_hit_percentage;
             missing_percentage = _missing_percentage;
+            team = _team;
         }
 
         // this is for json
