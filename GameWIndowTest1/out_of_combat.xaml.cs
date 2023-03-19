@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
+using GameWIndowTest1.Abilities;
 
 namespace GameWIndowTest1
 {
@@ -94,6 +95,19 @@ namespace GameWIndowTest1
                 else
                 {
                     block.Foreground = Brushes.Black;
+                }
+            }
+
+            List<ComboBox> ComboBoxes = new List<ComboBox> { Ability_Box1, Ability_Box2 };
+            foreach (ComboBox box in ComboBoxes)
+            {
+                // clear all the items in the current box
+                box.Items.Clear();
+                // and add each ability name to the box
+                foreach (ability _ability in _current.get_valid_abilities())
+                {
+                    
+                    box.Items.Add(_ability.name);
                 }
             }
         }
@@ -189,6 +203,13 @@ namespace GameWIndowTest1
                 Revive_Button.IsEnabled = false;
             }
             set_character_details();
+        }
+
+        private void Ability_box_changed(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox box = sender as ComboBox;
+            int ability_index = Int32.Parse(box.Name.Substring(box.Name.Length - 1));
+            MessageBox.Show($"Box {ability_index} now shows {box.SelectedValue.ToString()}");
         }
     }
 }

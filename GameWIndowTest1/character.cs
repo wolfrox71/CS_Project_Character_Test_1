@@ -66,19 +66,9 @@ namespace GameWIndowTest1
             MessageBox.Show($"Saved Ability {ability.name}");
         }
 
-        public void get_abilities_from_files()
+        public List<ability> get_valid_abilities()
         {
-
             List<ability> _All_Ability_list = new List<ability>();
-            List<ability> _healing_abilities = new List<ability>();
-            List<ability> _damage_abilities = new List<ability>();
-
-            if (!Directory.Exists("Abilities"))
-            {
-                MessageBox.Show("Added Abilities Directory");
-                Directory.CreateDirectory("Abilities");
-            }
-
             string[] filenames = Directory.GetFiles("Abilities", "*.json", SearchOption.AllDirectories);
 
             foreach (string filename in filenames)
@@ -96,7 +86,26 @@ namespace GameWIndowTest1
 
                 // always add the new ability to the ability list
                 _All_Ability_list.Add(_ability);
+            }
+            return _All_Ability_list;
+        }
 
+        public void get_abilities_from_files()
+        {
+            List<ability> _All_Ability_list = new List<ability>();
+            List<ability> _healing_abilities = new List<ability>();
+            List<ability> _damage_abilities = new List<ability>();
+
+            if (!Directory.Exists("Abilities"))
+            {
+                MessageBox.Show("Added Abilities Directory");
+                Directory.CreateDirectory("Abilities");
+            }
+
+            _All_Ability_list = get_valid_abilities();
+
+            foreach (ability _ability in _All_Ability_list)
+            {
                 switch (_ability.ability_Type)
                 {
                     case Ability_type.Damage:
@@ -319,7 +328,7 @@ namespace GameWIndowTest1
                     if (_a.ability_Type == Ability_type.Healing && _a.can_be_used )
                     {
                         // if the current ability is the default one
-                        if (current_ability.name == "Default Ability")
+                        if (current_ability.name == no_ability_selected.name)
                         {
                             // set the current ability to be this one
                             current_ability = _a;
