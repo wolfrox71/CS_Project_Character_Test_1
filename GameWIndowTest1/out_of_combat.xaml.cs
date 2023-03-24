@@ -32,6 +32,8 @@ namespace GameWIndowTest1
         int heal_ammount = 10;
         int heal_cost = 500;
         int revive_cost = 1000;
+        
+        bool init_setup = true;
 
         int selected_index = 0;
 
@@ -98,7 +100,7 @@ namespace GameWIndowTest1
                 }
             }
 
-            List<ComboBox> ComboBoxes = new List<ComboBox> { Ability_Box1, Ability_Box2 };
+            List<ComboBox> ComboBoxes = new List<ComboBox> { Ability_Box1, Ability_Box2, Ability_Box3, Ability_Box4 };
             foreach (ComboBox box in ComboBoxes)
             {
                 // clear all the items in the current box
@@ -110,6 +112,9 @@ namespace GameWIndowTest1
                     box.Items.Add(_ability.name);
                 }
             }
+            init_setup = true;
+            set_drop_menu_values();
+            init_setup = false;
         }
 
         private void Next_fight(object sender, RoutedEventArgs e)
@@ -207,9 +212,47 @@ namespace GameWIndowTest1
 
         private void Ability_box_changed(object sender, SelectionChangedEventArgs e)
         {
+            if (init_setup) { return; }
             ComboBox box = sender as ComboBox;
-            int ability_index = Int32.Parse(box.Name.Substring(box.Name.Length - 1));
-            MessageBox.Show($"Box {ability_index} now shows {box.SelectedValue.ToString()}");
+            if (box == null) { MessageBox.Show("Null so returning");  return; }
+            int ability_index = Int32.Parse(box.Name.Substring(box.Name.Length - 1))-1;
+            ability new_ability = find_ability_from_name(box);
+            // change the ability to the new ability
+            MessageBox.Show($"Ability {ability_index} changed from {state.characters[selected_index].abilities[ability_index].name} to {new_ability.name}");
+            state.characters[selected_index].abilities[ability_index] = new_ability;
+        
+       }
+
+        public ability find_ability_from_name(ComboBox box)
+        {
+            string name = box.SelectedValue.ToString();
+            MessageBox.Show($"Finding ability {name}");
+            // go through each ability of the current character
+            foreach (ability _current in state.characters[selected_index].abilities)
+            {
+                // and check to see if the ability is the same the one looking for
+                if (_current.name == name)
+                {
+                    // if it is, return this ability
+                    return _current;
+                }
+            }
+            // if no ability is found, return no ability selected
+            return character.no_ability_selected;
+        }
+    
+        public void set_drop_menu_values()
+        {
+            List<ComboBox> ComboBoxes = new List<ComboBox> { Ability_Box1, Ability_Box2, Ability_Box3, Ability_Box4 };
+            character current_character = state.characters[selected_index];
+
+            for (int i = 0; i < current_character.abilities.Length; i++) 
+            {
+                ComboBox box = ComboBoxes[i];
+                string current_ability = current_character.abilities[i].name;
+                //MessageBox.Show(current_ability.ToString());
+                box.SelectedIndex = box.Items.IndexOf(current_character.abilities[i].name);
+            }
         }
     }
 }

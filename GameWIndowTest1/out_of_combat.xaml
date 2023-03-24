@@ -39,20 +39,33 @@
 
         <!-- Character 1-->
         <TextBlock Grid.Row="2" Grid.Column="1" Name="Character_1_Block" HorizontalAlignment="Center"/>
-        <ComboBox Grid.Row="4" Grid.Column="1" Name="Ability_Box1" SelectionChanged="Ability_box_changed">
-            
-        </ComboBox>
-        
-        
+        <Grid Grid.Row="4" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <ComboBox Grid.Row="0" Grid.Column="0" Name="Ability_Box1" SelectionChanged="Ability_box_changed"/>
+            <ComboBox Grid.Row="0" Grid.Column="1" Name="Ability_Box2" SelectionChanged="Ability_box_changed"/>
+        </Grid>
+
         <!-- Mid Box-->
         <TextBlock Grid.Row="2" Grid.Column="3" Name="Mid_Block" HorizontalAlignment="Center"/>
+        
+        <Grid Grid.Row="4" Grid.Column="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <ComboBox Grid.Row="0" Grid.Column="0" Name="Ability_Box3" SelectionChanged="Ability_box_changed"/>
+            <ComboBox Grid.Row="0" Grid.Column="1" Name="Ability_Box4" SelectionChanged="Ability_box_changed"/>
+        </Grid>
+
 
         <!-- Character 2-->
         <TextBlock Grid.Row="2" Grid.Column="5" Name="Character_2_Block" HorizontalAlignment="Center"/>
-        <ComboBox Grid.Row="4" Grid.Column="5" Name="Ability_Box2" SelectionChanged="Ability_box_changed">
 
-        </ComboBox>
-        
         <!-- RadioButtons-->
         <RadioButton Grid.Row="5" Grid.Column="1" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character1" IsChecked="True" Checked="Radio_Changed"/>
         <RadioButton Grid.Row="5" Grid.Column="5" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character2" Checked="Radio_Changed"/>
