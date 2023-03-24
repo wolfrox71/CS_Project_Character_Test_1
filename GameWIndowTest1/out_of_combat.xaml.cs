@@ -28,6 +28,7 @@ namespace GameWIndowTest1
         int _max_r_n;
         List<character> _characters = new List<character>();
         List<TextBlock> _character_blocks;
+        List<ComboBox> ComboBoxes;
 
         int heal_ammount = 10;
         int heal_cost = 500;
@@ -49,7 +50,7 @@ namespace GameWIndowTest1
             state = _current_state;
 
             _character_blocks = new List<TextBlock> { Character_1_Block, Character_2_Block };
-
+            ComboBoxes = new List<ComboBox> { Ability_Box1, Ability_Box2, Ability_Box3, Ability_Box4 };
             //_characters[0].takedamage(15);
             //_characters[1].takedamage(8);
             set_character_details();
@@ -119,6 +120,7 @@ namespace GameWIndowTest1
 
         private void Next_fight(object sender, RoutedEventArgs e)
         {
+            convert_boxes_to_abilities();
             // increment the current wave number of the game
             state.current_wave_number++;
             MainWindow game_window = new MainWindow(state);
@@ -129,6 +131,10 @@ namespace GameWIndowTest1
         private void Radio_Changed(object sender, RoutedEventArgs e)
         {
             RadioButton rb = sender as RadioButton;
+
+            // update the last characters abilities
+            convert_boxes_to_abilities();
+            // then change who is the selected character
             selected_index = Int32.Parse(rb.Name.Substring(rb.Name.Length-1,1))-1;
 
             if (_characters.Count == 0)
@@ -137,6 +143,7 @@ namespace GameWIndowTest1
                 return;
             }
             set_character_details();
+
         }
 
         private void Heal_Button(object sender, RoutedEventArgs e)
@@ -213,6 +220,7 @@ namespace GameWIndowTest1
         private void Ability_box_changed(object sender, SelectionChangedEventArgs e)
         {
             if (init_setup) { return; }
+            /*
             ComboBox box = sender as ComboBox;
             if (box == null) { MessageBox.Show("Null so returning");  return; }
             int ability_index = Int32.Parse(box.Name.Substring(box.Name.Length - 1))-1;
@@ -220,15 +228,29 @@ namespace GameWIndowTest1
             // change the ability to the new ability
             MessageBox.Show($"Ability {ability_index} changed from {state.characters[selected_index].abilities[ability_index].name} to {new_ability.name}");
             state.characters[selected_index].abilities[ability_index] = new_ability;
-        
+            */
        }
 
-        public ability find_ability_from_name(ComboBox box)
+        public void convert_boxes_to_abilities()
         {
-            string name = box.SelectedValue.ToString();
-            MessageBox.Show($"Finding ability {name}");
+            if (init_setup) { return;}
+
+            character current = _characters[selected_index];
+
+            // go through each box and assign that ability to the ability of the character
+            for (int i = 0; i < current.abilities.Length; i++)
+            {
+                ComboBox box = ComboBoxes[i];
+                var selected = box.SelectedItem.ToString();
+                current.abilities[i] = find_ability_from_name(selected);
+            }
+        }
+
+        public ability find_ability_from_name(string name)
+        {
+            List<ability> validAbilities = _characters[selected_index].get_valid_abilities();
             // go through each ability of the current character
-            foreach (ability _current in state.characters[selected_index].abilities)
+            foreach (ability _current in validAbilities)
             {
                 // and check to see if the ability is the same the one looking for
                 if (_current.name == name)
@@ -237,13 +259,13 @@ namespace GameWIndowTest1
                     return _current;
                 }
             }
+            MessageBox.Show($"Could not find '{name}'");
             // if no ability is found, return no ability selected
             return character.no_ability_selected;
         }
     
         public void set_drop_menu_values()
         {
-            List<ComboBox> ComboBoxes = new List<ComboBox> { Ability_Box1, Ability_Box2, Ability_Box3, Ability_Box4 };
             character current_character = state.characters[selected_index];
 
             for (int i = 0; i < current_character.abilities.Length; i++) 
