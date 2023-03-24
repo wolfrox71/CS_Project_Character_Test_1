@@ -1,0 +1,11 @@
+{
+  "ammount": 25,
+  "name": "Medium Damage",
+  "team": 1,
+  "uses_remaining": 5,
+  "ability_Type": 0,
+  "critical_hit_percentage": 5,
+  "critical_hit_bonus": 10,
+  "missing_percentage": 5,
+  "can_be_used": true
+}

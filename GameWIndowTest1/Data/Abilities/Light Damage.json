@@ -1,0 +1,11 @@
+{
+  "ammount": 10,
+  "name": "Light Damage",
+  "team": 2,
+  "uses_remaining": 20,
+  "ability_Type": 0,
+  "critical_hit_percentage": 10,
+  "critical_hit_bonus": 2,
+  "missing_percentage": 5,
+  "can_be_used": true
+}

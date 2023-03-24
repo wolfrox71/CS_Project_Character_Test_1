@@ -1,0 +1,11 @@
+{
+  "ammount": 8,
+  "name": "Light Healing",
+  "team": 2,
+  "uses_remaining": 10,
+  "ability_Type": 1,
+  "critical_hit_percentage": 10,
+  "critical_hit_bonus": 2,
+  "missing_percentage": 0,
+  "can_be_used": true
+}

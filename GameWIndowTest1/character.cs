@@ -69,7 +69,7 @@ namespace GameWIndowTest1
         public List<ability> get_valid_abilities()
         {
             List<ability> _All_Ability_list = new List<ability>();
-            string[] filenames = Directory.GetFiles("Abilities", "*.json", SearchOption.AllDirectories);
+            string[] filenames = Directory.GetFiles("Data/Abilities", "*.json", SearchOption.AllDirectories);
 
             foreach (string filename in filenames)
             {
@@ -96,10 +96,10 @@ namespace GameWIndowTest1
             List<ability> _healing_abilities = new List<ability>();
             List<ability> _damage_abilities = new List<ability>();
 
-            if (!Directory.Exists("Abilities"))
+            if (!Directory.Exists("Data/Abilities"))
             {
                 MessageBox.Show("Added Abilities Directory");
-                Directory.CreateDirectory("Abilities");
+                Directory.CreateDirectory("Data/Abilities");
             }
 
             _All_Ability_list = get_valid_abilities();
