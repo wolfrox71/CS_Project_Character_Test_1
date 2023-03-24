@@ -352,6 +352,12 @@ namespace GameWIndowTest1
                 
         }
 
+        public void use_revive_ability(character target, ability ability)
+        {
+            InfoBox.Text = $"Revived {target.name}";
+            target.revive(ability);
+            InfoBox.Text += $"\n{target.name} now has {target.health} health";
+        }
         public void deal_with_dead(int index)
         {
             character target = characters[index];
@@ -381,7 +387,40 @@ namespace GameWIndowTest1
             identifier_rectangle.Fill = Brushes.DarkGray;
 
             // disable the target's radio button so that it does not keep getting targeted
-            target_rb.IsEnabled = false;
+            
+            //target_rb.IsEnabled = false;
+        }
+        public void deal_with_revive(int index)
+        {
+            character target = characters[index];
+
+            // if the target is not dead, return from this function
+            if (target.IsDead) { return; }
+
+            // indicate that a character has dies this round
+            dead_index = index;
+
+            if (target.Friendly)
+            {
+                number_of_alive_friendly++;
+            }
+            else
+            {
+                number_of_alive_enemies++;
+            }
+
+            Rectangle target_rectangle = this.FindName(target.name) as Rectangle;
+            Rectangle identifier_rectangle = identifiers[index];
+            RadioButton target_rb = radioButtons[index];
+
+            // make the dead rectangles grey
+            target_rectangle.Fill = Brushes.Blue;
+            identifier_rectangle.Fill = Brushes.Blue;
+
+            // disable the target's radio button so that it does not keep getting targeted
+            target_rb.IsEnabled = true;
+            // resetup the dead characters as some radiobuttons will be enabled when they shouldnt be
+            setup_dead_characters();
         }
 
         public void set_next_nondead_radiobutton()
@@ -626,6 +665,16 @@ namespace GameWIndowTest1
                     }
                     use_healing_ability(target, _ability);
                 }
+                if (_ability.ability_Type == Ability_type.Revive)
+                {
+                    if (!target.IsDead)
+                    {
+                        InfoBox.Text = "Target is not dead";
+                        return;
+                    }
+                    use_revive_ability(target, _ability);
+                    deal_with_revive(index);
+                }
             }
             round();
             return;
@@ -694,7 +743,7 @@ namespace GameWIndowTest1
                         continue;
                     }
                     // if the ability is a damage on a friendly character while disabled
-                    if (target.Friendly && !can_team_damage && _a.ability_Type == Ability_type.Damage)
+                    if (target.Friendly && !can_team_damage && _a.ability_Type == Ability_type.Damage || target.IsDead)
                     {
                         // disable the ability
                         abilities[i].IsEnabled = false;
@@ -704,9 +753,17 @@ namespace GameWIndowTest1
                     {
                         // if trying to heal an enemy while disabled
                         // or trying to heal a character on max health
-                        if ((!target.Friendly && !can_heal_enemies) || (target.Friendly && (target.health == target.max_health)))
+                        if ((!target.Friendly && !can_heal_enemies) || (target.Friendly && (target.health == target.max_health)) || target.IsDead)
                         {
                             // disbale the ability
+                            abilities[i].IsEnabled = false;
+                            continue;
+                        }
+                    }
+                    if (_a.ability_Type == Ability_type.Revive)
+                    {
+                        if (!target.IsDead)
+                        {
                             abilities[i].IsEnabled = false;
                             continue;
                         }

@@ -10,6 +10,7 @@ namespace GameWIndowTest1.Abilities
     {
         Damage,
         Healing,
-        Block
+        Block,
+        Revive
     }
 }

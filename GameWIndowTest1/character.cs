@@ -299,6 +299,17 @@ namespace GameWIndowTest1
                 health = (revive_health_percentage * max_health) / 100;
             }
         }
+        public void revive(ability recived_ability)
+        {
+            if (recived_ability.ability_Type != Ability_type.Revive) { return; }
+            if (!IsDead) { return; }
+            health = recived_ability.ammount;
+            if (health >= max_health)
+            {
+                health = max_health;
+            }
+            return;
+        }
 
         public character(int _max_health, string _name, string _display_name, bool friendly)
         {
