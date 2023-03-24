@@ -7,5 +7,6 @@
   "critical_hit_percentage": 1,
   "critical_hit_bonus": 10,
   "missing_percentage": 0,
-  "can_be_used": true
+  "can_be_used": true,
+  "defaultly_equipped": true
 }

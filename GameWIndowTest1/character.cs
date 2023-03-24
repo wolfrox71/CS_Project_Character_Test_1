@@ -22,7 +22,7 @@ namespace GameWIndowTest1
 
         public int revive_health_percentage = 50;
 
-        public static ability no_ability_selected = new ability(0, "No ability Selected", 0, Ability_type.Damage, 0, 0, 0, Ability_Team.Both);
+        public static ability no_ability_selected = new ability(0, "No ability Selected", 0, Ability_type.Damage, 0, 0, 0, Ability_Team.Both, true);
 
         public ability[] abilities { get;  set; }  = new ability[4];
 
@@ -44,7 +44,7 @@ namespace GameWIndowTest1
                 Random rnd = new Random();
                 int val = rnd.Next(0, 26);
                 // times an ability can be used is 26-the damage it does for now
-                abilities[i] = new ability(val+1, alphabet[val].ToString(), 27-val, Ability_type.Damage, 0, 0, 0, Ability_Team.Both);
+                abilities[i] = new ability(val+1, alphabet[val].ToString(), 27-val, Ability_type.Damage, 0, 0, 0, Ability_Team.Both, true);
             }
         }
 
@@ -95,6 +95,7 @@ namespace GameWIndowTest1
             List<ability> _All_Ability_list = new List<ability>();
             List<ability> _healing_abilities = new List<ability>();
             List<ability> _damage_abilities = new List<ability>();
+            List<ability> _default = new List<ability>();
 
             if (!Directory.Exists("Data/Abilities"))
             {
@@ -106,18 +107,29 @@ namespace GameWIndowTest1
 
             foreach (ability _ability in _All_Ability_list)
             {
+                // if this ability is equiped by default
+                
                 switch (_ability.ability_Type)
                 {
                     case Ability_type.Damage:
-                        // if the ability is a damage ability
-                        // add this ability to the damage ability list
-                        _damage_abilities.Add(_ability);
+                        if (_ability.defaultly_equipped)
+                        {
+                            // add it to the list of
+                            _default.Add(_ability);
+
+                            // if the ability is a damage ability
+                            // add this ability to the damage ability list
+                            _damage_abilities.Add(_ability);
+                        }
                         break;
 
                     case Ability_type.Healing:
-                        // if the ability is a damage ability
-                        // add this ability to the healing ability list
-                        _healing_abilities.Add(_ability);
+                        if (_ability.defaultly_equipped)
+                        {
+                            // if the ability is a damage ability
+                            // add this ability to the healing ability list
+                            _healing_abilities.Add(_ability);
+                        }
                         break;
                 }
             }
