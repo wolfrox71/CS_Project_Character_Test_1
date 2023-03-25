@@ -36,6 +36,18 @@ namespace GameWIndowTest1
         public int critical_health_percentage { get;  set; } = 30; // this the % of max health that the ais will heal on so 30 is 30 % of max health
         public bool Friendly { get; set; }
 
+        public bool validReviveAbility()
+        {
+            foreach (ability _a in abilities)
+            {
+                if (_a.ability_Type == Ability_type.Revive && _a.can_be_used)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private void alphabet_init_abilities()
         {
             string alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -304,6 +316,8 @@ namespace GameWIndowTest1
             if (recived_ability.ability_Type != Ability_type.Revive) { return; }
             if (!IsDead) { return; }
             health = recived_ability.ammount;
+            // reduce the number of abilites used by one as this ability has been used
+            recived_ability.uses_remaining--;
             if (health >= max_health)
             {
                 health = max_health;

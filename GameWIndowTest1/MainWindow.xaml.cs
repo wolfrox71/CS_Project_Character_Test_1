@@ -93,7 +93,7 @@ namespace GameWIndowTest1
         public void setup_dead_characters()
         {
             // go through each character and see if they are already dead
-            for (int index = 0; index < characters.Count; index++) { deal_with_dead(index); }
+            for (int index = 0; index < characters.Count; index++) { deal_with_dead(index, false); }
         }
         
         public void goto_winner_screen()
@@ -202,6 +202,7 @@ namespace GameWIndowTest1
             set_abilities_names();
 
             // this enables and disables buttons
+            setup_dead_characters();
             enable_buttons();
             //set_buttons_avalablity();
 
@@ -258,7 +259,7 @@ namespace GameWIndowTest1
                         // pick the first non dead friendly character
                         target = Remaining_Friendly[index];
                         index++;
-                    } while (target.IsDead && index <= Remaining_Friendly.Count());
+                    } while (target.IsDead && index < Remaining_Friendly.Count());
                         // and do damage to them 
                     use_damage_ability(target, picked_ability);
                 }
@@ -323,7 +324,7 @@ namespace GameWIndowTest1
             if (target.health <= 0)
             {
                 int target_index = characters.IndexOf(target);
-                deal_with_dead(target_index);
+                deal_with_dead(target_index, true);
             }
         }
 
@@ -358,9 +359,13 @@ namespace GameWIndowTest1
             target.revive(ability);
             InfoBox.Text += $"\n{target.name} now has {target.health} health";
         }
-        public void deal_with_dead(int index)
+        public void deal_with_dead(int index, bool actuallyDead)
         {
             character target = characters[index];
+
+            int currentCharIndex = (characterID == -1) ? 0 : characterID;
+
+            character current = characters[currentCharIndex];
 
             // if the target is not dead, return from this function
             if (!target.IsDead) { return; }
@@ -369,13 +374,16 @@ namespace GameWIndowTest1
             death_in_round = true;
             dead_index = index;
 
-            if (target.Friendly)
+            if (actuallyDead)
             {
-                number_of_alive_friendly--;
-            }
-            else
-            {
-                number_of_alive_enemies--;
+                if (target.Friendly)
+                {
+                    number_of_alive_friendly--;
+                }
+                else
+                {
+                    number_of_alive_enemies--;
+                }
             }
 
             Rectangle target_rectangle = this.FindName(target.name) as Rectangle;
@@ -387,8 +395,16 @@ namespace GameWIndowTest1
             identifier_rectangle.Fill = Brushes.DarkGray;
 
             // disable the target's radio button so that it does not keep getting targeted
-            
-            //target_rb.IsEnabled = false;
+
+            if (current.validReviveAbility())
+            {
+                target_rb.IsEnabled = true;
+            }
+            else
+            {
+                target_rb.IsEnabled = false;
+
+            }
         }
         public void deal_with_revive(int index)
         {
@@ -742,8 +758,15 @@ namespace GameWIndowTest1
                         abilities[i].IsEnabled = false;
                         continue;
                     }
+                    // if the character is dead and cannot be revived
+                    if (target.IsDead && !current_character.validReviveAbility())
+                    {
+                        abilities[i].IsEnabled = false;
+                        continue;
+                    }
+
                     // if the ability is a damage on a friendly character while disabled
-                    if (target.Friendly && !can_team_damage && _a.ability_Type == Ability_type.Damage || target.IsDead)
+                    if (target.Friendly && !can_team_damage && _a.ability_Type == Ability_type.Damage)
                     {
                         // disable the ability
                         abilities[i].IsEnabled = false;
@@ -753,7 +776,7 @@ namespace GameWIndowTest1
                     {
                         // if trying to heal an enemy while disabled
                         // or trying to heal a character on max health
-                        if ((!target.Friendly && !can_heal_enemies) || (target.Friendly && (target.health == target.max_health)) || target.IsDead)
+                        if ((!target.Friendly && !can_heal_enemies) || (target.Friendly && (target.health == target.max_health)))
                         {
                             // disbale the ability
                             abilities[i].IsEnabled = false;

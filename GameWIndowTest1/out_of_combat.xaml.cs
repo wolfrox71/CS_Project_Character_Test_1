@@ -74,7 +74,7 @@ namespace GameWIndowTest1
                 Healing_Button.IsEnabled = true;
             }
 
-            if (_current.IsDead && state.money <= revive_cost)
+            if (_current.IsDead && state.money >= revive_cost)
             {
                 Revive_Button.IsEnabled = true;
             }
