@@ -36,6 +36,7 @@ namespace GameWIndowTest1
         public int critical_health_percentage { get;  set; } = 30; // this the % of max health that the ais will heal on so 30 is 30 % of max health
         public bool Friendly { get; set; }
 
+        List<ability> previous_abilities = new List<ability>();
         public bool validReviveAbility()
         {
             foreach (ability _a in abilities)
@@ -423,6 +424,38 @@ namespace GameWIndowTest1
             }
             // return false as the ability name wasnt in any of the selected abilites of this class
             return false;
+        }
+
+        public void updateAbility(ability new_ability, int index)
+        {
+            ability old_ability = abilities[index];
+
+            ability previous_version = no_ability_selected;
+
+            // go through each previous ability 
+            foreach (ability _ability in previous_abilities)
+            {
+                // if this ability is the same as the one entered
+                if (_ability.name == new_ability.name)
+                {
+                    // this ability has already been equiped
+                    previous_version = _ability;
+                    MessageBox.Show($"Already found a version of {_ability.name}");
+                    break;
+                }
+            }
+
+            previous_abilities.Add(old_ability);
+
+            // if a previous version existsed
+            if (previous_version != no_ability_selected)
+            {
+                abilities[index] = previous_version;
+            }
+            else
+            {
+                abilities[index] = new_ability;
+            }
         }
     }
 }

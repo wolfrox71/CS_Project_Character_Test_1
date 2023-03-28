@@ -247,10 +247,10 @@ namespace GameWIndowTest1
             }
 
             // output that the ability is about to be changed
+
             MessageBox.Show($"Ability {ability_index} changed from {current_character.abilities[ability_index].name} to {new_ability.name}");
             // and change it
-            current_character.abilities[ability_index] = new_ability;
-            
+            current_character.updateAbility(new_ability, ability_index);            
        }
 
         public void set_last_item_box(ComboBox box, ability previous_ability)
