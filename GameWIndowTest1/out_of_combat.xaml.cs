@@ -230,7 +230,9 @@ namespace GameWIndowTest1
 
             ComboBox box = sender as ComboBox;
 
-            if (box == null) { MessageBox.Show("Null so returning");  return; }
+            if (box.SelectedItem == null) {
+                //MessageBox.Show("Null so returning");
+                return; }
             int ability_index = Int32.Parse(box.Name.Substring(box.Name.Length - 1))-1;
             var selected = box.SelectedItem.ToString();
             ability new_ability = find_ability_from_name(selected);
@@ -345,9 +347,26 @@ namespace GameWIndowTest1
             Mid_Block.Text += $"\nRevives cost {revive_cost}";
             Mid_Block.Text += $"\nRestores cost {restore_uses_cost}";
 
-            Mid_Block.Text += $"\n\n{current.abilities} had {current.health}";
+            string ability_name = abilityBox.SelectedItem.ToString();
+            ability selectedAbility = character.no_ability_selected;
 
+            foreach (ability _a in current.abilities)
+            {
+                // if this is the ability that was selected by the player
+                if (_a.name == ability_name) { selectedAbility = _a; break; }
+            }
 
+            if (selectedAbility == character.no_ability_selected)
+            {
+                // if no ability was selected 
+                // return and cost nothing
+                return;
+            }
+
+            MessageBox.Show($"{selectedAbility.name}: {selectedAbility.uses_remaining}/{selectedAbility.max_number_of_uses}");
+
+            // set the number of uses remaing on this ability to the max number of uses it can have
+            selectedAbility.uses_remaining = selectedAbility.max_number_of_uses;
 
             state.money -= restore_uses_cost;
 
