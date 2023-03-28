@@ -220,21 +220,22 @@ namespace GameWIndowTest1
         private void Ability_box_changed(object sender, SelectionChangedEventArgs e)
         {
             if (init_setup) { return; }
-            /*
+            
             ComboBox box = sender as ComboBox;
             if (box == null) { MessageBox.Show("Null so returning");  return; }
             int ability_index = Int32.Parse(box.Name.Substring(box.Name.Length - 1))-1;
-            ability new_ability = find_ability_from_name(box);
+            var selected = box.SelectedItem.ToString();
+            ability new_ability = find_ability_from_name(selected);
             // change the ability to the new ability
             MessageBox.Show($"Ability {ability_index} changed from {state.characters[selected_index].abilities[ability_index].name} to {new_ability.name}");
             state.characters[selected_index].abilities[ability_index] = new_ability;
-            */
+            
        }
 
         public void convert_boxes_to_abilities()
         {
             if (init_setup) { return;}
-
+            /*
             character current = _characters[selected_index];
 
             // go through each box and assign that ability to the ability of the character
@@ -243,7 +244,7 @@ namespace GameWIndowTest1
                 ComboBox box = ComboBoxes[i];
                 var selected = box.SelectedItem.ToString();
                 current.abilities[i] = find_ability_from_name(selected);
-            }
+            */
         }
 
         public ability find_ability_from_name(string name)
