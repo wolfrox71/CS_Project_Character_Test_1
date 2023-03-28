@@ -2,11 +2,12 @@
   "ammount": 30,
   "name": "Heavy Damage",
   "team": 0,
+  "max_number_of_uses": 5,
   "uses_remaining": 5,
   "ability_Type": 0,
   "critical_hit_percentage": 1,
   "critical_hit_bonus": 10,
   "missing_percentage": 5,
   "can_be_used": true,
-  "defaultly_equipped":  true
+  "defaultly_equipped": true
 }

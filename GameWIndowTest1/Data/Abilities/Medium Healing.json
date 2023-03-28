@@ -2,6 +2,7 @@
   "ammount": 25,
   "name": "Medium Healing",
   "team": 1,
+  "max_number_of_uses": 2,
   "uses_remaining": 2,
   "ability_Type": 1,
   "critical_hit_percentage": 1,

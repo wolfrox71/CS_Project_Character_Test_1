@@ -2,6 +2,7 @@
   "ammount": 8,
   "name": "Light Healing",
   "team": 2,
+  "max_number_of_uses": 10,
   "uses_remaining": 10,
   "ability_Type": 1,
   "critical_hit_percentage": 10,

@@ -2,11 +2,12 @@
   "ammount": 30,
   "name": "Heavy Revive",
   "team": 0,
+  "max_number_of_uses": 1,
   "uses_remaining": 1,
   "ability_Type": 3,
   "critical_hit_percentage": 0,
   "critical_hit_bonus": 0,
   "missing_percentage": 0,
   "can_be_used": true,
-  "defaultly_equipped":  false
+  "defaultly_equipped": false
 }

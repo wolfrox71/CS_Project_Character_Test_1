@@ -2,6 +2,7 @@
   "ammount": 25,
   "name": "Medium Damage",
   "team": 1,
+  "max_number_of_uses": 5,
   "uses_remaining": 5,
   "ability_Type": 0,
   "critical_hit_percentage": 5,

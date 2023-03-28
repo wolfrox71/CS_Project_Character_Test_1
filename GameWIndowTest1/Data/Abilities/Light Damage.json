@@ -2,6 +2,7 @@
   "ammount": 10,
   "name": "Light Damage",
   "team": 2,
+  "max_number_of_uses": 20,
   "uses_remaining": 20,
   "ability_Type": 0,
   "critical_hit_percentage": 10,
