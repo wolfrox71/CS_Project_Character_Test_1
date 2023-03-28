@@ -33,7 +33,9 @@ namespace GameWIndowTest1
         int heal_ammount = 10;
         int heal_cost = 500;
         int revive_cost = 1000;
-        
+        int restore_uses_cost = 200;
+
+
         bool init_setup = true;
 
         int selected_index = 0;
@@ -58,7 +60,8 @@ namespace GameWIndowTest1
             Mid_Block.Text = $"{state.money} money";
             Mid_Block.Text += $"\nHeals cost {heal_cost} for {heal_ammount} healing";
             Mid_Block.Text += $"\nRevives cost {revive_cost}";
-
+            Mid_Block.Text += $"\nRestore cost {restore_uses_cost}";
+            set_ability_selector_vals();
         }
 
         public void set_character_details()
@@ -151,6 +154,7 @@ namespace GameWIndowTest1
             Mid_Block.Text = $"\n{state.money-heal_cost} money";
             Mid_Block.Text += $"\nHeals cost {heal_cost} for {heal_ammount} healing";
             Mid_Block.Text += $"\nRevives cost {revive_cost}";
+            Mid_Block.Text += $"\nRestores cost {restore_uses_cost}";
 
             character current = _characters[selected_index];
             Mid_Block.Text += $"\n\n{current.display_name} had {current.health}";
@@ -196,6 +200,7 @@ namespace GameWIndowTest1
             Mid_Block.Text = $"{state.money-revive_cost} money";
             Mid_Block.Text += $"\nHeals cost {heal_cost} for {heal_ammount} healing";
             Mid_Block.Text += $"\nRevives cost {revive_cost}";
+            Mid_Block.Text += $"\nRestores cost {restore_uses_cost}";
 
             Mid_Block.Text += $"\n\n{current.display_name} had {current.health}";
 
@@ -243,6 +248,7 @@ namespace GameWIndowTest1
                 MessageBox.Show($"{new_ability.name} is already equiped so cannot be equiped again");
                 set_last_item_box(box, current_character.abilities[ability_index]);
                 // and return so that the ability is not change
+                set_ability_selector_vals();
                 return;
             }
 
@@ -250,7 +256,8 @@ namespace GameWIndowTest1
 
             MessageBox.Show($"Ability {ability_index} changed from {current_character.abilities[ability_index].name} to {new_ability.name}");
             // and change it
-            current_character.updateAbility(new_ability, ability_index);            
+            current_character.updateAbility(new_ability, ability_index);
+            set_ability_selector_vals();
        }
 
         public void set_last_item_box(ComboBox box, ability previous_ability)
@@ -307,14 +314,49 @@ namespace GameWIndowTest1
         public void set_drop_menu_values()
         {
             character current_character = state.characters[selected_index];
-
             for (int i = 0; i < current_character.abilities.Length; i++) 
             {
                 ComboBox box = ComboBoxes[i];
-                string current_ability = current_character.abilities[i].name;
-                //MessageBox.Show(current_ability.ToString());
                 box.SelectedIndex = box.Items.IndexOf(current_character.abilities[i].name);
             }
+        }
+
+        public void set_ability_selector_vals()
+        {
+            character current_character = state.characters[selected_index];
+            ComboBox abilityBox = Ability_Selector;
+            abilityBox.Items.Clear();
+            for (int i = 0; i < current_character.abilities.Length; i++)
+            {
+                string current_ability = current_character.abilities[i].name;
+                //MessageBox.Show(current_ability.ToString());
+                string val = $"{current_ability}";
+                abilityBox.Items.Add(val);
+            }
+            abilityBox.SelectedIndex = 0;
+        }
+
+        private void Restore_Uses_Click(object sender, RoutedEventArgs e)
+        {
+            ComboBox abilityBox = Ability_Selector;
+            character current = _characters[selected_index];
+            Mid_Block.Text = $"{state.money - restore_uses_cost} money";
+            Mid_Block.Text += $"\nHeals cost {heal_cost} for {heal_ammount} healing";
+            Mid_Block.Text += $"\nRevives cost {revive_cost}";
+            Mid_Block.Text += $"\nRestores cost {restore_uses_cost}";
+
+            Mid_Block.Text += $"\n\n{current.abilities} had {current.health}";
+
+
+
+            state.money -= restore_uses_cost;
+
+            if (state.money <= restore_uses_cost)
+            {
+                // disable the healing button as it has run out of uses
+                Restore_Uses.IsEnabled = false;
+            }
+            set_character_details();
         }
     }
 }

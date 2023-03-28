@@ -70,5 +70,9 @@
         <RadioButton Grid.Row="5" Grid.Column="1" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Bottom" Name="RB_Character1" IsChecked="True" Checked="Radio_Changed" Margin="0,0,0,6"/>
         <RadioButton Grid.Row="5" Grid.Column="5" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character2" Checked="Radio_Changed"/>
         <Button Grid.Row="1" Grid.Column="6"  x:Name="Save_Button" Content="Save" Click="Save_Button_Click"/>
+    
+        <!-- Restoring Uses Remaining -->
+        <Button Grid.Row="1" Grid.Column="0" x:Name="Restore_Uses" Content="Restore" Click="Restore_Uses_Click"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" x:Name="Ability_Selector"/>
     </Grid>
 </Window>
