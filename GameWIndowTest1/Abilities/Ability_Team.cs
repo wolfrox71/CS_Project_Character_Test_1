@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace GameWIndowTest1.Abilities
 {
-    public enum Ability_type
+    public enum Ability_Team
     {
-        Damage,
-        Healing,
-        Block,
-        Revive
+        Friendly,
+        Enemy,
+        Both
     }
 }

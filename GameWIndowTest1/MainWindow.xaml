@@ -35,9 +35,10 @@
         <Rectangle
             Grid.Row="2"
             Grid.Column="1"
-                   x:Name="Character1"
-                   Tag="Character"
-                   >
+
+             x:Name="Character1"
+             Tag="Character"
+             >
             <Rectangle.ContextMenu>
                 <ContextMenu>
                     <MenuItem Tag="Character1" Header="Show Character Details" Click="Show_Character_Click"/>
@@ -56,6 +57,8 @@
             </Rectangle.Fill>
         </Rectangle>
         <Rectangle Grid.Row="1" Grid.Column="1" Name="Character1_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>
+
+        <TextBlock x:Name="Rect_1_health" Grid.Row="3" Grid.Column="1"/>
 
         <RadioButton Grid.Row="4" Grid.Column="1" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character1" IsChecked="True" Checked="RadioButton_Changed"/>
 
@@ -86,7 +89,8 @@
         </Rectangle>
 
         <Rectangle Grid.Row="1" Grid.Column="3" x:Name="Character2_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>
-
+        
+        <TextBlock x:Name="Rect_2_health" Grid.Row="3" Grid.Column="3"/>
         <RadioButton Grid.Row="4" Grid.Column="3" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character2" Checked="RadioButton_Changed"/>
 
         <!-- Text Boxes -->
@@ -119,7 +123,7 @@
         </Rectangle>
 
         <Rectangle Grid.Column="5" Grid.Row="1"  x:Name="Character3_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>
-
+        <TextBlock x:Name="Rect_3_health" Grid.Row="3" Grid.Column="5"/>
         <RadioButton Grid.Row="4" Grid.Column="5" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Bottom" Name="RB_Character3" Margin="0,0,0,12" Checked="RadioButton_Changed"/>
 
 
@@ -151,9 +155,10 @@
         </Rectangle>
 
         <Rectangle Grid.Column="7" Grid.Row="1"  x:Name="Character4_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>
-
+        <TextBlock x:Name="Rect_4_health" Grid.Row="3" Grid.Column="7"/>
         <RadioButton Grid.Column="7" Grid.Row="4" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character4" Checked="RadioButton_Changed" />
 
+        
         <TextBlock Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Text="Target"/>
 
         <Button Name="Ability_1_button" Grid.Column="1" Grid.Row="5" Tag="Ability 1" Click="Ability_Click">

@@ -11,7 +11,10 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="5*"/>
             <RowDefinition Height="10*"/>
-            <RowDefinition Height="40*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="10*"/>
+
             <RowDefinition Height="4*"/>
             <RowDefinition Height="8*"/>
             <RowDefinition Height ="8*"/>
@@ -27,24 +30,45 @@
             <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
         <!-- Next fight Button -->
-        <Button Grid.Column="3" Grid.Row="4" Content="Go To Next Fight" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="200" Click="Next_fight"/>
+        <Button Grid.Column="3" Grid.Row="6" Content="Go To Next Fight" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="200" Click="Next_fight"/>
         <!-- Heal Button-->
-        <Button Name="Healing_Button" Grid.Column="1" Grid.Row="4" Content="Heal" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="200" Click="Heal_Button"/>
+        <Button Name="Healing_Button" Grid.Column="1" Grid.Row="6" Content="Heal" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="200" Click="Heal_Button"/>
 
         <!-- Revive Button -->
-        <Button Name="Revive_Button" Grid.Column="5" Grid.Row="4" Content="Revive" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="200" Click="Revive_Button_Click"/>
+        <Button Name="Revive_Button" Grid.Column="5" Grid.Row="6" Content="Revive" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="200" Click="Revive_Button_Click"/>
 
         <!-- Character 1-->
         <TextBlock Grid.Row="2" Grid.Column="1" Name="Character_1_Block" HorizontalAlignment="Center"/>
-        
+        <Grid Grid.Row="4" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <ComboBox Grid.Row="0" Grid.Column="0" Name="Ability_Box1" SelectionChanged="Ability_box_changed"/>
+            <ComboBox Grid.Row="0" Grid.Column="1" Name="Ability_Box2" SelectionChanged="Ability_box_changed"/>
+        </Grid>
+
         <!-- Mid Box-->
         <TextBlock Grid.Row="2" Grid.Column="3" Name="Mid_Block" HorizontalAlignment="Center"/>
 
+        <Grid Grid.Row="4" Grid.Column="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <ComboBox Grid.Row="0" Grid.Column="0" Name="Ability_Box3" SelectionChanged="Ability_box_changed"/>
+            <ComboBox Grid.Row="0" Grid.Column="1" Name="Ability_Box4" SelectionChanged="Ability_box_changed"/>
+        </Grid>
+
+
         <!-- Character 2-->
         <TextBlock Grid.Row="2" Grid.Column="5" Name="Character_2_Block" HorizontalAlignment="Center"/>
-        
+
         <!-- RadioButtons-->
-        <RadioButton Grid.Row="3" Grid.Column="1" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character1" IsChecked="True" Checked="Radio_Changed"/>
-        <RadioButton Grid.Row="3" Grid.Column="5" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character2" Checked="Radio_Changed"/>
+        <RadioButton Grid.Row="5" Grid.Column="1" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Bottom" Name="RB_Character1" IsChecked="True" Checked="Radio_Changed" Margin="0,0,0,6"/>
+        <RadioButton Grid.Row="5" Grid.Column="5" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character2" Checked="Radio_Changed"/>
+        <Button Grid.Row="1" Grid.Column="6"  x:Name="Save_Button" Content="Save" Click="Save_Button_Click"/>
     </Grid>
 </Window>

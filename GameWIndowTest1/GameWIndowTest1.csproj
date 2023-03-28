@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Abilities\Abilities\**" />
+    <EmbeddedResource Remove="Abilities\Abilities\**" />
+    <None Remove="Abilities\Abilities\**" />
+    <Page Remove="Abilities\Abilities\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\Ability_Icons\Ability_A.png" />
     <None Remove="Resources\Ability_Icons\Ability_B.png" />
     <None Remove="Resources\Ability_Icons\Ability_Blank.png" />
@@ -148,6 +155,36 @@
     <Resource Include="Resources\Character Images\JJT.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Data\Abilities\Heavy Damage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Abilities\Heavy Healing.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Abilities\Heavy Revive.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Abilities\Light Damage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Abilities\Light Healing.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Abilities\Light Revive.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Abilities\Medium Damage.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Abilities\Medium Healing.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\Saves\.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

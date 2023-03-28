@@ -1,0 +1,12 @@
+﻿{
+  "ammount": 10,
+  "name": "Light Revive",
+  "team": 0,
+  "uses_remaining": 5,
+  "ability_Type": 3,
+  "critical_hit_percentage": 0,
+  "critical_hit_bonus": 0,
+  "missing_percentage": 0,
+  "can_be_used": true,
+  "defaultly_equipped":  false
+}

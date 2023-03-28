@@ -45,6 +45,8 @@ namespace GameWIndowTest1
         int number_of_alive_friendly = 0;
         int number_of_alive_enemies = 0;
 
+        int ammount_for_winning = 1000;
+
         List<Rectangle> identifiers; // the identifier rectangles above the characters to show whos go it is
         List<character> characters = new List<character>();
         List<(character, Rectangle, Rectangle, RadioButton, int)> dead = new List<(character, Rectangle, Rectangle, RadioButton, int)>();
@@ -52,8 +54,8 @@ namespace GameWIndowTest1
 
         List<character> Remaining_Friendly;
         List<character> Remaining_Enemy = new List<character> {
-            new character(40, "Character3", false) ,
-            new character(40, "Character4", false) 
+            new character(40, "Character3", "Enemy 1" , false) ,
+            new character(40, "Character4" , "Enemy 2", false) 
         };
         // these are for how many waves of enemies do you fight
         int wave_number;
@@ -85,13 +87,13 @@ namespace GameWIndowTest1
 
             show_character_details(characters[0]);
             round(); // start a round to init the block
+
         }
 
         public void setup_dead_characters()
         {
             // go through each character and see if they are already dead
             for (int index = 0; index < characters.Count; index++) { deal_with_dead(index); }
-
             Rect_1_Image.ImageSource = new BitmapImage(new Uri(@"C:\Users\wolfr\source\repos\GameWIndowTest1\GameWIndowTest1\Resources\Character Images\image.png", UriKind.Absolute));
             Rect_2_Image.ImageSource = new BitmapImage(new Uri(@"C:\Users\wolfr\source\repos\GameWIndowTest1\GameWIndowTest1\Resources\Character Images\when-the-mario-is-sus-1-1.png", UriKind.Absolute));
             Rect_3_Image.ImageSource = new BitmapImage(new Uri(@"C:\Users\wolfr\source\repos\GameWIndowTest1\GameWIndowTest1\Resources\Character Images\JJT.jpg", UriKind.Absolute));
@@ -123,6 +125,9 @@ namespace GameWIndowTest1
             }
             else
             {
+
+                state.money += ammount_for_winning;
+
                 // if not go to the out of combat screen
                 state.characters = Remaining_Friendly; // i cannot make Remaining_Friendly a reference to state.characters
                 // as "ref fields are not useable until c# v 11, this is v 10"
@@ -130,6 +135,44 @@ namespace GameWIndowTest1
                 out_of_combat out_of_combat_screen = new out_of_combat(state);
                 out_of_combat_screen.Show();
                 this.Close();
+            }
+        }
+
+        public void set_health_bar()
+        {
+            List<TextBlock> healthbars = new List<TextBlock> { Rect_1_health, Rect_2_health, Rect_3_health, Rect_4_health };
+
+            for (int index = 0; index < characters.Count;index++)
+            {
+                int current_health = characters[index].health;
+                int max_health = characters[index].max_health;
+                healthbars[index].Text = $"{((current_health >= 0) ? current_health : 0)}/{max_health}";
+                // if the character is between 100% and 66% health
+                if ((current_health*100/max_health) > 66)
+                {
+                    healthbars[index].Foreground = Brushes.Green;
+                    healthbars[index].TextAlignment= TextAlignment.Center;
+                    continue;
+                }
+                // if the character is below 66% health
+                if ((current_health * 100 / max_health) > 33)
+                {
+                    healthbars[index].Foreground = Brushes.Orange;
+                    healthbars[index].TextAlignment = TextAlignment.Center;
+                    continue;
+                }
+                // if the character is below 33% health
+                if ((current_health * 100 / max_health) > 0)
+                {
+                    healthbars[index].Foreground = Brushes.Red;
+                    healthbars[index].TextAlignment = TextAlignment.Center;
+                    continue;
+                }
+                // if the character is dead
+                healthbars[index].Foreground = Brushes.Black;
+                healthbars[index].TextAlignment = TextAlignment.Center;
+                continue;
+
             }
         }
 
@@ -164,8 +207,11 @@ namespace GameWIndowTest1
             set_abilities_names();
 
             // this enables and disables buttons
+            setup_dead_characters();
             enable_buttons();
             //set_buttons_avalablity();
+
+            set_health_bar();
 
             round_complete = false;
             death_in_round = false;
@@ -218,7 +264,7 @@ namespace GameWIndowTest1
                         // pick the first non dead friendly character
                         target = Remaining_Friendly[index];
                         index++;
-                    } while (target.IsDead && index <= Remaining_Friendly.Count());
+                    } while (target.IsDead && index < Remaining_Friendly.Count());
                         // and do damage to them 
                     use_damage_ability(target, picked_ability);
                 }
@@ -249,7 +295,7 @@ namespace GameWIndowTest1
 
         public void use_damage_ability(character target, ability ability)
         {
-            Heading_Info_Box.Text = target.name;
+            Heading_Info_Box.Text = target.display_name;
 
             Random rnd = new Random();
             // if the value is a critical hit 
@@ -257,12 +303,12 @@ namespace GameWIndowTest1
 
             if (rnd.Next(0, 101) <= ability.missing_percentage && missing_enabled)
             {
-                InfoBox.Text = $"Attack missed on {target.name}";
+                InfoBox.Text = $"Attack missed on {target.display_name}";
                 return;
             }
 
-            InfoBox.Text = $"Damaging {target.name} for {ability.ammount}";
-            InfoBox.Text += $"\n{target.name} has {target.health}";
+            InfoBox.Text = $"Damaging {target.display_name} for {ability.ammount}";
+            InfoBox.Text += $"\n{target.display_name} has {target.health}";
 
             if (critical_hit)
             {
@@ -274,47 +320,57 @@ namespace GameWIndowTest1
             // if the target dodged the attack
             if (target.takedamage(ability, critical_hit) == success_status.Dodge)
             {
-                InfoBox.Text += $"\n{target.name} dodged the attack";
+                InfoBox.Text += $"\n{target.display_name} dodged the attack";
             }
-            InfoBox.Text += $"\n{target.name} now has {target.health}";
+            InfoBox.Text += $"\n{target.display_name} now has {target.health}";
 
 
             // if the target died from that
             if (target.health <= 0)
             {
                 int target_index = characters.IndexOf(target);
-                deal_with_dead(target_index);
+                deal_with_dead(target_index, true);
             }
         }
 
         public void use_healing_ability(character target, ability ability)
         {
-            Heading_Info_Box.Text = target.name;
+            Heading_Info_Box.Text = target.display_name;
 
             Random rnd = new Random();
             // if the value is a critical hit 
             bool critical_hit = rnd.Next(0, 101) <= ability.critical_hit_percentage && critical_hit_enabled;
 
 
-            InfoBox.Text = $"Healing {target.name} for {ability.ammount}";
+            InfoBox.Text = $"Healing {target.display_name} for {ability.ammount}";
 
             if (critical_hit)
             {
                 InfoBox.Text += $"\nCritical Hit bonus {ability.critical_hit_bonus}";
             }
 
-            InfoBox.Text += $"\n{target.name} has {target.health}";
+            InfoBox.Text += $"\n{target.display_name} has {target.health}";
 
             // heal the current character by the healing of the move
             target.heal(ability, critical_hit);
 
-            InfoBox.Text += $"\n{target.name} now has {target.health}";
+            InfoBox.Text += $"\n{target.display_name} now has {target.health}";
                 
         }
 
-        public void deal_with_dead(int index)
+        public void use_revive_ability(character target, ability ability)
+        {
+            InfoBox.Text = $"Revived {target.name}";
+            target.revive(ability);
+            InfoBox.Text += $"\n{target.name} now has {target.health} health";
+        }
+        public void deal_with_dead(int index, bool actuallyDead)
         {
             character target = characters[index];
+
+            int currentCharIndex = (characterID == -1) ? 0 : characterID;
+
+            character current = characters[currentCharIndex];
 
             // if the target is not dead, return from this function
             if (!target.IsDead) { return; }
@@ -323,13 +379,16 @@ namespace GameWIndowTest1
             death_in_round = true;
             dead_index = index;
 
-            if (target.Friendly)
+            if (actuallyDead)
             {
-                number_of_alive_friendly--;
-            }
-            else
-            {
-                number_of_alive_enemies--;
+                if (target.Friendly)
+                {
+                    number_of_alive_friendly--;
+                }
+                else
+                {
+                    number_of_alive_enemies--;
+                }
             }
 
             Rectangle target_rectangle = this.FindName(target.name) as Rectangle;
@@ -341,7 +400,48 @@ namespace GameWIndowTest1
             identifier_rectangle.Fill = Brushes.DarkGray;
 
             // disable the target's radio button so that it does not keep getting targeted
-            target_rb.IsEnabled = false;
+
+            if (current.validReviveAbility())
+            {
+                target_rb.IsEnabled = true;
+            }
+            else
+            {
+                target_rb.IsEnabled = false;
+
+            }
+        }
+        public void deal_with_revive(int index)
+        {
+            character target = characters[index];
+
+            // if the target is not dead, return from this function
+            if (target.IsDead) { return; }
+
+            // indicate that a character has dies this round
+            dead_index = index;
+
+            if (target.Friendly)
+            {
+                number_of_alive_friendly++;
+            }
+            else
+            {
+                number_of_alive_enemies++;
+            }
+
+            Rectangle target_rectangle = this.FindName(target.name) as Rectangle;
+            Rectangle identifier_rectangle = identifiers[index];
+            RadioButton target_rb = radioButtons[index];
+
+            // make the dead rectangles grey
+            target_rectangle.Fill = Brushes.Blue;
+            identifier_rectangle.Fill = Brushes.Blue;
+
+            // disable the target's radio button so that it does not keep getting targeted
+            target_rb.IsEnabled = true;
+            // resetup the dead characters as some radiobuttons will be enabled when they shouldnt be
+            setup_dead_characters();
         }
 
         public void set_next_nondead_radiobutton()
@@ -413,7 +513,7 @@ namespace GameWIndowTest1
 
             // get the character class from the array of characters with the name
             // of the rectangle
-            character current_character = new character(-1, "Character not found", true);
+            character current_character = new character(-1, "Character not found", "Default Character" , true);
 
             for (int countID = 0; countID < characters.Count(); countID++)
             {
@@ -427,7 +527,7 @@ namespace GameWIndowTest1
                         current_character = this_char;
                         break; // as no need to search the other characters
                     }
-                    HeadingInfoBox.Text = this_char.name;
+                    HeadingInfoBox.Text = this_char.display_name;
                     InfoBox.Text = $"{round_count}\nIncorrect user move picked";
                     return;
                 }
@@ -456,7 +556,7 @@ namespace GameWIndowTest1
                 default:
                     // if no option is clicked return
                     infoBox.Text = header;
-                    HeadingInfoBox.Text = current_character.name;
+                    HeadingInfoBox.Text = current_character.display_name;
 
                     break;
             }
@@ -491,7 +591,7 @@ namespace GameWIndowTest1
         {
             TextBlock infoBox = this.FindName("InfoBox") as TextBlock;
             TextBlock HeadingInfoBox = this.FindName("Heading_Info_Box") as TextBlock;
-            HeadingInfoBox.Text = $"Abilities for {_char.name}";
+            HeadingInfoBox.Text = $"Abilities for {_char.display_name}";
             HeadingInfoBox.FontSize = 24;
             infoBox.Text = "In (Name, Ammount, Uses Remaining, Type) format\n-----\n";
             infoBox.Text += $"Round {round_count}";
@@ -507,7 +607,7 @@ namespace GameWIndowTest1
         {
             TextBlock infoBox = this.FindName("InfoBox") as TextBlock;
             TextBlock HeadingInfoBox = this.FindName("Heading_Info_Box") as TextBlock;
-            HeadingInfoBox.Text = $"{_char.name}";
+            HeadingInfoBox.Text = $"{_char.display_name}";
             HeadingInfoBox.FontSize = 26;
             infoBox.Text = $"Health: {_char.health}\n";
             infoBox.Text += $"Round {round_count}";
@@ -586,6 +686,16 @@ namespace GameWIndowTest1
                     }
                     use_healing_ability(target, _ability);
                 }
+                if (_ability.ability_Type == Ability_type.Revive)
+                {
+                    if (!target.IsDead)
+                    {
+                        InfoBox.Text = "Target is not dead";
+                        return;
+                    }
+                    use_revive_ability(target, _ability);
+                    deal_with_revive(index);
+                }
             }
             round();
             return;
@@ -653,6 +763,13 @@ namespace GameWIndowTest1
                         abilities[i].IsEnabled = false;
                         continue;
                     }
+                    // if the character is dead and cannot be revived
+                    if (target.IsDead && !current_character.validReviveAbility())
+                    {
+                        abilities[i].IsEnabled = false;
+                        continue;
+                    }
+
                     // if the ability is a damage on a friendly character while disabled
                     if (target.Friendly && !can_team_damage && _a.ability_Type == Ability_type.Damage)
                     {
@@ -667,6 +784,14 @@ namespace GameWIndowTest1
                         if ((!target.Friendly && !can_heal_enemies) || (target.Friendly && (target.health == target.max_health)))
                         {
                             // disbale the ability
+                            abilities[i].IsEnabled = false;
+                            continue;
+                        }
+                    }
+                    if (_a.ability_Type == Ability_type.Revive)
+                    {
+                        if (!target.IsDead)
+                        {
                             abilities[i].IsEnabled = false;
                             continue;
                         }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +14,8 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
+using GameWIndowTest1.Abilities;
 
 namespace GameWIndowTest1
 {
@@ -25,10 +28,13 @@ namespace GameWIndowTest1
         int _max_r_n;
         List<character> _characters = new List<character>();
         List<TextBlock> _character_blocks;
+        List<ComboBox> ComboBoxes;
 
         int heal_ammount = 10;
-        int heal_uses = 5;
-        int revive_uses = 1; 
+        int heal_cost = 500;
+        int revive_cost = 1000;
+        
+        bool init_setup = true;
 
         int selected_index = 0;
 
@@ -44,17 +50,22 @@ namespace GameWIndowTest1
             state = _current_state;
 
             _character_blocks = new List<TextBlock> { Character_1_Block, Character_2_Block };
-
+            ComboBoxes = new List<ComboBox> { Ability_Box1, Ability_Box2, Ability_Box3, Ability_Box4 };
             //_characters[0].takedamage(15);
             //_characters[1].takedamage(8);
             set_character_details();
+
+            Mid_Block.Text = $"{state.money} money";
+            Mid_Block.Text += $"\nHeals cost {heal_cost} for {heal_ammount} healing";
+            Mid_Block.Text += $"\nRevives cost {revive_cost}";
+
         }
 
         public void set_character_details()
         {
             character _current = _characters[selected_index];
             // if the selected character cannot be healed anymore
-            if (_current.IsDead || _current.health >= _current.max_health)
+            if (_current.IsDead || _current.health >= _current.max_health || state.money <= heal_cost)
             {
                 Healing_Button.IsEnabled = false;
             }
@@ -63,7 +74,7 @@ namespace GameWIndowTest1
                 Healing_Button.IsEnabled = true;
             }
 
-            if (_current.IsDead)
+            if (_current.IsDead && state.money >= revive_cost)
             {
                 Revive_Button.IsEnabled = true;
             }
@@ -79,7 +90,7 @@ namespace GameWIndowTest1
                 character current = _characters[index];
                 TextBlock block = _character_blocks[index];
 
-                block.Text = $"{current.name} {current.health}/{current.max_health}";
+                block.Text = $"{current.display_name} {current.health}/{current.max_health}";
                 if (current.IsDead)
                 {
                     block.Foreground = Brushes.Red;
@@ -89,10 +100,27 @@ namespace GameWIndowTest1
                     block.Foreground = Brushes.Black;
                 }
             }
+
+            List<ComboBox> ComboBoxes = new List<ComboBox> { Ability_Box1, Ability_Box2, Ability_Box3, Ability_Box4 };
+            foreach (ComboBox box in ComboBoxes)
+            {
+                // clear all the items in the current box
+                box.Items.Clear();
+                // and add each ability name to the box
+                foreach (ability _ability in _current.get_valid_abilities())
+                {
+                    
+                    box.Items.Add(_ability.name);
+                }
+            }
+            init_setup = true;
+            set_drop_menu_values();
+            init_setup = false;
         }
 
         private void Next_fight(object sender, RoutedEventArgs e)
         {
+            convert_boxes_to_abilities();
             // increment the current wave number of the game
             state.current_wave_number++;
             MainWindow game_window = new MainWindow(state);
@@ -103,6 +131,10 @@ namespace GameWIndowTest1
         private void Radio_Changed(object sender, RoutedEventArgs e)
         {
             RadioButton rb = sender as RadioButton;
+
+            // update the last characters abilities
+            convert_boxes_to_abilities();
+            // then change who is the selected character
             selected_index = Int32.Parse(rb.Name.Substring(rb.Name.Length-1,1))-1;
 
             if (_characters.Count == 0)
@@ -111,12 +143,17 @@ namespace GameWIndowTest1
                 return;
             }
             set_character_details();
+
         }
 
         private void Heal_Button(object sender, RoutedEventArgs e)
         {
+            Mid_Block.Text = $"\n{state.money-heal_cost} money";
+            Mid_Block.Text += $"\nHeals cost {heal_cost} for {heal_ammount} healing";
+            Mid_Block.Text += $"\nRevives cost {revive_cost}";
+
             character current = _characters[selected_index];
-            Mid_Block.Text = $"{current.name} had {current.health}";
+            Mid_Block.Text += $"\n\n{current.display_name} had {current.health}";
 
             Mid_Block.Text += $"\nHealed for {heal_ammount}";
 
@@ -125,20 +162,42 @@ namespace GameWIndowTest1
 
             Mid_Block.Text += $"\nand now has {current.health} health";
 
-            heal_uses--;
+            state.money -= heal_cost;
 
-            Mid_Block.Text += $"\n{heal_uses} uses remaining";
-            if (heal_uses <= 0)
+            if (state.money <= heal_cost);
             {
                 // disable the healing button as it has run out of uses
                 Healing_Button.IsEnabled = false;
             }
             set_character_details();
         }
+
+        private void Save_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string jsonString = JsonSerializer.Serialize(state, options);
+
+            string fileName = $"Saves/{state.username}.json";
+
+            if (!Directory.Exists("Saves"))
+            {
+                Directory.CreateDirectory("Saves");
+            }
+
+            File.WriteAllText(fileName, jsonString);
+            MessageBox.Show("Saved");
+
+        }
+
         private void Revive_Button_Click(object sender, RoutedEventArgs e)
         {
             character current = _characters[selected_index];
-            Mid_Block.Text = $"{current.name} had {current.health}";
+            Mid_Block.Text = $"{state.money-revive_cost} money";
+            Mid_Block.Text += $"\nHeals cost {heal_cost} for {heal_ammount} healing";
+            Mid_Block.Text += $"\nRevives cost {revive_cost}";
+
+            Mid_Block.Text += $"\n\n{current.display_name} had {current.health}";
 
             // if the current it not dead
             if (!current.IsDead)
@@ -148,15 +207,74 @@ namespace GameWIndowTest1
 
             current.revive();
 
-            revive_uses--;
+            state.money -= revive_cost;
 
-            Mid_Block.Text += $"\n{revive_uses} uses remaining";
-            if (heal_uses <= 0)
+            if (state.money <= revive_cost)
             {
                 // disable the healing button as it has run out of uses
                 Revive_Button.IsEnabled = false;
             }
             set_character_details();
+        }
+
+        private void Ability_box_changed(object sender, SelectionChangedEventArgs e)
+        {
+            if (init_setup) { return; }
+            /*
+            ComboBox box = sender as ComboBox;
+            if (box == null) { MessageBox.Show("Null so returning");  return; }
+            int ability_index = Int32.Parse(box.Name.Substring(box.Name.Length - 1))-1;
+            ability new_ability = find_ability_from_name(box);
+            // change the ability to the new ability
+            MessageBox.Show($"Ability {ability_index} changed from {state.characters[selected_index].abilities[ability_index].name} to {new_ability.name}");
+            state.characters[selected_index].abilities[ability_index] = new_ability;
+            */
+       }
+
+        public void convert_boxes_to_abilities()
+        {
+            if (init_setup) { return;}
+
+            character current = _characters[selected_index];
+
+            // go through each box and assign that ability to the ability of the character
+            for (int i = 0; i < current.abilities.Length; i++)
+            {
+                ComboBox box = ComboBoxes[i];
+                var selected = box.SelectedItem.ToString();
+                current.abilities[i] = find_ability_from_name(selected);
+            }
+        }
+
+        public ability find_ability_from_name(string name)
+        {
+            List<ability> validAbilities = _characters[selected_index].get_valid_abilities();
+            // go through each ability of the current character
+            foreach (ability _current in validAbilities)
+            {
+                // and check to see if the ability is the same the one looking for
+                if (_current.name == name)
+                {
+                    // if it is, return this ability
+                    return _current;
+                }
+            }
+            MessageBox.Show($"Could not find '{name}'");
+            // if no ability is found, return no ability selected
+            return character.no_ability_selected;
+        }
+    
+        public void set_drop_menu_values()
+        {
+            character current_character = state.characters[selected_index];
+
+            for (int i = 0; i < current_character.abilities.Length; i++) 
+            {
+                ComboBox box = ComboBoxes[i];
+                string current_ability = current_character.abilities[i].name;
+                //MessageBox.Show(current_ability.ToString());
+                box.SelectedIndex = box.Items.IndexOf(current_character.abilities[i].name);
+            }
         }
     }
 }
