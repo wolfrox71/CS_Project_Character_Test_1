@@ -35,10 +35,10 @@
         <Rectangle
             Grid.Row="2"
             Grid.Column="1"
-            x:Name="Character1"
-            Tag="Character"
-            Fill="Blue"
-            >
+
+             x:Name="Character1"
+             Tag="Character"
+             >
             <Rectangle.ContextMenu>
                 <ContextMenu>
                     <MenuItem Tag="Character1" Header="Show Character Details" Click="Show_Character_Click"/>
@@ -52,6 +52,9 @@
                     </MenuItem>
                 </ContextMenu>
             </Rectangle.ContextMenu>
+            <Rectangle.Fill>
+                <ImageBrush x:Name="Rect_1_Image"/>
+            </Rectangle.Fill>
         </Rectangle>
         <Rectangle Grid.Row="1" Grid.Column="1" Name="Character1_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>
 
@@ -62,7 +65,6 @@
         <!-- Character 2 -->
         <Rectangle x:Name="Character2"
                    Tag="Character"
-                   Fill="Blue"
                    Grid.Column="3"
                    Grid.Row="2"
                    >
@@ -81,6 +83,9 @@
                     </MenuItem>
                 </ContextMenu>
             </Rectangle.ContextMenu>
+            <Rectangle.Fill>
+                <ImageBrush x:Name="Rect_2_Image"/>
+            </Rectangle.Fill>
         </Rectangle>
 
         <Rectangle Grid.Row="1" Grid.Column="3" x:Name="Character2_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>
@@ -95,7 +100,6 @@
         <!-- Character 3 -->
         <Rectangle x:Name="Character3"
                    Tag="Character"
-                   Fill="Blue"
                    Grid.Row="2"
                    Grid.Column="5"
                    >
@@ -113,6 +117,9 @@
                     </MenuItem>
                 </ContextMenu>
             </Rectangle.ContextMenu>
+            <Rectangle.Fill>
+                <ImageBrush x:Name="Rect_3_Image"/>
+            </Rectangle.Fill>
         </Rectangle>
 
         <Rectangle Grid.Column="5" Grid.Row="1"  x:Name="Character3_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>
@@ -124,7 +131,7 @@
 
         <Rectangle x:Name="Character4"
                    Tag="Character"
-                   Fill="Blue"
+                  
                    Grid.Row="2"
                    Grid.Column="7"
                    >
@@ -142,6 +149,9 @@
                     </MenuItem>
                 </ContextMenu>
             </Rectangle.ContextMenu>
+            <Rectangle.Fill>
+                <ImageBrush x:Name="Rect_4_Image"/>
+            </Rectangle.Fill>
         </Rectangle>
 
         <Rectangle Grid.Column="7" Grid.Row="1"  x:Name="Character4_Identifier" HorizontalAlignment="Center" Height="21" Stroke="Black" VerticalAlignment="Center" Width="40"/>

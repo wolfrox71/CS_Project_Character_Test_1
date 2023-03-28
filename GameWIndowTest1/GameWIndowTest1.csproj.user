@@ -21,6 +21,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Update="Ability_Resources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="LoginScreen.xaml">
       <SubType>Designer</SubType>
     </Page>

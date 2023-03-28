@@ -43,6 +43,8 @@
     <None Remove="Resources\Ability_Icons\Ability_X.png" />
     <None Remove="Resources\Ability_Icons\Ability_Y.png" />
     <None Remove="Resources\Ability_Icons\Ability_Z.png" />
+    <None Remove="Resources\Ability_Icons\image.png" />
+    <None Remove="Resources\Ability_Icons\JJT.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -145,6 +147,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Ability_Icons\Ability_Z.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Character Images\image.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Character Images\JJT.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
