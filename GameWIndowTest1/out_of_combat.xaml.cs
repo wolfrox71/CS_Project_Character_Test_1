@@ -220,17 +220,56 @@ namespace GameWIndowTest1
         private void Ability_box_changed(object sender, SelectionChangedEventArgs e)
         {
             if (init_setup) { return; }
-            
+
+            character current_character = state.characters[selected_index];
+
             ComboBox box = sender as ComboBox;
+
             if (box == null) { MessageBox.Show("Null so returning");  return; }
             int ability_index = Int32.Parse(box.Name.Substring(box.Name.Length - 1))-1;
             var selected = box.SelectedItem.ToString();
             ability new_ability = find_ability_from_name(selected);
             // change the ability to the new ability
-            MessageBox.Show($"Ability {ability_index} changed from {state.characters[selected_index].abilities[ability_index].name} to {new_ability.name}");
-            state.characters[selected_index].abilities[ability_index] = new_ability;
+
+            if (current_character.IsAbilityEquiped(new_ability))
+            {
+                if (current_character.abilities[ability_index].name == new_ability.name)
+                {
+                    // this is to stop an a recusive error when you call set_last_item_box
+                    return;
+                }
+
+                // output a message saying that you cannot have the same ability equiped twice on the same character
+                MessageBox.Show($"{new_ability.name} is already equiped so cannot be equiped again");
+                set_last_item_box(box, current_character.abilities[ability_index]);
+                // and return so that the ability is not change
+                return;
+            }
+
+            // output that the ability is about to be changed
+            MessageBox.Show($"Ability {ability_index} changed from {current_character.abilities[ability_index].name} to {new_ability.name}");
+            // and change it
+            current_character.abilities[ability_index] = new_ability;
             
        }
+
+        public void set_last_item_box(ComboBox box, ability previous_ability)
+        {
+            // this function is to set the previous_ability as the current ability
+            // as the selection was changed in the box but the ability didnt update
+
+            foreach (object _obj in box.Items)
+            {
+                if (_obj.ToString() == previous_ability.name)
+                {
+                    //MessageBox.Show($"Found {previous_ability.name}");
+                    box.SelectedItem = _obj;
+                    return;
+                }
+            }
+            //MessageBox.Show($"Could not find {previous_ability.name}");
+            return;
+        }
 
         public void convert_boxes_to_abilities()
         {

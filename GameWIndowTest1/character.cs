@@ -408,5 +408,21 @@ namespace GameWIndowTest1
             // return the current ability
             return current_ability;
         }
+
+        public bool IsAbilityEquiped(ability _a)
+        {
+            // this function is to check where an ability is currently equiped or not on this character
+            foreach (ability _ability in abilities)
+            {
+                // if the two abilities are the same
+                if (_a.name == _ability.name)
+                {
+                    // return true as the passed through ability is already equiped
+                    return true;
+                }
+            }
+            // return false as the ability name wasnt in any of the selected abilites of this class
+            return false;
+        }
     }
 }
