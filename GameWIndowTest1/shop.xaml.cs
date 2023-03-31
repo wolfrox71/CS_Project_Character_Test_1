@@ -89,6 +89,19 @@ namespace GameWIndowTest1
             {
                 Revive_Button.IsEnabled = false;
             }
+            ability selected_ability = getSelectedAbility();
+            if (state.money <= restore_uses_cost || (selected_ability == character.no_ability_selected) || (selected_ability.uses_remaining == selected_ability.max_number_of_uses))
+            {
+                // cannot use the restore if:
+                // not enough money
+                // no ability is selected
+                // ability is already at max number of uses remaining
+                Restore_Uses.IsEnabled = false;
+            }
+            else
+            {
+                Restore_Uses.IsEnabled = true;
+            }
         }
 
         public void show_character_infomation(int price)
@@ -142,21 +155,27 @@ namespace GameWIndowTest1
             abilityBox.SelectedIndex = 0;
         }
 
-        private void Restore_Uses_Click(object sender, RoutedEventArgs e)
+        public ability getSelectedAbility()
         {
             character current = state.characters[character_ID];
-
             ComboBox abilityBox = Ability_Selector;
-            show_character_infomation(restore_uses_cost);
+            ability selectedAbility = character.no_ability_selected;
 
             string ability_name = abilityBox.SelectedItem.ToString().Split(":")[0];
-            ability selectedAbility = character.no_ability_selected;
 
             foreach (ability _a in current.abilities)
             {
                 // if this is the ability that was selected by the player
                 if (_a.name == ability_name) { selectedAbility = _a; break; }
             }
+            return selectedAbility;
+        }
+
+        private void Restore_Uses_Click(object sender, RoutedEventArgs e)
+        {
+            character current = state.characters[character_ID];
+            show_character_infomation(restore_uses_cost);
+            ability selectedAbility = getSelectedAbility();
 
             if (selectedAbility == character.no_ability_selected)
             {
