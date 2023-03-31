@@ -44,6 +44,10 @@
         <Button Grid.Row="1" Grid.Column="0" x:Name="Restore_Uses" Content="Restore" Click="Restore_Uses_Click"/>
         <ComboBox Grid.Row="1" Grid.Column="1" x:Name="Ability_Selector" />
         
+        <!-- Upgrade Ability Button -->
+        <Button Grid.Row="1" Grid.Column="2" x:Name="Upgrade_Ability" Content="Upgrade" Click="Upgrade_Ability_Button"/>
+
+
         <!-- Move back button -->
         <Button Grid.Row="1" Grid.Column="5" x:Name="next_screen" Content="Back to out of combat" Click="out_of_combat_click"/>
 

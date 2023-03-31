@@ -30,6 +30,7 @@ namespace GameWIndowTest1
         int heal_cost = 500;
         int revive_cost = 1000;
         int restore_uses_cost = 200;
+        int upgrade_cost = 300;
 
         public shop(GameState _state, int _characterID)
         {
@@ -115,6 +116,8 @@ namespace GameWIndowTest1
             Mid_Block.Text += $"\nHeals cost {heal_cost} for {heal_ammount} healing";
             Mid_Block.Text += $"\nRevives cost {revive_cost}";
             Mid_Block.Text += $"\nRestores cost {restore_uses_cost}";
+            Mid_Block.Text += $"\nUpgrade cost {upgrade_cost}";
+
         }
         private void Revive_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -205,6 +208,38 @@ namespace GameWIndowTest1
             out_of_combat out_of_combat_screen = new out_of_combat(state);
             out_of_combat_screen.Show();
             this.Close();
+        }
+
+        private void Upgrade_Ability_Button(object sender, RoutedEventArgs e)
+        {
+            character current = state.characters[character_ID];
+            show_character_infomation(upgrade_cost);
+            ability selectedAbility = getSelectedAbility();
+
+            if (selectedAbility == character.no_ability_selected)
+            {
+                // if no ability was selected 
+                // return and cost nothing
+                return;
+            }
+
+            int old_ammount = selectedAbility.ammount;
+
+            selectedAbility.upgrade();
+
+            MessageBox.Show($"{selectedAbility.name}: {old_ammount} -> {selectedAbility.ammount}");
+
+            // set the number of uses remaing on this ability to the max number of uses it can have
+
+            state.money -= upgrade_cost;
+
+            if (state.money <= upgrade_cost)
+            {
+                // disable the healing button as it has run out of uses
+                Upgrade_Ability.IsEnabled = false;
+            }
+            set_character_details();
+            set_ability_selector_vals();
         }
     }
 }

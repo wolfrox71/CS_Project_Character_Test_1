@@ -24,6 +24,8 @@ namespace GameWIndowTest1.Abilities
         /*          Missing Values              */
         public int missing_percentage { get; set; }
 
+        public double ammount_percent { get; set; } = 1.10;
+
         public bool can_be_used { get { return uses_remaining > 0; } } // if the ability has uses left return true else reuturn false as cannot be used
         public ability(int _ammount, string _name, int _max_number_of_uses, Ability_type _ability_Type, int _critical_hit_percentage, int _critical_hit_bonus, int _missing_percentage, Ability_Team _team, bool default_equip)
         {
@@ -37,6 +39,11 @@ namespace GameWIndowTest1.Abilities
             missing_percentage = _missing_percentage;
             team = _team;
             defaultly_equipped = default_equip; // if the ability is equiped during the init function
+        }
+
+        public void upgrade()
+        {
+            ammount = (int)(ammount * ammount_percent);
         }
 
         // this is for json
