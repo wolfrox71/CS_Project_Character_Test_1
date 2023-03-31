@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:GameWIndowTest1"
         mc:Ignorable="d"
         Title="Winner Screen" Height="450" Width="800">
-    <Grid>
+    <Canvas Name="A">
         <TextBlock x:Name="WinnerID" HorizontalAlignment="Center" Height="185" TextWrapping="Wrap" VerticalAlignment="Center" Width="430" FontSize="38"/>
 
-    </Grid>
+    </Canvas>
 </Window>

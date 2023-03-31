@@ -30,13 +30,9 @@
             <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
         <!-- Next fight Button -->
-        <Button Grid.Column="3" Grid.Row="6" Content="Go To Next Fight" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="200" Click="Next_fight"/>
+        <Button Grid.Column="5" Grid.Row="6" Content="Go To Next Fight" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="200" Click="Next_fight"/>
         <!-- Heal Button-->
-        <Button Name="Healing_Button" Grid.Column="1" Grid.Row="6" Content="Heal" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="200" Click="Heal_Button"/>
-
-        <!-- Revive Button -->
-        <Button Name="Revive_Button" Grid.Column="5" Grid.Row="6" Content="Revive" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="200" Click="Revive_Button_Click"/>
-
+        <Button Name="ShopButton" Grid.Column="1" Grid.Row="6" Content="Go to Shop" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="200" Click="Shop_Button_Click"/>
         <!-- Character 1-->
         <TextBlock Grid.Row="2" Grid.Column="1" Name="Character_1_Block" HorizontalAlignment="Center"/>
         <Grid Grid.Row="4" Grid.Column="1">
@@ -71,8 +67,5 @@
         <RadioButton Grid.Row="5" Grid.Column="5" GroupName="Target" HorizontalAlignment="Center" VerticalAlignment="Center" Name="RB_Character2" Checked="Radio_Changed"/>
         <Button Grid.Row="1" Grid.Column="6"  x:Name="Save_Button" Content="Save" Click="Save_Button_Click"/>
     
-        <!-- Restoring Uses Remaining -->
-        <Button Grid.Row="1" Grid.Column="0" x:Name="Restore_Uses" Content="Restore" Click="Restore_Uses_Click"/>
-        <ComboBox Grid.Row="1" Grid.Column="1" x:Name="Ability_Selector"/>
-    </Grid>
+</Grid>
 </Window>

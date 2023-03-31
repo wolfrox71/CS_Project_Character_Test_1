@@ -1,0 +1,51 @@
+﻿<Window x:Class="GameWIndowTest1.shop"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GameWIndowTest1"
+        mc:Ignorable="d"
+        Title="shop" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height ="8*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+        <!-- Heal Button-->
+        <Button Name="Healing_Button" Grid.Column="1" Grid.Row="4" Content="Heal" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="200" Click="Heal_Button"/>
+
+        <!-- Revive Button -->
+        <Button Name="Revive_Button" Grid.Column="5" Grid.Row="4" Content="Revive" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="200" Click="Revive_Button_Click"/>
+
+        <!-- Character 1-->
+        <TextBlock Grid.Row="2" Grid.Column="1" Name="Character_1_Block" HorizontalAlignment="Center"/>
+
+            <!-- Mid Box-->
+        <TextBlock Grid.Row="2" Grid.Column="3" Name="Mid_Block" HorizontalAlignment="Center"/>
+
+        <!-- Character 2-->
+        <TextBlock Grid.Row="2" Grid.Column="5" Name="Character_2_Block" HorizontalAlignment="Center"/>
+
+        <!-- Restoring Uses Remaining -->
+        <Button Grid.Row="1" Grid.Column="0" x:Name="Restore_Uses" Content="Restore" Click="Restore_Uses_Click"/>
+        <ComboBox Grid.Row="1" Grid.Column="1" x:Name="Ability_Selector" />
+        
+        <!-- Move back button -->
+        <Button Grid.Row="1" Grid.Column="5" x:Name="next_screen" Content="Back to out of combat" Click="out_of_combat_click"/>
+
+    </Grid>
+</Window>
