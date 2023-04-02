@@ -249,18 +249,12 @@ namespace GameWIndowTest1
             }
             else
             {
+                character target = current_character.pick_target(picked_ability, characters.ToArray());
+
                 // if the current move is a damage move
                 if (picked_ability.ability_Type == Ability_type.Damage)
                 {
-                    int index = 0;
-                    character target = Remaining_Friendly[0];
-                    do
-                    {
-                        // pick the first non dead friendly character
-                        target = Remaining_Friendly[index];
-                        index++;
-                    } while (target.IsDead && index < Remaining_Friendly.Count());
-                        // and do damage to them 
+                    // and do damage to them 
                     use_damage_ability(target, picked_ability);
                 }
 
@@ -268,7 +262,7 @@ namespace GameWIndowTest1
 
                 if (picked_ability.ability_Type == Ability_type.Healing)
                 {
-                    use_healing_ability(current_character, picked_ability);
+                    use_healing_ability(target, picked_ability);
                 }
 
                 /*

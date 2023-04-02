@@ -79,6 +79,67 @@ namespace GameWIndowTest1
             MessageBox.Show($"Saved Ability {ability.name}");
         }
 
+        public character pick_target(ability picked_ability, character[] characters)
+        {
+            // this is a list of possible targets
+            List<character> targets = new List<character>();
+
+            // go through each characters
+            foreach (character _c in characters)
+            {
+                // if this characters is frendly and this is a dammage abiltiy
+                if (_c.Friendly && picked_ability.ability_Type == Ability_type.Damage && !_c.IsDead)
+                {
+                    // add this character to the list of possible targets
+                    targets.Add(_c); continue;
+                }
+                // if this character is an enemy and teh ability is a healing ability
+                if (!_c.Friendly && picked_ability.ability_Type == Ability_type.Healing && !_c.IsDead)
+                {
+                    targets.Add(_c); continue;
+                }
+            }
+
+            // if no valid targets exists, return a character
+            if (targets.Count == 0) { return characters[0]; }
+
+            character current_best_target = targets[0];
+            foreach (character target in targets)
+            {
+                // if this is a damage ability
+                if (picked_ability.ability_Type == Ability_type.Damage)
+                {
+                    // if this target has less health than current best target
+                    if (target.health < current_best_target.health)
+                    {
+                        // make this the current best target
+                        current_best_target = target;
+                        continue;
+                    }
+                    // if this character is worse that the current best one
+                    // just skip this character
+                    continue;
+                }
+
+                // if this is a healing ability
+                if (picked_ability.ability_Type == Ability_type.Healing)
+                {
+                    // if this target has less health
+                    if (target.health < current_best_target.health)
+                    {
+                        // then it is better to heal the one of low health
+                        current_best_target = target;
+                        continue;
+                    }
+                    // if not leave the current best character
+                    continue;
+                }
+            }
+
+            // return the current best character
+            return current_best_target;
+        }
+
         public List<ability> get_valid_abilities()
         {
             List<ability> _All_Ability_list = new List<ability>();
