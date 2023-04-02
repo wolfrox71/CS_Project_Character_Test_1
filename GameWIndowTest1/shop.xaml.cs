@@ -103,6 +103,14 @@ namespace GameWIndowTest1
             {
                 Restore_Uses.IsEnabled = true;
             }
+            if (state.money <= upgrade_cost)
+            {
+                Upgrade_Ability.IsEnabled = false;
+            }
+            else
+            {
+                Upgrade_Ability.IsEnabled= true;
+            }
         }
 
         public void show_character_infomation(int price)
@@ -141,6 +149,7 @@ namespace GameWIndowTest1
                 Revive_Button.IsEnabled = false;
             }
             set_character_details();
+            show_character_infomation(0);
         }
         public void set_ability_selector_vals()
         {
