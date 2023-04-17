@@ -105,21 +105,41 @@ namespace GameWIndowTest1
 
 
 
-            // if enough waves of enemies have been faced
-            // or no friendly characters remain
-            if (wave_number > max_number_of_waves || number_of_alive_friendly == 0)
+            //if no friendly characters remain
+            if (number_of_alive_friendly == 0)
             {
-                //MessageBox.Show($"RC {wave_number} {max_number_of_waves}")
-                // go to the winning scren
-                Winner_Screen winner_screen = new Winner_Screen(number_of_alive_enemies == 0);
+                // go to the ending screen with the score 
+                Winner_Screen winner_screen = new Winner_Screen(number_of_alive_enemies == 0, state.getScore());
                 // show the winners screen
                 winner_screen.Show();
                 // and close this screen
                 this.Close();
                 return;
             }
-            else
+            // if enough waves of enemies have been faced
+
+            if (wave_number > max_number_of_waves)
             {
+                MessageBoxButton buttons = MessageBoxButton.YesNo;
+                MessageBoxResult result = MessageBox.Show("Do you want to use to continue?", "Continue", buttons);
+                // if they want to use the save
+                if (result == MessageBoxResult.No)
+            {
+                    // if the player wants to exit
+
+                    // go to the ending screen with the score 
+                    Winner_Screen winner_screen = new Winner_Screen(number_of_alive_enemies == 0, state.getScore());
+                // show the winners screen
+                winner_screen.Show();
+                // and close this screen
+                this.Close();
+                return;
+            }
+                else
+                {
+                    state.max_wave_number += 5;
+            }
+            }
 
                 state.money += ammount_for_winning;
 
@@ -131,7 +151,6 @@ namespace GameWIndowTest1
                 out_of_combat_screen.Show();
                 this.Close();
             }
-        }
 
         public void set_health_bar()
         {
