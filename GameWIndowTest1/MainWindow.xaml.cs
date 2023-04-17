@@ -216,6 +216,9 @@ namespace GameWIndowTest1
                 set_next_nondead_radiobutton();
             }
 
+            // reduce the cooldown of the current characters abilities
+            characters[characterID].reduce_cooldowns();
+
             set_identifiers_colour();
             //set_abilities_icons();
             set_abilities_names();
@@ -330,6 +333,7 @@ namespace GameWIndowTest1
             {
                 InfoBox.Text += $"\n{target.display_name} dodged the attack";
             }
+            
             InfoBox.Text += $"\n{target.display_name} now has {target.health}";
 
 

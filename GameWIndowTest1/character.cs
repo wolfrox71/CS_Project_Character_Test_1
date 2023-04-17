@@ -307,13 +307,23 @@ namespace GameWIndowTest1
 
                 // reduce the times  this ability can be used by one
                 recived_ability.use();
-                recived_ability.turns_till_next_use--;
                 // reduce this characters health  by the damage of the ability
                 health -= damage_to_do;
             }
             // return dodge if they dodged so that the log can show the correct thing
             return (dodge) ? success_status.Dodge : success_status.Success;
         }
+
+        public void reduce_cooldowns()
+        {
+            // reduce the cooldown timer of each ability by one
+            foreach (ability _A in abilities)
+            {
+                _A.turns_till_next_use--;
+                if (_A.turns_till_next_use < 0) { _A.turns_till_next_use = 0; }
+            }
+        }
+
 
         public void takedamage(int ammount)
         {
