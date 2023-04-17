@@ -9,5 +9,7 @@
   "critical_hit_bonus": 0,
   "missing_percentage": 0,
   "can_be_used": true,
-  "defaultly_equipped": false
+  "defaultly_equipped": false,
+  "cooldown": 1,
+  "turns_till_next_use": 0
 }

@@ -22,7 +22,7 @@ namespace GameWIndowTest1
 
         public int revive_health_percentage = 50;
 
-        public static ability no_ability_selected = new ability(0, "No ability Selected", 0, Ability_type.Damage, 0, 0, 0, Ability_Team.Both, true);
+        public static ability no_ability_selected = new ability(0, "No ability Selected", 0, Ability_type.Damage, 0, 0, 0, Ability_Team.Both, true, 0);
 
         public ability[] abilities { get;  set; }  = new ability[4];
 
@@ -57,7 +57,7 @@ namespace GameWIndowTest1
                 Random rnd = new Random();
                 int val = rnd.Next(0, 26);
                 // times an ability can be used is 26-the damage it does for now
-                abilities[i] = new ability(val+1, alphabet[val].ToString(), 27-val, Ability_type.Damage, 0, 0, 0, Ability_Team.Both, true);
+                abilities[i] = new ability(val+1, alphabet[val].ToString(), 27-val, Ability_type.Damage, 0, 0, 0, Ability_Team.Both, true, 1);
             }
         }
 
@@ -306,8 +306,8 @@ namespace GameWIndowTest1
                 damage_to_do -= dodge_damage_reduction;
 
                 // reduce the times  this ability can be used by one
-                recived_ability.uses_remaining--;
-
+                recived_ability.use();
+                recived_ability.turns_till_next_use--;
                 // reduce this characters health  by the damage of the ability
                 health -= damage_to_do;
             }

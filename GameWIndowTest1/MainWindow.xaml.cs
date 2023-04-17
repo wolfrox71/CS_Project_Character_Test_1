@@ -124,33 +124,33 @@ namespace GameWIndowTest1
                 MessageBoxResult result = MessageBox.Show("Do you want to use to continue?", "Continue", buttons);
                 // if they want to use the save
                 if (result == MessageBoxResult.No)
-            {
+                {
                     // if the player wants to exit
 
                     // go to the ending screen with the score 
                     Winner_Screen winner_screen = new Winner_Screen(number_of_alive_enemies == 0, state.getScore());
-                // show the winners screen
-                winner_screen.Show();
-                // and close this screen
-                this.Close();
-                return;
-            }
+                    // show the winners screen
+                    winner_screen.Show();
+                    // and close this screen
+                    this.Close();
+                    return;
+                }
                 else
                 {
                     state.max_wave_number += 5;
-            }
+                }
             }
 
-                state.money += ammount_for_winning;
+            state.money += ammount_for_winning;
 
-                // if not go to the out of combat screen
-                state.characters = Remaining_Friendly; // i cannot make Remaining_Friendly a reference to state.characters
-                // as "ref fields are not useable until c# v 11, this is v 10"
-                state.current_wave_number = wave_number; // this should not have changed but just in case
-                out_of_combat out_of_combat_screen = new out_of_combat(state);
-                out_of_combat_screen.Show();
-                this.Close();
-            }
+            // if not go to the out of combat screen
+            state.characters = Remaining_Friendly; // i cannot make Remaining_Friendly a reference to state.characters
+            // as "ref fields are not useable until c# v 11, this is v 10"
+            state.current_wave_number = wave_number; // this should not have changed but just in case
+            out_of_combat out_of_combat_screen = new out_of_combat(state);
+            out_of_combat_screen.Show();
+            this.Close();     
+        }
 
         public void set_health_bar()
         {
@@ -659,6 +659,13 @@ namespace GameWIndowTest1
                 return;
 
             }
+
+            if (current_character.abilities[ability_index].turns_till_next_use>0)
+            {
+                InfoBox.Text = "Ability on cooldown";
+                return;
+            }
+
             //MessageBox.Show($"Current Character {current_character}\nAbility Name {current_character.abilities[ability_index].name}");
 
             int index = 0;
@@ -748,6 +755,7 @@ namespace GameWIndowTest1
 
             foreach (Button _a in abilities)
             {
+                _a.Foreground = Brushes.Black;
                 _a.IsEnabled = true;
             }
 
@@ -767,6 +775,7 @@ namespace GameWIndowTest1
                     // if the ability cannot be used 
                     if (!_a.can_be_used)
                     {
+                        abilities[i].Foreground = Brushes.Green;
                         // disable the ability as it is not useable
                         abilities[i].IsEnabled = false;
                         continue;
@@ -774,6 +783,7 @@ namespace GameWIndowTest1
                     // if the character is dead and cannot be revived
                     if (target.IsDead && !current_character.validReviveAbility())
                     {
+                        abilities[i].Foreground = Brushes.Red;
                         abilities[i].IsEnabled = false;
                         continue;
                     }
@@ -781,6 +791,7 @@ namespace GameWIndowTest1
                     // if the ability is a damage on a friendly character while disabled
                     if (target.Friendly && !can_team_damage && _a.ability_Type == Ability_type.Damage)
                     {
+                        abilities[i].Foreground = Brushes.Yellow;
                         // disable the ability
                         abilities[i].IsEnabled = false;
                         continue;
@@ -792,6 +803,7 @@ namespace GameWIndowTest1
                         if ((!target.Friendly && !can_heal_enemies) || (target.Friendly && (target.health == target.max_health)))
                         {
                             // disbale the ability
+                            abilities[i].Foreground = Brushes.Pink;
                             abilities[i].IsEnabled = false;
                             continue;
                         }
@@ -800,6 +812,7 @@ namespace GameWIndowTest1
                     {
                         if (!target.IsDead)
                         {
+                            abilities[i].Foreground = Brushes.Orange;
                             abilities[i].IsEnabled = false;
                             continue;
                         }
