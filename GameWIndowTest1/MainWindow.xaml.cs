@@ -509,10 +509,9 @@ namespace GameWIndowTest1
         private void Show_Character_Click(object sender, RoutedEventArgs e)
         {
             bool DEBUG = false;
-
             // get the infobox to desplay the infomation about the character in
-            TextBlock infoBox = this.FindName("InfoBox") as TextBlock;
-            TextBlock HeadingInfoBox = this.FindName("Heading_Info_Box") as TextBlock;
+            TextBlock infoBox = InfoBox;
+            TextBlock HeadingInfoBox = Heading_Info_Box;
 
             MenuItem menu = (MenuItem)sender;
             string header = menu.Header.ToString();
@@ -581,9 +580,9 @@ namespace GameWIndowTest1
         }
 
         protected void change_character_colour(Rectangle _rect)
-        {
-            TextBlock infoBox = this.FindName("InfoBox") as TextBlock;
-            TextBlock HeadingInfoBox = this.FindName("Heading_Info_Box") as TextBlock;
+        { 
+            TextBlock infoBox = InfoBox;
+            TextBlock HeadingInfoBox = Heading_Info_Box;
             HeadingInfoBox.Text = ""; // reset the box so that it does not retain the last value
             infoBox.Text = $"Round {round_count}";
             // change the colour of the rectangle, this is just to make sure that
@@ -605,8 +604,8 @@ namespace GameWIndowTest1
         
         protected void list_abilities(character _char)
         {
-            TextBlock infoBox = this.FindName("InfoBox") as TextBlock;
-            TextBlock HeadingInfoBox = this.FindName("Heading_Info_Box") as TextBlock;
+            TextBlock infoBox = InfoBox;
+            TextBlock HeadingInfoBox = Heading_Info_Box;
             HeadingInfoBox.Text = $"Abilities for {_char.display_name}";
             HeadingInfoBox.FontSize = 24;
             infoBox.Text = "In (Name, Ammount, Uses Remaining, Type) format\n-----\n";
@@ -621,8 +620,8 @@ namespace GameWIndowTest1
 
         protected void show_character_details(character _char)
         {
-            TextBlock infoBox = this.FindName("InfoBox") as TextBlock;
-            TextBlock HeadingInfoBox = this.FindName("Heading_Info_Box") as TextBlock;
+            TextBlock infoBox = InfoBox;
+            TextBlock HeadingInfoBox = Heading_Info_Box;
             HeadingInfoBox.Text = $"{_char.display_name}";
             HeadingInfoBox.FontSize = 26;
             infoBox.Text = $"Health: {_char.health}\n";
