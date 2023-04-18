@@ -34,7 +34,7 @@ namespace GameWIndowTest1
                 new character(40, "Character2", "Player 2", true)
             };
 
-            GameState state = new GameState(0, 5, friendly_characters, 1000, account);
+            GameState state = new GameState(0, 0, friendly_characters, 1000, account);
 
             /*
             foreach(var _a in friendly_characters[0].abilities)

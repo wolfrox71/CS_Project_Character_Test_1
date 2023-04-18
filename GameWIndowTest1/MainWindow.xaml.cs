@@ -113,7 +113,7 @@ namespace GameWIndowTest1
             if (number_of_alive_friendly == 0)
             {
                 // go to the ending screen with the score 
-                Winner_Screen winner_screen = new Winner_Screen(number_of_alive_enemies == 0, state.getScore());
+                Winner_Screen winner_screen = new Winner_Screen(number_of_alive_enemies == 0, state.getScore(), state);
                 // show the winners screen
                 winner_screen.Show();
                 // and close this screen
@@ -132,7 +132,7 @@ namespace GameWIndowTest1
                     // if the player wants to exit
 
                     // go to the ending screen with the score 
-                    Winner_Screen winner_screen = new Winner_Screen(number_of_alive_enemies == 0, state.getScore());
+                    Winner_Screen winner_screen = new Winner_Screen(number_of_alive_enemies == 0, state.getScore(), state);
                     // show the winners screen
                     winner_screen.Show();
                     // and close this screen
