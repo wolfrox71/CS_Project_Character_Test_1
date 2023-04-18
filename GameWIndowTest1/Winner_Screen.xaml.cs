@@ -67,7 +67,9 @@ namespace GameWIndowTest1
                     //create the scores table if it does not already exist
                     cmd.CommandText = "CREATE TABLE IF NOT EXISTS 'scores' ('scoreID'INTEGER NOT NULL, 'userID' INTEGER , 'scoreValue ' INTEGER, PRIMARY KEY('scoreID' AUTOINCREMENT), FOREIGN KEY('userID') REFERENCES 'users'('userID'));";
                     cmd.ExecuteNonQuery();
-
+                }
+                using (var cmd = new SQLiteCommand(con))
+                {
                     // get the userID associated with the username
                     cmd.CommandText = $"SELECT userID from users WHERE username='{_state.username}';";
                     using (var reader = cmd.ExecuteReader())
