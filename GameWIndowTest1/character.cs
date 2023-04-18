@@ -324,6 +324,15 @@ namespace GameWIndowTest1
             }
         }
 
+        public void reset_cooldowns()
+        {
+            // reset the cooldown timer of each ability on this character
+            foreach (ability _A in abilities)
+            {
+                _A.turns_till_next_use = 0;
+            }
+        }
+
 
         public void takedamage(int ammount)
         {

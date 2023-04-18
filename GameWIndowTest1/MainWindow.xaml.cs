@@ -98,6 +98,10 @@ namespace GameWIndowTest1
         
         public void goto_winner_screen()
         {
+            // go through each character and reset the cooldowns for that character's abilities
+            foreach (character _character in characters) { _character.reset_cooldowns(); }
+
+
             // open the winners screen
             // and pass through the current winning character
             // Remaing_Enemy.Count == 0 will pass through true if you won and 
