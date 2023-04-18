@@ -119,6 +119,7 @@ public partial class LoginScreen : Window
 
             if (userExists(username))
             {
+                MessageBox.Show("Username already in use");
                 return;
             }
 
