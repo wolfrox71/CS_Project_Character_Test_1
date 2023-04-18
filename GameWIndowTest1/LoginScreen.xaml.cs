@@ -129,5 +129,13 @@ public partial class LoginScreen : Window
             MessageBox.Show($"Added User {username}");
             this.Close();
         }
+
+        private void Guest_Account_Button_Click(object sender, RoutedEventArgs e)
+        {
+            // create an account with the geust details
+            Account account = new Account(Account.guestUsername, Account.guestPassword);
+            SetupForGame gameSetup = new SetupForGame(account);// new Global.Account(username, password));
+            this.Close();
+        }
     }
 }

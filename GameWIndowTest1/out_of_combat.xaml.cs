@@ -123,7 +123,11 @@ namespace GameWIndowTest1
 
         private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            if (state.username == Account.guestUsername)
+            {
+                MessageBox.Show("Saving is not allowed for guest accounts");
+                return;
+            }
             var options = new JsonSerializerOptions { WriteIndented = true };
             string jsonString = JsonSerializer.Serialize(state, options);
 
