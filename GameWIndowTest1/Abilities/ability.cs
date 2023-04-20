@@ -30,6 +30,7 @@ namespace GameWIndowTest1.Abilities
         public double ammount_percent { get; set; } = 1.10;
 
         public bool can_be_used { get { return uses_remaining > 0 && turns_till_next_use <= 0 ; } } // if the ability has uses left return true else reuturn false as cannot be used
+        public bool onCooldown { get { return turns_till_next_use > 0; } } // return true if the current ability is on cooldown or not
         public ability(int _ammount, string _name, int _max_number_of_uses, Ability_type _ability_Type, int _critical_hit_percentage, int _critical_hit_bonus, int _missing_percentage, Ability_Team _team, bool default_equip, int _cooldown)
         {
             ammount = _ammount;

@@ -443,7 +443,7 @@ namespace GameWIndowTest1
                 foreach (ability _a in abilities)
                 {
                     // if this is a healing move and has uses left
-                    if (_a.ability_Type == Ability_type.Healing && _a.can_be_used )
+                    if (_a.ability_Type == Ability_type.Healing && _a.can_be_used)
                     {
                         // if the current ability is the default one
                         if (current_ability.name == no_ability_selected.name)
@@ -477,8 +477,8 @@ namespace GameWIndowTest1
                 // if the current ability is a damage ability
                 if (_a.ability_Type == Ability_type.Damage)
                 {
-                    // if this ability is better than the current best ability
-                    if (_a.ammount > current_ability.ammount)
+                    // if this ability is better than the current best ability and the ability is not on cooldown
+                    if (_a.ammount > current_ability.ammount && !_a.onCooldown)
                     {
                         // this is the current best ability
                         current_ability= _a;
