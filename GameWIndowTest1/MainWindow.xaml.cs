@@ -417,7 +417,7 @@ namespace GameWIndowTest1
 
             // disable the target's radio button so that it does not keep getting targeted
 
-            if (current.validReviveAbility())
+            if (current.validReviveAbility() && target.Friendly)
             {
                 target_rb.IsEnabled = true;
             }
