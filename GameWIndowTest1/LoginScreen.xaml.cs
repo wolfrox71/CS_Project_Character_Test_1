@@ -71,8 +71,9 @@ public partial class LoginScreen : Window
                     }
                 }
             }
+            Debug.WriteLine($"Salt: {salt}");
             string password = Password.HashString(password_box.Password, salt);
-
+            Debug.WriteLine($"Password: {password}");
             if (userExists(username, password))
             {
                 Account account = new Account(username, password);
@@ -105,9 +106,9 @@ public partial class LoginScreen : Window
                     }
                     using (var reader = cmd.ExecuteReader())
                     {
-
                         if (reader.HasRows) // there is a userID for this user
                         {
+                            
                             // so it exists
                             exists = true;
                         }
@@ -121,7 +122,7 @@ public partial class LoginScreen : Window
         {
             string username = username_box.Text;
             string salt = Password.generateSalt();
-            string password = Password.HashString(password_box.Password, Password.generateSalt());
+            string password = Password.HashString(password_box.Password, salt);
 
             using (var con = new SQLiteConnection(cs))
             {
