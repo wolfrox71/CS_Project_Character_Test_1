@@ -20,7 +20,7 @@ namespace GameWIndowTest1.Global.Datatypes
         // from https://www.codegrepper.com/profile/sean-lloyd
         public static string HashString(string text, string salt = "")
         {
-            if (String.IsNullOrEmpty(text))
+            if (text is null)
             {
                 return String.Empty;
             }
