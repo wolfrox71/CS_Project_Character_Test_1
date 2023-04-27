@@ -14,6 +14,7 @@
         <PasswordBox x:Name="password_box" HorizontalAlignment="Center" Height="56" Margin="0,255,0,0" VerticalAlignment="Top" Width="355" FontSize="24"/>
         <Button x:Name="login_button" Content="Login" HorizontalAlignment="Center" Margin="0,316,0,0" VerticalAlignment="Top" Height="50" Width="136" Click="login_button_Click"/>
         <Button x:Name="Create_user_button" Content="Create User" HorizontalAlignment="Center" Height="46" Margin="0,378,0,0" VerticalAlignment="Top" Width="112" Click="Create_user_button_Click"/>
+        <Button x:Name="Guest_Account_Button" Content="Guest Account" HorizontalAlignment="Left" Height="46" Margin="660,25,0,0" VerticalAlignment="Top" Width="112" Click="Guest_Account_Button_Click"/>
 
     </Grid>
 </Window>

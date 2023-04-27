@@ -22,7 +22,7 @@ namespace GameWIndowTest1
 
         public int revive_health_percentage = 50;
 
-        public static ability no_ability_selected = new ability(0, "No ability Selected", 0, Ability_type.Damage, 0, 0, 0, Ability_Team.Both, true);
+        public static ability no_ability_selected = new ability(0, "No ability Selected", 0, Ability_type.Damage, 0, 0, 0, Ability_Team.Both, true, 0);
 
         public ability[] abilities { get;  set; }  = new ability[4];
 
@@ -36,6 +36,7 @@ namespace GameWIndowTest1
         public int critical_health_percentage { get;  set; } = 30; // this the % of max health that the ais will heal on so 30 is 30 % of max health
         public bool Friendly { get; set; }
 
+        List<ability> previous_abilities = new List<ability>();
         public bool validReviveAbility()
         {
             foreach (ability _a in abilities)
@@ -56,7 +57,7 @@ namespace GameWIndowTest1
                 Random rnd = new Random();
                 int val = rnd.Next(0, 26);
                 // times an ability can be used is 26-the damage it does for now
-                abilities[i] = new ability(val+1, alphabet[val].ToString(), 27-val, Ability_type.Damage, 0, 0, 0, Ability_Team.Both, true);
+                abilities[i] = new ability(val+1, alphabet[val].ToString(), 27-val, Ability_type.Damage, 0, 0, 0, Ability_Team.Both, true, 1);
             }
         }
 
@@ -76,6 +77,67 @@ namespace GameWIndowTest1
 
             File.WriteAllText(fileName, jsonString);
             MessageBox.Show($"Saved Ability {ability.name}");
+        }
+
+        public character pick_target(ability picked_ability, character[] characters)
+        {
+            // this is a list of possible targets
+            List<character> targets = new List<character>();
+
+            // go through each characters
+            foreach (character _c in characters)
+            {
+                // if this characters is frendly and this is a dammage abiltiy
+                if (_c.Friendly && picked_ability.ability_Type == Ability_type.Damage && !_c.IsDead)
+                {
+                    // add this character to the list of possible targets
+                    targets.Add(_c); continue;
+                }
+                // if this character is an enemy and teh ability is a healing ability
+                if (!_c.Friendly && picked_ability.ability_Type == Ability_type.Healing && !_c.IsDead)
+                {
+                    targets.Add(_c); continue;
+                }
+            }
+
+            // if no valid targets exists, return a character
+            if (targets.Count == 0) { return characters[0]; }
+
+            character current_best_target = targets[0];
+            foreach (character target in targets)
+            {
+                // if this is a damage ability
+                if (picked_ability.ability_Type == Ability_type.Damage)
+                {
+                    // if this target has less health than current best target
+                    if (target.health < current_best_target.health)
+                    {
+                        // make this the current best target
+                        current_best_target = target;
+                        continue;
+                    }
+                    // if this character is worse that the current best one
+                    // just skip this character
+                    continue;
+                }
+
+                // if this is a healing ability
+                if (picked_ability.ability_Type == Ability_type.Healing)
+                {
+                    // if this target has less health
+                    if (target.health < current_best_target.health)
+                    {
+                        // then it is better to heal the one of low health
+                        current_best_target = target;
+                        continue;
+                    }
+                    // if not leave the current best character
+                    continue;
+                }
+            }
+
+            // return the current best character
+            return current_best_target;
         }
 
         public List<ability> get_valid_abilities()
@@ -244,14 +306,33 @@ namespace GameWIndowTest1
                 damage_to_do -= dodge_damage_reduction;
 
                 // reduce the times  this ability can be used by one
-                recived_ability.uses_remaining--;
-
+                recived_ability.use();
                 // reduce this characters health  by the damage of the ability
                 health -= damage_to_do;
             }
             // return dodge if they dodged so that the log can show the correct thing
             return (dodge) ? success_status.Dodge : success_status.Success;
         }
+
+        public void reduce_cooldowns()
+        {
+            // reduce the cooldown timer of each ability by one
+            foreach (ability _A in abilities)
+            {
+                _A.turns_till_next_use--;
+                if (_A.turns_till_next_use < 0) { _A.turns_till_next_use = 0; }
+            }
+        }
+
+        public void reset_cooldowns()
+        {
+            // reset the cooldown timer of each ability on this character
+            foreach (ability _A in abilities)
+            {
+                _A.turns_till_next_use = 0;
+            }
+        }
+
 
         public void takedamage(int ammount)
         {
@@ -362,7 +443,7 @@ namespace GameWIndowTest1
                 foreach (ability _a in abilities)
                 {
                     // if this is a healing move and has uses left
-                    if (_a.ability_Type == Ability_type.Healing && _a.can_be_used )
+                    if (_a.ability_Type == Ability_type.Healing && _a.can_be_used)
                     {
                         // if the current ability is the default one
                         if (current_ability.name == no_ability_selected.name)
@@ -396,8 +477,8 @@ namespace GameWIndowTest1
                 // if the current ability is a damage ability
                 if (_a.ability_Type == Ability_type.Damage)
                 {
-                    // if this ability is better than the current best ability
-                    if (_a.ammount > current_ability.ammount)
+                    // if this ability is better than the current best ability and the ability is not on cooldown
+                    if (_a.ammount > current_ability.ammount && !_a.onCooldown)
                     {
                         // this is the current best ability
                         current_ability= _a;
@@ -407,6 +488,54 @@ namespace GameWIndowTest1
 
             // return the current ability
             return current_ability;
+        }
+
+        public bool IsAbilityEquiped(ability _a)
+        {
+            // this function is to check where an ability is currently equiped or not on this character
+            foreach (ability _ability in abilities)
+            {
+                // if the two abilities are the same
+                if (_a.name == _ability.name)
+                {
+                    // return true as the passed through ability is already equiped
+                    return true;
+                }
+            }
+            // return false as the ability name wasnt in any of the selected abilites of this class
+            return false;
+        }
+
+        public void updateAbility(ability new_ability, int index)
+        {
+            ability old_ability = abilities[index];
+
+            ability previous_version = no_ability_selected;
+
+            // go through each previous ability 
+            foreach (ability _ability in previous_abilities)
+            {
+                // if this ability is the same as the one entered
+                if (_ability.name == new_ability.name)
+                {
+                    // this ability has already been equiped
+                    previous_version = _ability;
+                    MessageBox.Show($"Already found a version of {_ability.name}");
+                    break;
+                }
+            }
+
+            previous_abilities.Add(old_ability);
+
+            // if a previous version existsed
+            if (previous_version != no_ability_selected)
+            {
+                abilities[index] = previous_version;
+            }
+            else
+            {
+                abilities[index] = new_ability;
+            }
         }
     }
 }

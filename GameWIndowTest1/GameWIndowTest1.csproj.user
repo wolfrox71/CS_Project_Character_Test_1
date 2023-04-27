@@ -16,6 +16,9 @@
     <Compile Update="SetupForGame.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="shop.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Winner_Screen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -36,6 +39,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="SetupForGame.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="shop.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Winner_Screen.xaml">

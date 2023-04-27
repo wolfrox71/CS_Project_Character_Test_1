@@ -46,7 +46,8 @@ namespace GameWIndowTest1
             string json_filename = $"Saves/{account.username}.json";
 
             // if a save exists for the current user
-            if (File.Exists(json_filename))
+            // and the current user is not a guest
+            if (File.Exists(json_filename) && account.username != Account.guestUsername)
             {
 
 

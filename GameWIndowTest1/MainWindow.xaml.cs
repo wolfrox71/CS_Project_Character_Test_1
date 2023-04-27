@@ -103,6 +103,10 @@ namespace GameWIndowTest1
 
         public void goto_winner_screen()
         {
+            // go through each character and reset the cooldowns for that character's abilities
+            foreach (character _character in characters) { _character.reset_cooldowns(); }
+
+
             // open the winners screen
             // and pass through the current winning character
             // Remaing_Enemy.Count == 0 will pass through true if you won and 
@@ -110,32 +114,51 @@ namespace GameWIndowTest1
 
 
 
-            // if enough waves of enemies have been faced
-            // or no friendly characters remain
-            if (wave_number > max_number_of_waves || number_of_alive_friendly == 0)
+            //if no friendly characters remain
+            if (number_of_alive_friendly == 0)
             {
-                //MessageBox.Show($"RC {wave_number} {max_number_of_waves}")
-                // go to the winning scren
-                Winner_Screen winner_screen = new Winner_Screen(number_of_alive_enemies == 0);
+                // go to the ending screen with the score 
+                Winner_Screen winner_screen = new Winner_Screen(number_of_alive_enemies == 0, state.getScore(), state);
                 // show the winners screen
                 winner_screen.Show();
                 // and close this screen
                 this.Close();
                 return;
             }
-            else
+            // if enough waves of enemies have been faced
+
+            if (wave_number > max_number_of_waves)
             {
+                MessageBoxButton buttons = MessageBoxButton.YesNo;
+                MessageBoxResult result = MessageBox.Show("Do you want to use to continue?", "Continue", buttons);
+                // if they want to use the save
+                if (result == MessageBoxResult.No)
+                {
+                    // if the player wants to exit
 
-                state.money += ammount_for_winning;
-
-                // if not go to the out of combat screen
-                state.characters = Remaining_Friendly; // i cannot make Remaining_Friendly a reference to state.characters
-                // as "ref fields are not useable until c# v 11, this is v 10"
-                state.current_wave_number = wave_number; // this should not have changed but just in case
-                out_of_combat out_of_combat_screen = new out_of_combat(state);
-                out_of_combat_screen.Show();
-                this.Close();
+                    // go to the ending screen with the score 
+                    Winner_Screen winner_screen = new Winner_Screen(number_of_alive_enemies == 0, state.getScore(), state);
+                    // show the winners screen
+                    winner_screen.Show();
+                    // and close this screen
+                    this.Close();
+                    return;
+                }
+                else
+                {
+                    state.max_wave_number += 5;
+                }
             }
+
+            state.money += ammount_for_winning;
+
+            // if not go to the out of combat screen
+            state.characters = Remaining_Friendly; // i cannot make Remaining_Friendly a reference to state.characters
+            // as "ref fields are not useable until c# v 11, this is v 10"
+            state.current_wave_number = wave_number; // this should not have changed but just in case
+            out_of_combat out_of_combat_screen = new out_of_combat(state);
+            out_of_combat_screen.Show();
+            this.Close();     
         }
 
         public void set_health_bar()
@@ -202,6 +225,9 @@ namespace GameWIndowTest1
                 set_next_nondead_radiobutton();
             }
 
+            // reduce the cooldown of the current characters abilities
+            characters[characterID].reduce_cooldowns();
+
             set_identifiers_colour();
             //set_abilities_icons();
             set_abilities_names();
@@ -254,18 +280,12 @@ namespace GameWIndowTest1
             }
             else
             {
+                character target = current_character.pick_target(picked_ability, characters.ToArray());
+
                 // if the current move is a damage move
                 if (picked_ability.ability_Type == Ability_type.Damage)
                 {
-                    int index = 0;
-                    character target = Remaining_Friendly[0];
-                    do
-                    {
-                        // pick the first non dead friendly character
-                        target = Remaining_Friendly[index];
-                        index++;
-                    } while (target.IsDead && index < Remaining_Friendly.Count());
-                        // and do damage to them 
+                    // and do damage to them 
                     use_damage_ability(target, picked_ability);
                 }
 
@@ -273,7 +293,7 @@ namespace GameWIndowTest1
 
                 if (picked_ability.ability_Type == Ability_type.Healing)
                 {
-                    use_healing_ability(current_character, picked_ability);
+                    use_healing_ability(target, picked_ability);
                 }
 
                 /*
@@ -322,6 +342,7 @@ namespace GameWIndowTest1
             {
                 InfoBox.Text += $"\n{target.display_name} dodged the attack";
             }
+            
             InfoBox.Text += $"\n{target.display_name} now has {target.health}";
 
 
@@ -401,7 +422,7 @@ namespace GameWIndowTest1
 
             // disable the target's radio button so that it does not keep getting targeted
 
-            if (current.validReviveAbility())
+            if (current.validReviveAbility() && target.Friendly)
             {
                 target_rb.IsEnabled = true;
             }
@@ -493,10 +514,9 @@ namespace GameWIndowTest1
         private void Show_Character_Click(object sender, RoutedEventArgs e)
         {
             bool DEBUG = false;
-
             // get the infobox to desplay the infomation about the character in
-            TextBlock infoBox = this.FindName("InfoBox") as TextBlock;
-            TextBlock HeadingInfoBox = this.FindName("Heading_Info_Box") as TextBlock;
+            TextBlock infoBox = InfoBox;
+            TextBlock HeadingInfoBox = Heading_Info_Box;
 
             MenuItem menu = (MenuItem)sender;
             string header = menu.Header.ToString();
@@ -565,9 +585,9 @@ namespace GameWIndowTest1
         }
 
         protected void change_character_colour(Rectangle _rect)
-        {
-            TextBlock infoBox = this.FindName("InfoBox") as TextBlock;
-            TextBlock HeadingInfoBox = this.FindName("Heading_Info_Box") as TextBlock;
+        { 
+            TextBlock infoBox = InfoBox;
+            TextBlock HeadingInfoBox = Heading_Info_Box;
             HeadingInfoBox.Text = ""; // reset the box so that it does not retain the last value
             infoBox.Text = $"Round {round_count}";
             // change the colour of the rectangle, this is just to make sure that
@@ -589,8 +609,8 @@ namespace GameWIndowTest1
         
         protected void list_abilities(character _char)
         {
-            TextBlock infoBox = this.FindName("InfoBox") as TextBlock;
-            TextBlock HeadingInfoBox = this.FindName("Heading_Info_Box") as TextBlock;
+            TextBlock infoBox = InfoBox;
+            TextBlock HeadingInfoBox = Heading_Info_Box;
             HeadingInfoBox.Text = $"Abilities for {_char.display_name}";
             HeadingInfoBox.FontSize = 24;
             infoBox.Text = "In (Name, Ammount, Uses Remaining, Type) format\n-----\n";
@@ -605,8 +625,8 @@ namespace GameWIndowTest1
 
         protected void show_character_details(character _char)
         {
-            TextBlock infoBox = this.FindName("InfoBox") as TextBlock;
-            TextBlock HeadingInfoBox = this.FindName("Heading_Info_Box") as TextBlock;
+            TextBlock infoBox = InfoBox;
+            TextBlock HeadingInfoBox = Heading_Info_Box;
             HeadingInfoBox.Text = $"{_char.display_name}";
             HeadingInfoBox.FontSize = 26;
             infoBox.Text = $"Health: {_char.health}\n";
@@ -651,6 +671,13 @@ namespace GameWIndowTest1
                 return;
 
             }
+
+            if (current_character.abilities[ability_index].turns_till_next_use>0)
+            {
+                InfoBox.Text = "Ability on cooldown";
+                return;
+            }
+
             //MessageBox.Show($"Current Character {current_character}\nAbility Name {current_character.abilities[ability_index].name}");
 
             int index = 0;
@@ -740,6 +767,7 @@ namespace GameWIndowTest1
 
             foreach (Button _a in abilities)
             {
+                _a.Foreground = Brushes.Black;
                 _a.IsEnabled = true;
             }
 
@@ -759,6 +787,7 @@ namespace GameWIndowTest1
                     // if the ability cannot be used 
                     if (!_a.can_be_used)
                     {
+                        abilities[i].Foreground = Brushes.Green;
                         // disable the ability as it is not useable
                         abilities[i].IsEnabled = false;
                         continue;
@@ -766,6 +795,7 @@ namespace GameWIndowTest1
                     // if the character is dead and cannot be revived
                     if (target.IsDead && !current_character.validReviveAbility())
                     {
+                        abilities[i].Foreground = Brushes.Red;
                         abilities[i].IsEnabled = false;
                         continue;
                     }
@@ -773,6 +803,7 @@ namespace GameWIndowTest1
                     // if the ability is a damage on a friendly character while disabled
                     if (target.Friendly && !can_team_damage && _a.ability_Type == Ability_type.Damage)
                     {
+                        abilities[i].Foreground = Brushes.Yellow;
                         // disable the ability
                         abilities[i].IsEnabled = false;
                         continue;
@@ -784,6 +815,7 @@ namespace GameWIndowTest1
                         if ((!target.Friendly && !can_heal_enemies) || (target.Friendly && (target.health == target.max_health)))
                         {
                             // disbale the ability
+                            abilities[i].Foreground = Brushes.Pink;
                             abilities[i].IsEnabled = false;
                             continue;
                         }
@@ -792,6 +824,7 @@ namespace GameWIndowTest1
                     {
                         if (!target.IsDead)
                         {
+                            abilities[i].Foreground = Brushes.Orange;
                             abilities[i].IsEnabled = false;
                             continue;
                         }

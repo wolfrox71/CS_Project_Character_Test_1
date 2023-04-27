@@ -11,6 +11,8 @@ namespace GameWIndowTest1.Global
 {
     public class Account
     {
+        public static string guestUsername = "Guest";
+        public static string guestPassword = "Guest";
         public Password password;
         public string username;
         public Account(string E_username, Password E_password)

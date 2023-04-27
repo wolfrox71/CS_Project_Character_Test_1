@@ -2,11 +2,14 @@
   "ammount": 40,
   "name": "Heavy Healing",
   "team": 0,
+  "max_number_of_uses": 2,
   "uses_remaining": 2,
   "ability_Type": 1,
   "critical_hit_percentage": 1,
   "critical_hit_bonus": 10,
   "missing_percentage": 0,
   "can_be_used": true,
-  "defaultly_equipped": true
+  "defaultly_equipped": true,
+  "cooldown": 3,
+  "turns_till_next_use": 0
 }

@@ -2,11 +2,14 @@
   "ammount": 10,
   "name": "Light Damage",
   "team": 2,
+  "max_number_of_uses": 20,
   "uses_remaining": 20,
   "ability_Type": 0,
   "critical_hit_percentage": 10,
   "critical_hit_bonus": 2,
   "missing_percentage": 5,
   "can_be_used": true,
-  "defaultly_equipped": true
+  "defaultly_equipped": true,
+  "cooldown": 1,
+  "turns_till_next_use": 0
 }
