@@ -94,10 +94,10 @@ namespace GameWIndowTest1
         {
             // go through each character and see if they are already dead
             for (int index = 0; index < characters.Count; index++) { deal_with_dead(index, true); }
-            Rect_1_Image.ImageSource = new BitmapImage(new Uri(@"C:\Users\wolfr\source\repos\GameWIndowTest1\GameWIndowTest1\Resources\Character Images\image.png", UriKind.Absolute));
-            Rect_2_Image.ImageSource = new BitmapImage(new Uri(@"C:\Users\wolfr\source\repos\GameWIndowTest1\GameWIndowTest1\Resources\Character Images\when-the-mario-is-sus-1-1.png", UriKind.Absolute));
-            Rect_3_Image.ImageSource = new BitmapImage(new Uri(@"C:\Users\wolfr\source\repos\GameWIndowTest1\GameWIndowTest1\Resources\Character Images\JJT.jpg", UriKind.Absolute));
-            Rect_4_Image.ImageSource = new BitmapImage(new Uri(@"C:\Users\wolfr\source\repos\GameWIndowTest1\GameWIndowTest1\Resources\Character Images\Great_train_robbery_still.jpg", UriKind.Absolute));
+            Rect_1_Image.ImageSource = new BitmapImage(new Uri(@"Resources\Character_Images\pikachu.png", UriKind.Relative));
+            Rect_2_Image.ImageSource = new BitmapImage(new Uri(@"Resources\Character_Images\when-the-mario-is-sus-1-1.png", UriKind.Relative));
+            Rect_3_Image.ImageSource = new BitmapImage(new Uri(@"Resources\Character_Images\JJT.jpg", UriKind.Relative));
+            Rect_4_Image.ImageSource = new BitmapImage(new Uri(@"Resources\Character_Images\Great_train_robbery_still.jpg", UriKind.Relative));
 
         }
 

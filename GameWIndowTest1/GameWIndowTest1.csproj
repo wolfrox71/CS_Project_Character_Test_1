@@ -45,6 +45,10 @@
     <None Remove="Resources\Ability_Icons\Ability_Z.png" />
     <None Remove="Resources\Ability_Icons\image.png" />
     <None Remove="Resources\Ability_Icons\JJT.jpg" />
+    <None Remove="Resources\Character_Images\Great_train_robbery_still.jpg" />
+    <None Remove="Resources\Character_Images\JJT.jpg" />
+    <None Remove="Resources\Character_Images\pikachu.png" />
+    <None Remove="Resources\Character_Images\when-the-mario-is-sus-1-1.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,12 +62,24 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Ability_Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="character_images.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>character_images.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Ability_Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Ability_Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="character_images.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="character_images.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>character_images.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
@@ -149,12 +165,18 @@
     <Resource Include="Resources\Ability_Icons\Ability_Z.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Character Images\image.png">
+    <Content Include="Resources\Character_Images\Great_train_robbery_still.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Character Images\JJT.jpg">
+    </Content>
+    <Content Include="Resources\Character_Images\JJT.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
+    <Content Include="Resources\Character_Images\pikachu.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Character_Images\when-the-mario-is-sus-1-1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
